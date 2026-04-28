@@ -1,4 +1,4 @@
-# Sri Lanka Holidays Master (2021-2027)
+# Sri Lanka Holidays Master (2021-2028)
 
 ![Sri Lanka Holidays](https://img.shields.io/badge/Sri_Lanka-Holidays-blue?style=for-the-badge)
 ![Apple Calendar Compatible](https://img.shields.io/badge/Apple_Calendar-Compatible-success?style=for-the-badge)
@@ -7,7 +7,7 @@ A comprehensive, production-ready collection of Sri Lankan public, bank, and mer
 
 ## Features
 
-- **Extended Coverage**: Full support for years **2021 through 2027**.
+- **Extended Coverage**: Full support for years **2021 through 2028**.
 - **Official Markers**: Includes traditional markers in summaries:
   - `*` Public Holidays
   - `†` Bank Holidays

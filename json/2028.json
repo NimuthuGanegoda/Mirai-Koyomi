@@ -1,0 +1,273 @@
+[
+  {
+    "uid": "sl_2028_01",
+    "summary": "Duruthu Full Moon Poya Day *†",
+    "categories": [
+      "Public",
+      "Bank",
+      "Poya"
+    ],
+    "start": "2028-01-12",
+    "end": "2028-01-13"
+  },
+  {
+    "uid": "sl_2028_02",
+    "summary": "Tamil Thai Pongal Day *†‡",
+    "categories": [
+      "Public",
+      "Bank",
+      "Mercantile"
+    ],
+    "start": "2028-01-14",
+    "end": "2028-01-15"
+  },
+  {
+    "uid": "sl_2028_03",
+    "summary": "National Day *†‡",
+    "categories": [
+      "Public",
+      "Bank",
+      "Mercantile"
+    ],
+    "start": "2028-02-04",
+    "end": "2028-02-05"
+  },
+  {
+    "uid": "sl_2028_04",
+    "summary": "Mahasivarathri Day *†",
+    "categories": [
+      "Public",
+      "Bank"
+    ],
+    "start": "2028-02-23",
+    "end": "2028-02-24"
+  },
+  {
+    "uid": "sl_2028_05",
+    "summary": "Nawam Full Moon Poya Day *†",
+    "categories": [
+      "Public",
+      "Bank",
+      "Poya"
+    ],
+    "start": "2028-02-25",
+    "end": "2028-02-26"
+  },
+  {
+    "uid": "sl_2028_06",
+    "summary": "Id Ul-Fitr (Ramazan Festival Day) *†",
+    "categories": [
+      "Public",
+      "Bank"
+    ],
+    "start": "2028-02-26",
+    "end": "2028-02-27"
+  },
+  {
+    "uid": "sl_2028_07",
+    "summary": "Madin Full Moon Poya Day *†",
+    "categories": [
+      "Public",
+      "Bank",
+      "Poya"
+    ],
+    "start": "2028-03-25",
+    "end": "2028-03-26"
+  },
+  {
+    "uid": "sl_2028_08",
+    "summary": "Day prior to Sinhala & Tamil New Year Day *†‡",
+    "categories": [
+      "Public",
+      "Bank",
+      "Mercantile"
+    ],
+    "start": "2028-04-13",
+    "end": "2028-04-14"
+  },
+  {
+    "uid": "sl_2028_09",
+    "summary": "Good Friday *†",
+    "categories": [
+      "Public",
+      "Bank"
+    ],
+    "start": "2028-04-14",
+    "end": "2028-04-15"
+  },
+  {
+    "uid": "sl_2028_10",
+    "summary": "Sinhala & Tamil New Year Day *†‡",
+    "categories": [
+      "Public",
+      "Bank",
+      "Mercantile"
+    ],
+    "start": "2028-04-14",
+    "end": "2028-04-15"
+  },
+  {
+    "uid": "sl_2028_11",
+    "summary": "Bak Full Moon Poya Day *†",
+    "categories": [
+      "Public",
+      "Bank",
+      "Poya"
+    ],
+    "start": "2028-04-24",
+    "end": "2028-04-25"
+  },
+  {
+    "uid": "sl_2028_12",
+    "summary": "May Day *†‡",
+    "categories": [
+      "Public",
+      "Bank",
+      "Mercantile"
+    ],
+    "start": "2028-05-01",
+    "end": "2028-05-02"
+  },
+  {
+    "uid": "sl_2028_13",
+    "summary": "Id Ul-Alha (Hadji Festival Day) *†",
+    "categories": [
+      "Public",
+      "Bank"
+    ],
+    "start": "2028-05-05",
+    "end": "2028-05-06"
+  },
+  {
+    "uid": "sl_2028_14",
+    "summary": "Vesak Full Moon Poya Day *†",
+    "categories": [
+      "Public",
+      "Bank",
+      "Poya"
+    ],
+    "start": "2028-05-23",
+    "end": "2028-05-24"
+  },
+  {
+    "uid": "sl_2028_15",
+    "summary": "Day following Vesak Full Moon Poya Day *†‡",
+    "categories": [
+      "Public",
+      "Bank",
+      "Mercantile",
+      "Poya"
+    ],
+    "start": "2028-05-24",
+    "end": "2028-05-25"
+  },
+  {
+    "uid": "sl_2028_16",
+    "summary": "Poson Full Moon Poya Day *†",
+    "categories": [
+      "Public",
+      "Bank",
+      "Poya"
+    ],
+    "start": "2028-06-22",
+    "end": "2028-06-23"
+  },
+  {
+    "uid": "sl_2028_17",
+    "summary": "Esala Full Moon Poya Day *†",
+    "categories": [
+      "Public",
+      "Bank",
+      "Poya"
+    ],
+    "start": "2028-07-21",
+    "end": "2028-07-22"
+  },
+  {
+    "uid": "sl_2028_18",
+    "summary": "Milad-Un-Nabi (Holy Prophet's Birthday) *†‡",
+    "categories": [
+      "Public",
+      "Bank",
+      "Mercantile"
+    ],
+    "start": "2028-08-03",
+    "end": "2028-08-04"
+  },
+  {
+    "uid": "sl_2028_19",
+    "summary": "Nikini Full Moon Poya Day *†",
+    "categories": [
+      "Public",
+      "Bank",
+      "Poya"
+    ],
+    "start": "2028-08-20",
+    "end": "2028-08-21"
+  },
+  {
+    "uid": "sl_2028_20",
+    "summary": "Binara Full Moon Poya Day *†",
+    "categories": [
+      "Public",
+      "Bank",
+      "Poya"
+    ],
+    "start": "2028-09-18",
+    "end": "2028-09-19"
+  },
+  {
+    "uid": "sl_2028_21",
+    "summary": "Deepavali Festival Day *†",
+    "categories": [
+      "Public",
+      "Bank"
+    ],
+    "start": "2028-10-17",
+    "end": "2028-10-18"
+  },
+  {
+    "uid": "sl_2028_22",
+    "summary": "Vap Full Moon Poya Day *†",
+    "categories": [
+      "Public",
+      "Bank",
+      "Poya"
+    ],
+    "start": "2028-10-18",
+    "end": "2028-10-19"
+  },
+  {
+    "uid": "sl_2028_23",
+    "summary": "Il Full Moon Poya Day *†",
+    "categories": [
+      "Public",
+      "Bank",
+      "Poya"
+    ],
+    "start": "2028-11-16",
+    "end": "2028-11-17"
+  },
+  {
+    "uid": "sl_2028_24",
+    "summary": "Unduvap Full Moon Poya Day *†",
+    "categories": [
+      "Public",
+      "Bank",
+      "Poya"
+    ],
+    "start": "2028-12-15",
+    "end": "2028-12-16"
+  },
+  {
+    "uid": "sl_2028_25",
+    "summary": "Christmas Day *†‡",
+    "categories": [
+      "Public",
+      "Bank",
+      "Mercantile"
+    ],
+    "start": "2028-12-25",
+    "end": "2028-12-26"
+  }
+]
