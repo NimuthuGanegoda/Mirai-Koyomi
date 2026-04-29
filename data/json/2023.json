@@ -1,0 +1,236 @@
+[
+  {
+    "uid": "sl_51@srilanka-holidays.api",
+    "summary": "Duruthu Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday"
+    ],
+    "start": "2023-01-06",
+    "end": "2023-01-07"
+  },
+  {
+    "uid": "sl_52@srilanka-holidays.api",
+    "summary": "Tamil Thai Pongal Day *\u2020\u2021",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Mercantile Holiday"
+    ],
+    "start": "2023-01-15",
+    "end": "2023-01-16"
+  },
+  {
+    "uid": "sl_53@srilanka-holidays.api",
+    "summary": "Independence Day *\u2020\u2021",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Mercantile Holiday"
+    ],
+    "start": "2023-02-04",
+    "end": "2023-02-05"
+  },
+  {
+    "uid": "sl_54@srilanka-holidays.api",
+    "summary": "Nawam Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday"
+    ],
+    "start": "2023-02-05",
+    "end": "2023-02-06"
+  },
+  {
+    "uid": "sl_55@srilanka-holidays.api",
+    "summary": "Maha sivarathri Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday"
+    ],
+    "start": "2023-03-18",
+    "end": "2023-03-19"
+  },
+  {
+    "uid": "sl_56@srilanka-holidays.api",
+    "summary": "Madin Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday"
+    ],
+    "start": "2023-03-06",
+    "end": "2023-03-07"
+  },
+  {
+    "uid": "sl_57@srilanka-holidays.api",
+    "summary": "Bak Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday"
+    ],
+    "start": "2023-04-05",
+    "end": "2023-04-06"
+  },
+  {
+    "uid": "sl_58@srilanka-holidays.api",
+    "summary": "Good Friday *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday"
+    ],
+    "start": "2023-04-07",
+    "end": "2023-04-08"
+  },
+  {
+    "uid": "sl_59@srilanka-holidays.api",
+    "summary": "Day prior to Sinhala & Tamil New Year Day *\u2020\u2021",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Mercantile Holiday"
+    ],
+    "start": "2023-04-13",
+    "end": "2023-04-14"
+  },
+  {
+    "uid": "sl_60@srilanka-holidays.api",
+    "summary": "Sinhala & Tamil New Year Day *\u2020\u2021",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Mercantile Holiday"
+    ],
+    "start": "2023-04-14",
+    "end": "2023-04-15"
+  },
+  {
+    "uid": "sl_61@srilanka-holidays.api",
+    "summary": "Id-Ul-Fitr (Ramazan Festival Day) *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday"
+    ],
+    "start": "2023-04-22",
+    "end": "2023-04-23"
+  },
+  {
+    "uid": "sl_62@srilanka-holidays.api",
+    "summary": "May Day *\u2020\u2021",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Mercantile Holiday"
+    ],
+    "start": "2023-05-01",
+    "end": "2023-05-02"
+  },
+  {
+    "uid": "sl_63@srilanka-holidays.api",
+    "summary": "Vesak Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday"
+    ],
+    "start": "2023-05-05",
+    "end": "2023-05-06"
+  },
+  {
+    "uid": "sl_64@srilanka-holidays.api",
+    "summary": "Day following Vesak Full Moon Poya Day *\u2020\u2021",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Mercantile Holiday"
+    ],
+    "start": "2023-05-06",
+    "end": "2023-05-07"
+  },
+  {
+    "uid": "sl_65@srilanka-holidays.api",
+    "summary": "Poson Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday"
+    ],
+    "start": "2023-06-03",
+    "end": "2023-06-04"
+  },
+  {
+    "uid": "sl_66@srilanka-holidays.api",
+    "summary": "Id-Ul-Alha (Hadji Festival Day) *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday"
+    ],
+    "start": "2023-06-29",
+    "end": "2023-06-30"
+  },
+  {
+    "uid": "sl_67@srilanka-holidays.api",
+    "summary": "Adhi Esala Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday"
+    ],
+    "start": "2023-07-03",
+    "end": "2023-07-04"
+  },
+  {
+    "uid": "sl_68@srilanka-holidays.api",
+    "summary": "Esala Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday"
+    ],
+    "start": "2023-08-01",
+    "end": "2023-08-02"
+  },
+  {
+    "uid": "sl_69@srilanka-holidays.api",
+    "summary": "Nikini Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday"
+    ],
+    "start": "2023-08-30",
+    "end": "2023-08-31"
+  },
+  {
+    "uid": "sl_70@srilanka-holidays.api",
+    "summary": "Milad-Un-Nabi (Holy Prophet\u2019s Birthday) *\u2020\u2021",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Mercantile Holiday"
+    ],
+    "start": "2023-09-28",
+    "end": "2023-09-29"
+  },
+  {
+    "uid": "sl_71@srilanka-holidays.api",
+    "summary": "Binara Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday"
+    ],
+    "start": "2023-09-29",
+    "end": "2023-09-30"
+  },
+  {
+    "uid": "sl_72@srilanka-holidays.api",
+    "summary": "Vap Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday"
+    ],
+    "start": "2023-10-28",
+    "end": "2023-10-29"
+  },
+  {
+    "uid": "sl_73@srilanka-holidays.api",
+    "summary": "Deepavali Festival Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday"
+    ],
+    "start": "2023-11-12",
+    "end": "2023-11-13"
+  },
+  {
+    "uid": "sl_74@srilanka-holidays.api",
+    "summary": "Il Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday"
+    ],
+    "start": "2023-11-26",
+    "end": "2023-11-27"
+  },
+  {
+    "uid": "sl_75@srilanka-holidays.api",
+    "summary": "Christmas Day *\u2020\u2021",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Mercantile Holiday"
+    ],
+    "start": "2023-12-25",
+    "end": "2023-12-26"
+  },
+  {
+    "uid": "sl_76@srilanka-holidays.api",
+    "summary": "Unduvap Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday"
+    ],
+    "start": "2023-12-26",
+    "end": "2023-12-27"
+  }
+]

@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sri Lanka Holidays API | Terms of Use</title>
+
+    <!-- Meta Tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Sri Lanka Holidays API: Access precise holiday data for Sri Lanka with ease. Free API and download data in many formats."
+    />
+    <meta name="keywords" content="Sri Lanka, Holidays, API, Travel, Tourism" />
+    <meta name="robots" content="index, follow" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta
+      name="msapplication-TileImage"
+      content="img/web-app-manifest-192x192.png"
+    />
+    <meta name="theme-color" content="#ffffff" />
+
+    <!-- OG Meta Tags -->
+    <meta property="og:title" content="Sri Lanka Holidays API" />
+    <meta
+      property="og:description"
+      content="Access precise holiday data for Sri Lanka with ease. Free API and download data in many formats."
+    />
+    <meta
+      property="og:image"
+      content="https://srilanka-holidays.vercel.app/img/og-image.png"
+    />
+    <meta property="og:url" content="https://srilanka-holidays.vercel.app" />
+    <meta property="og:site_name" content="Sri Lanka Holidays API" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Sri Lanka Holidays API" />
+    <meta
+      name="twitter:description"
+      content="Access precise holiday data for Sri Lanka with ease. Free API and download data in many formats."
+    />
+    <meta
+      name="twitter:image"
+      content="https://srilanka-holidays.vercel.app/img/og-image.png"
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon" />
+    <link
+      rel="icon"
+      href="img/favicon-96x96.png"
+      type="image/png"
+      sizes="96x96"
+    />
+    <!-- Apple Touch Icon for iOS -->
+    <link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="SLH" />
+    <!-- Other Icons -->
+    <link rel="icon" sizes="192x192" href="img/web-app-manifest-192x192.png" />
+    <link rel="icon" sizes="512x512" href="img/web-app-manifest-512x512.png" />
+
+    <!-- Manifest -->
+    <link rel="manifest" href="site.webmanifest" />
+
+    <!-- Library Stylesheets -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet" />
+
+    <!-- Custom Stylesheet -->
+    <link href="css/core.min.css" rel="stylesheet" />
+    <link href="css/styles.min.css" rel="stylesheet" />
+    <link href="css/dark-mode.min.css" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <style>
+      /* Font Styles */
+      /* nunito-regular - latin */
+      @font-face {
+        font-display: swap;
+        font-family: "Nunito";
+        font-style: normal;
+        font-weight: 400;
+        src: url("fonts/nunito-v32-latin-regular.woff2") format("woff2");
+      }
+
+      /* nunito-700 - latin */
+      @font-face {
+        font-display: swap;
+        font-family: "Nunito";
+        font-style: normal;
+        font-weight: 700;
+        src: url("fonts/nunito-v32-latin-700.woff2") format("woff2");
+      }
+
+      /* nunito-800 - latin */
+      @font-face {
+        font-display: swap;
+        font-family: "Nunito";
+        font-style: normal;
+        font-weight: 800;
+        src: url("fonts/nunito-v32-latin-800.woff2") format("woff2");
+      }
+    </style>
+  </head>
+  <body>
+    <!-- noscript -->
+    <noscript>
+      <style>
+        .js-only {
+          display: none;
+        }
+        #noscript-warning {
+          margin: 5px;
+          padding: 1px;
+          border: 2px solid #ff0000;
+          background-color: #ffe6e6;
+          border-radius: 5px;
+          animation: fadeIn 0.8s ease-out, fadeOut 0.8s ease-in 3s forwards !important;
+          animation-duration: 3s;
+        }
+      </style>
+      <div
+        id="noscript-warning"
+        class="warnings"
+        style="
+          text-align: center;
+          position: fixed;
+          margin-top: 105px;
+          width: 90%;
+          left: 5%;
+          z-index: 1000;
+        "
+      >
+        <p class="cs-topper">JavaScript is disabled in your browser.</p>
+        <p style="margin-top: 2px; margin-bottom: 15px">
+          We respect your choice, but enabling it will make the site work
+          better.
+        </p>
+      </div>
+    </noscript>
+
+    <header id="cs-navigation">
+      <div class="cs-container">
+        <!--Nav Logo-->
+        <a href="/" class="cs-logo" aria-label="back to home">
+          <img
+            src="img/logo_text.avif"
+            alt="Sri Lanka Holidays Logo"
+            width="100%"
+            aria-hidden="true"
+            decoding="async"
+          />
+        </a>
+        <!--Navigation List-->
+        <nav class="cs-nav" role="navigation">
+          <!--Mobile Nav Toggle-->
+          <button class="cs-toggle" aria-label="mobile menu toggle">
+            <div class="cs-box" aria-hidden="true">
+              <span class="cs-line cs-line1" aria-hidden="true"></span>
+              <span class="cs-line cs-line2" aria-hidden="true"></span>
+              <span class="cs-line cs-line3" aria-hidden="true"></span>
+            </div>
+          </button>
+
+          <div class="cs-ul-wrapper">
+            <ul id="cs-expanded" class="cs-ul" aria-expanded="false">
+              <li class="cs-li">
+                <a href="/" class="cs-li-link cs-active"> Home </a>
+              </li>
+              <li class="cs-li">
+                <a href="/#why-choose-289" class="cs-li-link"> About </a>
+              </li>
+              <li class="cs-li">
+                <a href="/#faq-254" class="cs-li-link"> FAQ </a>
+              </li>
+              <li class="cs-li">
+                <a href="/docs" class="cs-li-link"> Docs </a>
+              </li>
+              <li class="cs-li">
+                <a href="mailto:halt-pledge-paper@duck.com" class="cs-li-link">
+                  Contact
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        <button id="dark-mode-toggle" aria-label="dark mode toggle">
+          <svg
+            class="cs-moon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 480 480"
+            style="enable-background: new 0 0 480 480"
+            xml:space="preserve"
+          >
+            <path
+              d="M459.782 347.328c-4.288-5.28-11.488-7.232-17.824-4.96-17.76 6.368-37.024 9.632-57.312 9.632-97.056 0-176-78.976-176-176 0-58.4 28.832-112.768 77.12-145.472 5.472-3.712 8.096-10.4 6.624-16.832S285.638 2.4 279.078 1.44C271.59.352 264.134 0 256.646 0c-132.352 0-240 107.648-240 240s107.648 240 240 240c84 0 160.416-42.688 204.352-114.176 3.552-5.792 3.04-13.184-1.216-18.496z"
+            />
+          </svg>
+          <img
+            class="cs-sun"
+            aria-hidden="true"
+            src="img/Icons_sun.svg"
+            decoding="async"
+            alt="moon"
+            width="15"
+            height="15"
+          />
+        </button>
+      </div>
+    </header>
+
+    <div class="container" style="padding: 100px 10px">
+      <div
+        class="content"
+        style="padding: clamp(3rem, 4.9vw, 4rem) clamp(2.5rem, 10vw, 8.5rem)"
+      >
+        <h1 class="cs-title">Terms of Use</h1>
+        <p class="cs-text">Last updated: November 2025</p>
+        <hr />
+
+        <div>
+          <h2 class="cs-topper" style="margin-top: 2.5rem">
+            1. It's free. Be nice.
+          </h2>
+          <p class="text" style="margin-top: 1rem">
+            This API is provided free of charge and will remain free. It is
+            hosted on a standard Vercel plan with limited resources. Please use
+            it responsibly and avoid excessive request rates that could degrade
+            performance for all users.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="cs-topper" style="margin-top: 2.5rem">
+            2. Rate limiting exists
+          </h2>
+          <p class="text" style="margin-top: 1rem">
+            If requests exceed reasonable limits, you will receive an HTTP 429
+            (Too Many Requests) response. We strongly recommend caching
+            responses on your end where possible — this keeps the service fast
+            and reliable for everyone.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="cs-topper" style="margin-top: 2.5rem">
+            3. The data is pretty accurate, but…
+          </h2>
+          <p class="text" style="margin-top: 1rem">
+            All holiday information is sourced directly from official sources by
+            the relevant Sri Lankan authorities. While we make every effort to
+            keep the data current and accurate, last-minute changes by the
+            government can and do occasionally occur.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="cs-topper" style="margin-top: 2.5rem">
+            4. A short disclaimer
+          </h2>
+          <p class="text" style="margin-top: 1rem">
+            The data is provided “as is” for convenience. We cannot guarantee
+            that a listed holiday will not be revoked or that a working day will
+            not suddenly become a holiday. You are responsible for verifying
+            critical dates when they affect payroll, leave, or legal
+            obligations.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="cs-topper" style="margin-top: 2.5rem">
+            5. Attribution (because MIT License says so)
+          </h2>
+          <p class="text" style="margin-top: 1rem">
+            The project is released under the MIT License. You are free to use
+            it in personal or commercial projects. If you redistribute the data
+            or the source code, please retain the original copyright notice and
+            license file (or a clear attribution to the project). That's all we
+            ask.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="cs-topper" style="margin-top: 2.5rem">
+            6. We can revoke your key
+          </h2>
+          <p class="text" style="margin-top: 1rem">
+            We reserve the right to revoke or suspend any API key without prior
+            notice in cases of clear abuse (e.g., excessive requests, attempts
+            to bypass rate limits, or unauthorized scraping).
+          </p>
+        </div>
+
+        <hr style="margin-top: 2.5rem" />
+        <div>
+          <h2 class="cs-topper" style="margin-top: 2.5rem">
+            Acceptance and Scope of These Terms
+          </h2>
+          <p class="text" style="margin-top: 1rem">
+            By accessing this website, requesting an API key, sending an email
+            to request a key, or using the Sri Lankan Holidays API (with OR
+            without a valid API key), you agree to be bound by these Terms of
+            Use and the Privacy Policy. If you do not agree with any part of
+            these terms, please do not use the service.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!--                  Footer                      -->
+    <!-- ============================================ -->
+
+    <footer id="footer-1390">
+      <div class="cs-container">
+        <div class="cs-top">
+          <a aria-label="go back to home" class="cs-logo" href="/">
+            <img
+              class="cs-logo-img"
+              loading="lazy"
+              decoding="async"
+              src="img/logo_text.png"
+              alt="logo"
+              width="209"
+              height="40"
+            />
+          </a>
+          <ul class="cs-ul">
+            <li class="cs-li">
+              <a href="/" class="cs-link">Home</a>
+            </li>
+            <li class="cs-li">
+              <a href="/#why-choose-289" class="cs-link">About</a>
+            </li>
+            <li class="cs-li">
+              <a href="/#faq-254" class="cs-link">FAQ</a>
+            </li>
+            <li class="cs-li">
+              <a href="/docs" class="cs-link">Docs</a>
+            </li>
+            <li class="cs-li">
+              <a href="mailto:halt-pledge-paper@duck.com" class="cs-link"
+                >Contact</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="cs-bottom">
+          <!--Social-->
+          <ul class="cs-social">
+            <li class="cs-social-li">
+              <a
+                href="#"
+                class="cs-social-link"
+                aria-label="website"
+                target="_blank"
+                rel="noopener"
+              >
+                <img
+                  class="cs-social-icon cs-default"
+                  src="img/web.svg"
+                  alt="icon"
+                  loading="lazy"
+                  decoding="async"
+                  width="20"
+                  height="20"
+                  aria-hidden="true"
+                />
+              </a>
+            </li>
+            <li class="cs-social-li">
+              <a
+                href="https://github.com/Dilshan-H/"
+                class="cs-social-link"
+                aria-label="github"
+                target="_blank"
+                rel="noopener"
+              >
+                <img
+                  class="cs-social-icon cs-default"
+                  src="img/github.svg"
+                  alt="icon"
+                  loading="lazy"
+                  decoding="async"
+                  width="20"
+                  height="20"
+                  aria-hidden="true"
+                />
+              </a>
+            </li>
+            <li class="cs-social-li">
+              <a
+                href="https://www.buymeacoffee.com/dilshanh"
+                class="cs-social-link"
+                aria-label="buy me a coffee"
+                target="_blank"
+                rel="noopener"
+              >
+                <img
+                  class="cs-social-icon cs-default"
+                  src="img/buymeacoffee.svg"
+                  alt="icon"
+                  loading="lazy"
+                  decoding="async"
+                  width="20"
+                  height="20"
+                  aria-hidden="true"
+                />
+              </a>
+            </li>
+            <li class="cs-social-li">
+              <a
+                href="mailto:halt-pledge-paper@duck.com"
+                class="cs-social-link"
+                aria-label="email"
+                target="_blank"
+                rel="noopener"
+              >
+                <img
+                  class="cs-social-icon cs-default"
+                  src="img/email.svg"
+                  alt="icon"
+                  loading="lazy"
+                  decoding="async"
+                  width="20"
+                  height="20"
+                  aria-hidden="true"
+                />
+              </a>
+            </li>
+          </ul>
+          <span class="cs-copyright">
+            © Copyright 2025 |
+            <a
+              href="https://github.com/Dilshan-H/"
+              target="_blank"
+              class="cs-copyright-link"
+              >dilshan-h</a
+            >
+          </span>
+          <div class="cs-flex">
+            <a href="privacy-policy.html" class="cs-copyright-link"
+              >Privacy Policy</a
+            >
+            <span class="cs-separater">|</span>
+            <a href="terms-of-use.html" class="cs-copyright-link"
+              >Terms of Use</a
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/main.js" defer></script>
+    <script src="js/dark-mode.js" defer></script>
+  </body>
+</html>

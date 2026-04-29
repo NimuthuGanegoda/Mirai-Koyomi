@@ -31,9 +31,6 @@ jobs:
       - name: Sync from Official Sources
         run: python converters/sync_holidays.py
 
-      - name: Generate Rahu Kalaya
-        run: python converters/generate_rahu_kalaya.py
-
       - name: Generate ICS files from JSON
         run: |
           # Use a simple python snippet to generate ICS from updated JSON
@@ -43,9 +40,9 @@ jobs:
               json_path = f"json/{year}.json"
               if os.path.exists(json_path):
                   with open(json_path) as f: holidays = json.load(f)
-                  content = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Mommy//SL Holidays Master//EN", "METHOD:PUBLISH"]
+                  content = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Dilshan-H//Sri Lanka Holidays//EN", "METHOD:PUBLISH"]
                   for h in holidays:
-                      content.extend(["BEGIN:VEVENT", f"UID:{h[\"uid\"]}@mommy.internal", f"DTSTART;VALUE=DATE:{h[\"start\"].replace(\"-\", \"\")}", f"DTEND;VALUE=DATE:{h[\"end\"].replace(\"-\", \"\")}", f"SUMMARY:{h[\"summary\"]}", "STATUS:CONFIRMED", "TRANSP:TRANSPARENT", "X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC", "BEGIN:VALARM", "ACTION:AUDIO", "TRIGGER:-PT15H", "END:VALARM", "END:VEVENT"])
+                      content.extend(["BEGIN:VEVENT", f"UID:{h[\"uid\"]}@srilanka-holidays.api", f"DTSTART;VALUE=DATE:{h[\"start\"].replace(\"-\", \"\")}", f"DTEND;VALUE=DATE:{h[\"end\"].replace(\"-\", \"\")}", f"SUMMARY:{h[\"summary\"]}", "STATUS:CONFIRMED", "TRANSP:TRANSPARENT", "X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC", "BEGIN:VALARM", "ACTION:AUDIO", "TRIGGER:-PT15H", "END:VALARM", "END:VEVENT"])
                   content.append("END:VCALENDAR")
                   with open(f"ics/{year}.ics", "w") as f: f.write("\n".join(content))
           '

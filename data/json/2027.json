@@ -1,0 +1,227 @@
+[
+  {
+    "uid": "sl_153@srilanka-holidays.api",
+    "summary": "Tamil Thai Pongal Day *\u2020\u2021",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Mercantile Holiday"
+    ],
+    "start": "2027-01-15",
+    "end": "2027-01-16"
+  },
+  {
+    "uid": "sl_154@srilanka-holidays.api",
+    "summary": "Duruthu Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Poya Holiday"
+    ],
+    "start": "2027-01-22",
+    "end": "2027-01-23"
+  },
+  {
+    "uid": "sl_155@srilanka-holidays.api",
+    "summary": "National Day *\u2020\u2021",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Mercantile Holiday"
+    ],
+    "start": "2027-02-04",
+    "end": "2027-02-05"
+  },
+  {
+    "uid": "sl_156@srilanka-holidays.api",
+    "summary": "Navam Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Poya Holiday"
+    ],
+    "start": "2027-02-20",
+    "end": "2027-02-21"
+  },
+  {
+    "uid": "sl_157@srilanka-holidays.api",
+    "summary": "Mahasivarathri Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday"
+    ],
+    "start": "2027-03-06",
+    "end": "2027-03-07"
+  },
+  {
+    "uid": "sl_158@srilanka-holidays.api",
+    "summary": "Id Ul-Fitr (Ramazan Festival Day) *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday"
+    ],
+    "start": "2027-03-10",
+    "end": "2027-03-11"
+  },
+  {
+    "uid": "sl_159@srilanka-holidays.api",
+    "summary": "Madin Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Poya Holiday"
+    ],
+    "start": "2027-03-21",
+    "end": "2027-03-22"
+  },
+  {
+    "uid": "sl_160@srilanka-holidays.api",
+    "summary": "Good Friday *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday"
+    ],
+    "start": "2027-03-26",
+    "end": "2027-03-27"
+  },
+  {
+    "uid": "sl_161@srilanka-holidays.api",
+    "summary": "Day prior to Sinhala & Tamil New Year Day *\u2020\u2021",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Mercantile Holiday"
+    ],
+    "start": "2027-04-13",
+    "end": "2027-04-14"
+  },
+  {
+    "uid": "sl_162@srilanka-holidays.api",
+    "summary": "Sinhala & Tamil New Year Day *\u2020\u2021",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Mercantile Holiday"
+    ],
+    "start": "2027-04-14",
+    "end": "2027-04-15"
+  },
+  {
+    "uid": "sl_163@srilanka-holidays.api",
+    "summary": "Bak Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Poya Holiday"
+    ],
+    "start": "2027-04-20",
+    "end": "2027-04-21"
+  },
+  {
+    "uid": "sl_164@srilanka-holidays.api",
+    "summary": "May Day (Labour Day) *\u2020\u2021",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Mercantile Holiday"
+    ],
+    "start": "2027-05-01",
+    "end": "2027-05-02"
+  },
+  {
+    "uid": "sl_165@srilanka-holidays.api",
+    "summary": "Id Ul-Alha (Hadji Festival Day) *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday"
+    ],
+    "start": "2027-05-17",
+    "end": "2027-05-18"
+  },
+  {
+    "uid": "sl_166@srilanka-holidays.api",
+    "summary": "Vesak Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Poya Holiday"
+    ],
+    "start": "2027-05-20",
+    "end": "2027-05-21"
+  },
+  {
+    "uid": "sl_167@srilanka-holidays.api",
+    "summary": "Day following Vesak Full Moon Poya Day *\u2020\u2021",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Mercantile Holiday\n- Poya Holiday"
+    ],
+    "start": "2027-05-21",
+    "end": "2027-05-22"
+  },
+  {
+    "uid": "sl_168@srilanka-holidays.api",
+    "summary": "Poson Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Poya Holiday"
+    ],
+    "start": "2027-06-18",
+    "end": "2027-06-19"
+  },
+  {
+    "uid": "sl_169@srilanka-holidays.api",
+    "summary": "Esala Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Poya Holiday"
+    ],
+    "start": "2027-07-18",
+    "end": "2027-07-19"
+  },
+  {
+    "uid": "sl_170@srilanka-holidays.api",
+    "summary": "Milad-un-Nabi (Holy Prophet's Birthday) *\u2020\u2021",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Mercantile Holiday"
+    ],
+    "start": "2027-08-15",
+    "end": "2027-08-16"
+  },
+  {
+    "uid": "sl_171@srilanka-holidays.api",
+    "summary": "Nikini Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Poya Holiday"
+    ],
+    "start": "2027-08-16",
+    "end": "2027-08-17"
+  },
+  {
+    "uid": "sl_172@srilanka-holidays.api",
+    "summary": "Binara Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Poya Holiday"
+    ],
+    "start": "2027-09-15",
+    "end": "2027-09-16"
+  },
+  {
+    "uid": "sl_173@srilanka-holidays.api",
+    "summary": "Vap Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Poya Holiday"
+    ],
+    "start": "2027-10-15",
+    "end": "2027-10-16"
+  },
+  {
+    "uid": "sl_174@srilanka-holidays.api",
+    "summary": "Deepavali Festival Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday"
+    ],
+    "start": "2027-10-28",
+    "end": "2027-10-29"
+  },
+  {
+    "uid": "sl_175@srilanka-holidays.api",
+    "summary": "Ill Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Poya Holiday"
+    ],
+    "start": "2027-11-13",
+    "end": "2027-11-14"
+  },
+  {
+    "uid": "sl_176@srilanka-holidays.api",
+    "summary": "Unduvap Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Poya Holiday"
+    ],
+    "start": "2027-12-13",
+    "end": "2027-12-14"
+  },
+  {
+    "uid": "sl_177@srilanka-holidays.api",
+    "summary": "Christmas Day *\u2020\u2021",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Mercantile Holiday"
+    ],
+    "start": "2027-12-25",
+    "end": "2027-12-26"
+  }
+]

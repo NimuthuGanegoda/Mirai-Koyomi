@@ -1,0 +1,91 @@
+name: Convert ICS & Create PRs
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "ics/**" # Trigger workflow when changes are pushed to 'ics' directory
+  workflow_dispatch:
+
+jobs:
+  convert-and-create-pr:
+    runs-on: ubuntu-latest
+
+    env:
+      GH_TOKEN: ${{ github.token }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-gh.txt
+
+      - name: Check and Convert
+        run: |
+          for file in ics/*.ics; do
+            year=$(basename "$file" .ics)
+            branch_name="src-files-$year"
+
+            # git config
+            git config --global user.email "77499497+Dilshan-H@users.noreply.github.com"
+            git config --global user.name "dilshan-h"
+
+            # Checkout branch
+            git checkout main
+            git checkout -b "$branch_name"
+
+            # Track if changes are made
+            changes_made=false
+            
+            # CSV Conversion
+            if [ ! -f "csv/$year.csv" ]; then
+              python converters/icalendar_to_csv.py "$file"
+              git add "csv/$year.csv"
+              git commit -m "Convert $year.ics to $year.csv [skip ci]"
+              git push -u origin "$branch_name"
+              changes_made=true
+            else
+              echo "CSV file for $year.ics already exists. Skipping CSV conversion."
+            fi
+            
+            # XML Conversion
+            if [ ! -f "xml/$year.xml" ]; then
+              python converters/icalendar_to_xml.py "$file"
+              git add "xml/$year.xml"
+              git commit -m "Convert $year.ics to $year.xml [skip ci]"
+              git push origin "$branch_name"
+              changes_made=true
+            else
+              echo "XML file for $year.ics already exists. Skipping XML conversion."
+            fi
+            
+            # JSON Conversion
+            if [ ! -f "json/$year.json" ]; then
+              python converters/icalendar_to_json.py "$file"
+              git add "json/$year.json"
+              git commit -m "Convert $year.ics to $year.json [skip ci]"
+              git push origin "$branch_name"
+              changes_made=true
+            else
+              echo "JSON file for $year.ics already exists. Skipping JSON conversion."
+            fi
+
+            # Only create PR if changes were made
+            if [ "$changes_made" = true ]; then
+              gh pr create --title "Add source files for year $year" --body "[Automated PR] This PR contains the changes after converting $year.ics to CSV, XML & JSON formats" --base main --head "$branch_name"
+            else
+              echo "No changes detected for $year. Skipping PR creation."
+            fi
+            
+          done

@@ -1,0 +1,227 @@
+[
+  {
+    "uid": "sl_2028_01@srilanka-holidays.api",
+    "summary": "Duruthu Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Poya Holiday"
+    ],
+    "start": "2028-01-12",
+    "end": "2028-01-13"
+  },
+  {
+    "uid": "sl_2028_02@srilanka-holidays.api",
+    "summary": "Tamil Thai Pongal Day *\u2020\u2021",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Mercantile Holiday"
+    ],
+    "start": "2028-01-14",
+    "end": "2028-01-15"
+  },
+  {
+    "uid": "sl_2028_03@srilanka-holidays.api",
+    "summary": "National Day *\u2020\u2021",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Mercantile Holiday"
+    ],
+    "start": "2028-02-04",
+    "end": "2028-02-05"
+  },
+  {
+    "uid": "sl_2028_04@srilanka-holidays.api",
+    "summary": "Mahasivarathri Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday"
+    ],
+    "start": "2028-02-23",
+    "end": "2028-02-24"
+  },
+  {
+    "uid": "sl_2028_05@srilanka-holidays.api",
+    "summary": "Nawam Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Poya Holiday"
+    ],
+    "start": "2028-02-25",
+    "end": "2028-02-26"
+  },
+  {
+    "uid": "sl_2028_06@srilanka-holidays.api",
+    "summary": "Id Ul-Fitr (Ramazan Festival Day) *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday"
+    ],
+    "start": "2028-02-26",
+    "end": "2028-02-27"
+  },
+  {
+    "uid": "sl_2028_07@srilanka-holidays.api",
+    "summary": "Madin Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Poya Holiday"
+    ],
+    "start": "2028-03-25",
+    "end": "2028-03-26"
+  },
+  {
+    "uid": "sl_2028_08@srilanka-holidays.api",
+    "summary": "Day prior to Sinhala & Tamil New Year Day *\u2020\u2021",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Mercantile Holiday"
+    ],
+    "start": "2028-04-13",
+    "end": "2028-04-14"
+  },
+  {
+    "uid": "sl_2028_09@srilanka-holidays.api",
+    "summary": "Good Friday *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday"
+    ],
+    "start": "2028-04-14",
+    "end": "2028-04-15"
+  },
+  {
+    "uid": "sl_2028_10@srilanka-holidays.api",
+    "summary": "Sinhala & Tamil New Year Day *\u2020\u2021",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Mercantile Holiday"
+    ],
+    "start": "2028-04-14",
+    "end": "2028-04-15"
+  },
+  {
+    "uid": "sl_2028_11@srilanka-holidays.api",
+    "summary": "Bak Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Poya Holiday"
+    ],
+    "start": "2028-04-24",
+    "end": "2028-04-25"
+  },
+  {
+    "uid": "sl_2028_12@srilanka-holidays.api",
+    "summary": "May Day *\u2020\u2021",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Mercantile Holiday"
+    ],
+    "start": "2028-05-01",
+    "end": "2028-05-02"
+  },
+  {
+    "uid": "sl_2028_13@srilanka-holidays.api",
+    "summary": "Id Ul-Alha (Hadji Festival Day) *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday"
+    ],
+    "start": "2028-05-05",
+    "end": "2028-05-06"
+  },
+  {
+    "uid": "sl_2028_14@srilanka-holidays.api",
+    "summary": "Vesak Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Poya Holiday"
+    ],
+    "start": "2028-05-23",
+    "end": "2028-05-24"
+  },
+  {
+    "uid": "sl_2028_15@srilanka-holidays.api",
+    "summary": "Day following Vesak Full Moon Poya Day *\u2020\u2021",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Mercantile Holiday\n- Poya Holiday"
+    ],
+    "start": "2028-05-24",
+    "end": "2028-05-25"
+  },
+  {
+    "uid": "sl_2028_16@srilanka-holidays.api",
+    "summary": "Poson Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Poya Holiday"
+    ],
+    "start": "2028-06-22",
+    "end": "2028-06-23"
+  },
+  {
+    "uid": "sl_2028_17@srilanka-holidays.api",
+    "summary": "Esala Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Poya Holiday"
+    ],
+    "start": "2028-07-21",
+    "end": "2028-07-22"
+  },
+  {
+    "uid": "sl_2028_18@srilanka-holidays.api",
+    "summary": "Milad-Un-Nabi (Holy Prophet's Birthday) *\u2020\u2021",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Mercantile Holiday"
+    ],
+    "start": "2028-08-03",
+    "end": "2028-08-04"
+  },
+  {
+    "uid": "sl_2028_19@srilanka-holidays.api",
+    "summary": "Nikini Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Poya Holiday"
+    ],
+    "start": "2028-08-20",
+    "end": "2028-08-21"
+  },
+  {
+    "uid": "sl_2028_20@srilanka-holidays.api",
+    "summary": "Binara Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Poya Holiday"
+    ],
+    "start": "2028-09-18",
+    "end": "2028-09-19"
+  },
+  {
+    "uid": "sl_2028_21@srilanka-holidays.api",
+    "summary": "Deepavali Festival Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday"
+    ],
+    "start": "2028-10-17",
+    "end": "2028-10-18"
+  },
+  {
+    "uid": "sl_2028_22@srilanka-holidays.api",
+    "summary": "Vap Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Poya Holiday"
+    ],
+    "start": "2028-10-18",
+    "end": "2028-10-19"
+  },
+  {
+    "uid": "sl_2028_23@srilanka-holidays.api",
+    "summary": "Il Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Poya Holiday"
+    ],
+    "start": "2028-11-16",
+    "end": "2028-11-17"
+  },
+  {
+    "uid": "sl_2028_24@srilanka-holidays.api",
+    "summary": "Unduvap Full Moon Poya Day *\u2020",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Poya Holiday"
+    ],
+    "start": "2028-12-15",
+    "end": "2028-12-16"
+  },
+  {
+    "uid": "sl_2028_25@srilanka-holidays.api",
+    "summary": "Christmas Day *\u2020\u2021",
+    "categories": [
+      "- Public Holiday\n- Bank Holiday\n- Mercantile Holiday"
+    ],
+    "start": "2028-12-25",
+    "end": "2028-12-26"
+  }
+]
