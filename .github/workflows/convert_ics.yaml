@@ -3,7 +3,7 @@ name: Convert ICS & Create PRs
 on:
   push:
     branches:
-      - main
+      - master
     paths:
       - "ics/**" # Trigger workflow when changes are pushed to 'ics' directory
   workflow_dispatch:
@@ -42,7 +42,7 @@ jobs:
             git config --global user.name "dilshan-h"
 
             # Checkout branch
-            git checkout main
+            git checkout master
             git checkout -b "$branch_name"
 
             # Track if changes are made
@@ -83,7 +83,7 @@ jobs:
 
             # Only create PR if changes were made
             if [ "$changes_made" = true ]; then
-              gh pr create --title "Add source files for year $year" --body "[Automated PR] This PR contains the changes after converting $year.ics to CSV, XML & JSON formats" --base main --head "$branch_name"
+              gh pr create --title "Add source files for year $year" --body "[Automated PR] This PR contains the changes after converting $year.ics to CSV, XML & JSON formats" --base master --head "$branch_name" --label "automerge"
             else
               echo "No changes detected for $year. Skipping PR creation."
             fi
