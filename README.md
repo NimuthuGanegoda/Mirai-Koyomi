@@ -1,18 +1,9 @@
-
-# 🇱🇰 Sri Lanka Holidays - Master Data Collection
+# 🇱🇰 Sri Lanka Holidays API
 
 <div align="center">
 
 ![License](https://img.shields.io/github/license/NimuthuGanegoda/srilanka-holidays-master?style=for-the-badge&color=blue)
-![Last Commit](https://img.stellar.io/github/last-commit/NimuthuGanegoda/srilanka-holidays-master?style=for-the-badge&color=green)
 ![Data Integrity](https://img.shields.io/badge/Data-Verified-success?style=for-the-badge)
-
----
-
-### 📅 **Validated Sri Lankan Holiday Datasets**
-*Providing a standardized, enterprise-ready collection of holiday data (2021-2028).*
-
-[🚀 **Subscribe to Master Calendar**](https://raw.githubusercontent.com/NimuthuGanegoda/srilanka-holidays-master/master/data/holidays/ics/srilanka-holidays.ics) • [📂 **View All Datasets**](data/holidays/)
 
 </div>
 
@@ -20,7 +11,9 @@
 
 ## 📖 **Description**
 
-An open-source ecosystem delivering high-accuracy Sri Lankan holiday data. This repository serves as the **unified master source**, offering validated datasets in multiple formats optimized for calendar integration and data analysis.
+Sri Lanka Holidays API is an asynchronous FastAPI application that provides accurate and highly reliable data about Sri Lankan holidays. The API leverages Redis for caching with a robust fallback to local JSON file reads, ensuring high availability and seamless data delivery.
+
+It serves data for the years **2021 to 2028**, covering Public, Bank, and Mercantile holidays. The project includes endpoints for checking specific holidays, retrieving detailed holiday information, fetching coverage status, and even combining personal calendars with Sri Lanka public holidays.
 
 ---
 
@@ -31,69 +24,92 @@ For the most secure and reliable experience, use the direct HTTPS raw link below
 **Master Calendar Link (2021-2028):**  
 `https://raw.githubusercontent.com/NimuthuGanegoda/srilanka-holidays-master/master/data/holidays/ics/srilanka-holidays.ics`
 
-> 💡 **Note**: Always use the **HTTPS** `raw.githubusercontent.com` link to avoid insecure connection warnings and ensuring the direct `.ics` file is delivered to your application.
+**[Connect to Apple Calendar (Webcal)](webcal://raw.githubusercontent.com/NimuthuGanegoda/srilanka-holidays-master/master/data/holidays/ics/srilanka-holidays.ics)**
+
+> 💡 **Note**: Always use the **HTTPS** `raw.githubusercontent.com` link to avoid insecure connection warnings and ensuring the direct `.ics` file is delivered to your application. For Apple devices, clicking the Webcal link will automatically prompt you to subscribe.
 
 ---
 
 ## ✨ **Core Features**
 
-*   📅 **Extended Coverage**: Verified holiday data for **2021 through 2028**.
-*   🏷️ **Visual Markers**: Instant identification via standard indicators: `*` (Public), `†` (Bank), and `‡` (Mercantile).
-*   🍎 **Apple & Google Ready**: Strict **CRLF** compliance and **VTIMEZONE** support for flawless calendar sync.
-*   🔔 **Smart Alarms**: Integrated `VALARM` notifications at 09:00 AM on the day preceding each holiday.
-*   🔄 **CI/CD Automation**: Real-time synchronization and multi-format distribution (JSON, CSV, XML, ICS).
+*   🚀 **FastAPI Backend**: Built with Python's FastAPI for high performance and asynchronous request handling.
+*   📅 **Extended Coverage**: Verified holiday data spanning from **2021 through 2028**.
+*   🔒 **Secure Access**: Authenticated endpoints utilizing API key validation (via `X-API-Key` header or `api_key` query parameter).
+*   ⚡ **Redis Caching & Fallback**: Fast lookups via Redis for API keys and holiday data. Automatically falls back to local JSON data files and environment variables if Redis is unavailable.
+*   🔄 **Combined Calendar Integration**: Create an aggregated `.ics` calendar from your personal ICS feed alongside Sri Lankan public holidays.
+
+---
+
+## ⚙️ **Configuration & Environment Variables**
+
+The application uses a `.env` file or standard environment variables for configuration. Below is a list of supported variables:
+
+| Variable | Description |
+|----------|-------------|
+| `API_KEYS` | Comma-separated list of fallback API keys used when Redis is unavailable. |
+| `REDIS_HOST` | Hostname of the Redis server. |
+| `REDIS_PORT` | Port number of the Redis server. |
+| `REDIS_USERNAME` | Username for Redis authentication (optional). |
+| `REDIS_PASSWORD` | Password for Redis authentication (optional). |
+| `ENV` | Set to `DEV` to mount static files under `/public` for development. |
+| `VERCEL` | Set to `1` when deploying on Vercel to route the root URL to `/index.html`. |
+
+---
+
+## 🛣️ **API Endpoints**
+
+### Public & Documentation
+*   `GET /public` - Serves the home page (only when `ENV=DEV`).
+*   `GET /docs` - Swagger UI documentation.
+*   `GET /redoc` - ReDoc API documentation.
+
+### Unauthenticated APIs
+*   `HEAD /api/v1/health` - Simple health check.
+
+### Authenticated APIs
+*(Require a valid API key passed via the `X-API-Key` header or `api_key` query parameter)*
+
+*   `GET /api/v1/status` - Returns the operational status of the API, database connectivity, and version info.
+*   `GET /api/v1/version` - Returns the current API version and data store limits.
+*   `GET /api/v1/coverage` - Checks the availability of data coverage for a specified year.
+*   `GET /api/v1/check_holiday` - Checks whether a specific date (year/month/day) is a holiday.
+*   `GET /api/v1/holiday_info` - Retrieves detailed information about a holiday on a given date.
+*   `GET /api/v1/holidays` - Returns a list of holidays for a specific year and optional month, format, and type filtering.
+*   `GET /api/v1/combined_calendar` - Merges a user-provided ICS calendar feed URL with the Sri Lanka Holidays Master ICS and returns a combined calendar.
 
 ---
 
 ## 📂 **Project Structure**
 
-A clean, modular architecture designed for high-integrity data management:
-
 ```bash
 .
-├── 📁 data/               # 📊 Standardized holiday datasets
-│   └── 📁 holidays/       # 🏝️ Validated holiday collections
-│       ├── ics/           # 🗓️ iCalendar files (Apple/Google optimized)
-│       ├── json/          # 🏗️ Structured JSON for developers
-│       ├── csv/           # 📑 Spreadsheet-ready formats
-│       └── xml/           # 🧬 Legacy integration support
-├── 📁 src/                # 💻 Core processing source code
-│   └── converters/        # 🛠️ Data processing & sync scripts
-├── 📁 requirements/       # 📋 Dependency management
-│   ├── base.txt           # 📦 Core processing dependencies
-│   └── github.txt         # 🤖 CI/CD specific requirements
-└── 📁 public/             # 🎨 Project assets & documentation
+├── 📁 data/               # Standardized holiday datasets
+├── 📁 json/               # Fallback structured JSON holiday data (2021-2028)
+├── 📁 public/             # Project assets & documentation frontend files
+├── 📁 requirements/       # Dependency management files (base.txt, etc.)
+├── 📄 app.py              # Main FastAPI application
+├── 📄 vercel.json         # Deployment configuration for Vercel
+├── 📄 .env                # Environment configuration file (ignored in git)
+└── 📄 README.md           # This file
 ```
 
 ---
 
-## 🛠️ **Data Usage**
+## 🛠️ **Local Development**
 
-### **Calendar Subscription**
-To subscribe to the master calendar in Apple or Google Calendar, use the direct raw URL of the `srilanka-holidays.ics` file.
-
-### **Developer Integration**
-Datasets are available in the `data/holidays/` directory in JSON, CSV, and XML formats for programmatic consumption.
-
----
-
-## 🏛️ **Integrated Master Collection**
-
-This project is a high-integrity consolidation of multiple specialized repositories. By integrating these diverse sources, we provide a **unified master collection** that offers the most comprehensive and feature-rich holiday dataset available for Sri Lanka.
-
-Integrated projects include:
-*   **API Framework & Core Data**: Providing the foundational structure and verified historical records.
-*   **Calendar Enhancement Collection**: Inspired the inclusion of rich visual markers and enterprise-grade alarm features.
-*   **Extended Master Datasets**: Contributing to the comprehensive 2021-2028 coverage and multi-format distribution logic.
-
----
-
-## 🛡️ **Data Integrity**
-
-Every holiday entry is manually cross-referenced with the **Official Government Gazette** of Sri Lanka. We prioritize data accuracy over automated heuristics to ensure 100% reliability for production environments.
+1. **Clone the repository.**
+2. **Install dependencies:**
+   ```bash
+   pip install -r requirements/base.txt
+   ```
+3. **Set up your `.env` file** matching the configuration section above.
+4. **Run the development server:**
+   ```bash
+   uvicorn app:app --reload
+   ```
 
 ---
 
 <div align="center">
-Developed with 💎 for the Sri Lankan Developer Community.
+Developed for the Sri Lankan Developer Community.
 </div>
