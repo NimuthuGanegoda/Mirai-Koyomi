@@ -44,6 +44,8 @@ from fastapi.staticfiles import StaticFiles
 import redis
 from dotenv import load_dotenv
 import logging
+import httpx
+from icalendar import Calendar
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -468,3 +470,77 @@ async def holidays_list(
             continue  # Skip holidays with invalid data
     response.status_code = status.HTTP_200_OK
     return {"holidays": result}
+
+@app.get("/api/v1/combined_calendar")
+async def combined_calendar(
+    ics_url: str = Query(..., description="The user's ICS feed URL (e.g., from Canvas, Moodle, Edu Mail)"),
+    api_key: str = Depends(verify_api_key),
+):
+    """Return a merged calendar of the provided ICS URL and Sri Lanka Holidays"""
+    from urllib.parse import urlparse
+    import socket
+
+    # Validate the URL to prevent SSRF
+    parsed_url = urlparse(ics_url)
+    if parsed_url.scheme not in ("http", "https"):
+        raise HTTPException(status_code=400, detail="Invalid URL scheme. Must be http or https.")
+
+    try:
+        # Check for local IP addresses
+        if parsed_url.hostname:
+            ip = socket.gethostbyname(parsed_url.hostname)
+            if ip.startswith("127.") or ip.startswith("192.168.") or ip.startswith("10.") or ip.startswith("172.") or ip == "0.0.0.0" or ip == "169.254.169.254":
+                raise HTTPException(status_code=400, detail="Invalid URL provided")
+    except socket.gaierror:
+        pass # Will fail in the fetch step anyway if host is unknown
+
+    try:
+        # Add timeout and size limits to prevent DoS
+        async with httpx.AsyncClient(timeout=10.0, max_redirects=3) as client:
+            # Fetch user ICS
+            user_response = await client.get(ics_url)
+            if user_response.status_code != 200:
+                raise HTTPException(status_code=400, detail="Failed to fetch the provided ICS URL")
+
+            if len(user_response.content) > 5 * 1024 * 1024: # 5MB limit
+                raise HTTPException(status_code=400, detail="Provided ICS file is too large")
+
+            # Fetch Sri Lanka Holidays Master ICS
+            sl_holidays_url = "https://raw.githubusercontent.com/NimuthuGanegoda/srilanka-holidays-master/master/data/holidays/ics/srilanka-holidays.ics"
+            sl_response = await client.get(sl_holidays_url)
+            if sl_response.status_code != 200:
+                raise HTTPException(status_code=500, detail="Failed to fetch the Sri Lanka Holidays Master ICS")
+
+            # Parse calendars
+            try:
+                user_cal = Calendar.from_ical(user_response.text)
+            except Exception as e:
+                logger.error("Failed to parse user ICS: %s", str(e))
+                raise HTTPException(status_code=400, detail="Invalid ICS format in the provided URL")
+
+            try:
+                sl_cal = Calendar.from_ical(sl_response.text)
+            except Exception as e:
+                logger.error("Failed to parse SL ICS: %s", str(e))
+                raise HTTPException(status_code=500, detail="Failed to parse the Sri Lanka Holidays Master ICS")
+
+            # Create merged calendar
+            merged_cal = Calendar()
+            merged_cal.add('prodid', '-//Sri Lanka Holidays Combined API//')
+            merged_cal.add('version', '2.0')
+
+            # Add events from user cal
+            for component in user_cal.walk('vevent'):
+                merged_cal.add_component(component)
+
+            # Add events from SL cal
+            for component in sl_cal.walk('vevent'):
+                merged_cal.add_component(component)
+
+            return Response(content=merged_cal.to_ical(), media_type="text/calendar")
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error("Error in combined_calendar: %s", str(e))
+        raise HTTPException(status_code=500, detail="Failed to process and merge calendars")
