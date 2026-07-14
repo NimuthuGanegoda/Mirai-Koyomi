@@ -17,19 +17,6 @@ It serves data for the years **2021 to 2028**, covering Public, Bank, and Mercan
 
 ---
 
-## ⚡ **Quick Subscription (Apple/Google/Outlook)**
-
-For the most secure and reliable experience, use the direct HTTPS raw link below for your calendar subscription:
-
-**Master Calendar Link (2021-2028):**  
-`https://raw.githubusercontent.com/NimuthuGanegoda/srilanka-holidays-master/master/data/holidays/ics/srilanka-holidays.ics`
-
-**[Connect to Apple Calendar (Webcal)](webcal://raw.githubusercontent.com/NimuthuGanegoda/srilanka-holidays-master/master/data/holidays/ics/srilanka-holidays.ics)**
-
-> 💡 **Note**: Always use the **HTTPS** `raw.githubusercontent.com` link to avoid insecure connection warnings and ensuring the direct `.ics` file is delivered to your application. For Apple devices, clicking the Webcal link will automatically prompt you to subscribe.
-
----
-
 ## ✨ **Core Features**
 
 *   🚀 **FastAPI Backend**: Built with Python's FastAPI for high performance and asynchronous request handling.
