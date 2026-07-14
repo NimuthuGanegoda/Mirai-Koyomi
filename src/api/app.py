@@ -506,7 +506,7 @@ async def combined_calendar(
                 raise HTTPException(status_code=400, detail="Provided ICS file is too large")
 
             # Fetch Sri Lanka Holidays Master ICS
-            sl_holidays_url = "https://raw.githubusercontent.com/NimuthuGanegoda/srilanka-holidays-master/master/data/holidays/ics/srilanka-holidays.ics"
+            sl_holidays_url = "https://raw.githubusercontent.com/NimuthuGanegoda/Mirai-Koyomi/master/data/holidays/ics/srilanka-holidays.ics"
             sl_response = await client.get(sl_holidays_url)
             if sl_response.status_code != 200:
                 raise HTTPException(status_code=500, detail="Failed to fetch the Sri Lanka Holidays Master ICS")
