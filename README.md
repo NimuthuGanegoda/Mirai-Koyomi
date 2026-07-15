@@ -3,6 +3,7 @@
 <div align="center">
 
 ![License](https://img.shields.io/github/license/NimuthuGanegoda/Mirai-Koyomi?style=for-the-badge&color=blue)
+![License](https://img.shields.io/github/license/NimuthuGanegoda/srilanka-holidays-master?style=for-the-badge&color=blue)
 ![Data Integrity](https://img.shields.io/badge/Data-Verified-success?style=for-the-badge)
 
 </div>
@@ -27,6 +28,11 @@ For the most secure and reliable experience, use the direct HTTPS raw link below
 **[Connect to Apple Calendar (Webcal)](webcal://raw.githubusercontent.com/NimuthuGanegoda/Mirai-Koyomi/master/data/holidays/ics/srilanka-holidays.ics)**
 
 > 💡 **Note**: Always use the **HTTPS** `raw.githubusercontent.com` link to avoid insecure connection warnings and ensuring the direct `.ics` file is delivered to your application. For Apple devices, clicking the Webcal link will automatically prompt you to subscribe.
+**[Connect to Apple Calendar (Webcal)](webcal://raw.githubusercontent.com/NimuthuGanegoda/srilanka-holidays-master/master/data/holidays/ics/srilanka-holidays.ics)**
+
+> 💡 **Note**: Always use the **HTTPS** `raw.githubusercontent.com` link to avoid insecure connection warnings and ensuring the direct `.ics` file is delivered to your application. For Apple devices, clicking the Webcal link will automatically prompt you to subscribe.
+
+It serves data for the years **2021 to 2028**, covering Public, Bank, and Mercantile holidays. The project includes endpoints for checking specific holidays, retrieving detailed holiday information, fetching coverage status, and even combining personal calendars with Sri Lanka public holidays.
 
 ---
 
@@ -68,6 +74,20 @@ The application uses a `.env` file or standard environment variables for configu
 
 ### Authenticated APIs
 *(Require a valid API key passed via the `X-API-Key` header or `api_key` query parameter)*
+
+*   `GET /api/v1/status` - Returns the operational status of the API, database connectivity, and version info.
+*   `GET /api/v1/version` - Returns the current API version and data store limits.
+*   `GET /api/v1/coverage` - Checks the availability of data coverage for a specified year.
+*   `GET /api/v1/check_holiday` - Checks whether a specific date (year/month/day) is a holiday.
+*   `GET /api/v1/holiday_info` - Retrieves detailed information about a holiday on a given date.
+*   `GET /api/v1/holidays` - Returns a list of holidays for a specific year and optional month, format, and type filtering.
+*   `GET /api/v1/combined_calendar` - Merges a user-provided ICS calendar feed URL with the Sri Lanka Holidays Master ICS and returns a combined calendar.
+
+### Authenticated APIs
+*(Require a valid API key passed via the `X-API-Key` header or `api_key` query parameter)*
+
+## 📂 **Project Structure**
+
 
 *   `GET /api/v1/status` - Returns the operational status of the API, database connectivity, and version info.
 *   `GET /api/v1/version` - Returns the current API version and data store limits.
