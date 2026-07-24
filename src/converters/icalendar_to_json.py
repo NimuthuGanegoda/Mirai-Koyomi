@@ -8,9 +8,10 @@ URL: https://github.com/Dilshan-H/srilanka-holidays
 
 # pylint: disable=import-error
 
+import json
 import os
 import sys
-import json
+
 from icalendar import Calendar
 
 JSON_DIR_NAME = "json"

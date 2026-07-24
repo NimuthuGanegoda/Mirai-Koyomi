@@ -1,8 +1,8 @@
+import json
+
 import requests
 from bs4 import BeautifulSoup
-import json
-import os
-import re
+
 
 def get_markers(summary, type_text):
     markers = ""

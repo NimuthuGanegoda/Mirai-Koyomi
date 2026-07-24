@@ -1,5 +1,5 @@
 import os
-import json
+
 
 def merge_all_ics():
     ics_dir = "ics"

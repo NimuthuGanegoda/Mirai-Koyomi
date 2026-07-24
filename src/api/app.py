@@ -30,21 +30,22 @@ Docs:
 """
 
 # pylint: disable=import-error
-from typing import Annotated, Optional
-from pathlib import Path
-from datetime import datetime, date, timezone
-import json
-import os
 import hashlib
+import json
+import logging
+import os
+from datetime import date, datetime, timezone
+from pathlib import Path
 from secrets import compare_digest
-from fastapi import FastAPI, Response, status, Query, HTTPException, Depends, Header
+from typing import Annotated
+
+import httpx
+import redis
+from dotenv import load_dotenv
+from fastapi import Depends, FastAPI, HTTPException, Query, Response, status
 from fastapi.responses import RedirectResponse
 from fastapi.security import APIKeyHeader
 from fastapi.staticfiles import StaticFiles
-import redis
-from dotenv import load_dotenv
-import logging
-import httpx
 from icalendar import Calendar
 
 # Configure logging
@@ -91,7 +92,7 @@ except redis.ConnectionError:
     REDIS_CLIENT = None
 
 
-async def verify_api_key(key: Optional[str] = Depends(api_key_header_scheme)):
+async def verify_api_key(key: str | None = Depends(api_key_header_scheme)):
     """Validate API key from Redis or fallback environment variables"""
     if not key:
         logger.warning("API key is missing in the request")
@@ -106,13 +107,13 @@ async def verify_api_key(key: Optional[str] = Depends(api_key_header_scheme)):
     # Check Redis if available
     if REDIS_CLIENT:
         try:
-            logger.info(f"Checking API key in Redis")
+            logger.info("Checking API key in Redis")
             json_data = REDIS_CLIENT.json().get("API_KEYS_V2", Path(".api_keys")) or []
             for entry in json_data:
                 if not compare_digest(entry.get("hash"), provided_hash):  # type: ignore
                     continue
                 if entry.get("active") is False:  # type: ignore
-                    logger.warning(f"API key marked as revoked in Redis")
+                    logger.warning("API key marked as revoked in Redis")
                     raise HTTPException(
                         status_code=status.HTTP_401_UNAUTHORIZED,
                         detail="Invalid or revoked API key. Use 'X-API-Key' header with a valid key.",
@@ -127,28 +128,27 @@ async def verify_api_key(key: Optional[str] = Depends(api_key_header_scheme)):
                     pipe.incr(counter_key)
                     pipe.expire(counter_key, 86400 * 30)
                     pipe.execute()
-                except Exception as e:
-                    logger.error(f"Failed to log usage")
-                logger.info(f"API key validated via Redis")
+                except Exception:
+                    logger.error("Failed to log usage")
+                logger.info("API key validated via Redis")
                 return key
-            logger.warning(f"API key not found in Redis. Possibly invalid key")
-        except (redis.RedisError, ValueError, AttributeError) as e:
-            logger.error(f"Auth backend failed")
-            pass
+            logger.warning("API key not found in Redis. Possibly invalid key")
+        except (redis.RedisError, ValueError, AttributeError):
+            logger.error("Auth backend failed")
 
     # Fallback to environment variables
-    logger.info(f"Checking API key against fallback environment variables")
+    logger.info("Checking API key against fallback environment variables")
     if not FALLBACK_API_KEYS or not any(FALLBACK_API_KEYS):
-        logger.warning(f"No fallback API keys found in environment variables")
+        logger.warning("No fallback API keys found in environment variables")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="No valid API keys configured. Please contact the admin.",
         )
     if key in FALLBACK_API_KEYS:
-        logger.info(f"API key validated via environment variables")
+        logger.info("API key validated via environment variables")
         return key
 
-    logger.warning(f"Rejecting request with invalid API key")
+    logger.warning("Rejecting request with invalid API key")
     raise HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Invalid or revoked API key. Use 'X-API-Key' header with a valid key.",
@@ -180,10 +180,8 @@ async def get_holiday_info(year: int, month: int, day: int):
             logger.error(
                 "Redis cache failed for %s, falling back to file read", cache_key
             )
-            pass
         except json.JSONDecodeError:
             logger.error("Failed to decode cached data for %s in Redis", cache_key)
-            pass
 
     # If Redis cache is not available or no cache hit, read from file
     if holiday_data is None:
@@ -215,7 +213,7 @@ async def get_holiday_info(year: int, month: int, day: int):
                         logger.info("Cached %s in Redis", cache_key)
                     except redis.RedisError:
                         logger.error("Failed to cache %s in Redis", cache_key)
-                        pass  # Continue without caching if Redis fails
+                        # Continue without caching if Redis fails
         except FileNotFoundError:
             logger.error("Data file not found for year %s", year)
             return (
@@ -397,8 +395,8 @@ async def holiday_info(
 async def holidays_list(
     year: Annotated[int, Query(ge=YEAR_MIN, le=YEAR_MAX)],
     response: Response,
-    month: Annotated[Optional[int], Query(ge=1, le=12)] = None,
-    type: Annotated[Optional[str], Query()] = None,
+    month: Annotated[int | None, Query(ge=1, le=12)] = None,
+    type: Annotated[str | None, Query()] = None,
     format: Annotated[str, Query()] = "full",
     api_key: str = Depends(verify_api_key),
 ):
@@ -477,8 +475,8 @@ async def combined_calendar(
     api_key: str = Depends(verify_api_key),
 ):
     """Return a merged calendar of the provided ICS URL and Sri Lanka Holidays"""
-    from urllib.parse import urlparse
     import socket
+    from urllib.parse import urlparse
 
     # Validate the URL to prevent SSRF
     parsed_url = urlparse(ics_url)

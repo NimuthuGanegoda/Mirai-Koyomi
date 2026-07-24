@@ -1,4 +1,4 @@
-icalendar==7.1.0
-python-dateutil==2.8.2
-pytz==2023.3.post1
+icalendar==7.2.2
+python-dateutil==2.9.0.post0
+pytz==2026.2
 six==1.17.0
