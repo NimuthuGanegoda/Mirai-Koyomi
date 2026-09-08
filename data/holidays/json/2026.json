@@ -41,7 +41,7 @@
     "end": "2026-02-05"
   },
   {
-    "uid": "sl_obs_20260214@srilanka-holidays.api",
+    "uid": "sl_2026_31",
     "summary": "Valentine's Day",
     "categories": [
       "Observance"
@@ -70,7 +70,7 @@
     "end": "2026-03-03"
   },
   {
-    "uid": "sl_obs_20260308@srilanka-holidays.api",
+    "uid": "sl_2026_32",
     "summary": "International Women's Day",
     "categories": [
       "Observance"
@@ -183,6 +183,15 @@
     "end": "2026-04-16"
   },
   {
+    "uid": "sl_2026_33",
+    "summary": "Earth Day",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2026-04-22",
+    "end": "2026-04-23"
+  },
+  {
     "uid": "sl_2026_17",
     "summary": "Labour Day *",
     "categories": [
@@ -192,7 +201,7 @@
     "end": "2026-05-02"
   },
   {
-    "uid": "sl_obs_20260510@srilanka-holidays.api",
+    "uid": "sl_2026_39",
     "summary": "Mother's Day",
     "categories": [
       "Observance"
@@ -232,7 +241,7 @@
     "end": "2026-06-01"
   },
   {
-    "uid": "sl_obs_20260605@srilanka-holidays.api",
+    "uid": "sl_2026_34",
     "summary": "World Environment Day",
     "categories": [
       "Observance"
@@ -241,7 +250,7 @@
     "end": "2026-06-06"
   },
   {
-    "uid": "sl_obs_20260621@srilanka-holidays.api",
+    "uid": "sl_2026_40",
     "summary": "Father's Day",
     "categories": [
       "Observance"
@@ -303,7 +312,7 @@
     "end": "2026-09-27"
   },
   {
-    "uid": "sl_obs_20261001@srilanka-holidays.api",
+    "uid": "sl_2026_35",
     "summary": "Children's Day",
     "categories": [
       "Observance"
@@ -312,13 +321,22 @@
     "end": "2026-10-02"
   },
   {
-    "uid": "sl_obs_20261006@srilanka-holidays.api",
+    "uid": "sl_2026_36",
     "summary": "Teachers' Day",
     "categories": [
       "Observance"
     ],
     "start": "2026-10-06",
     "end": "2026-10-07"
+  },
+  {
+    "uid": "sl_2026_37",
+    "summary": "World Food Day",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2026-10-16",
+    "end": "2026-10-17"
   },
   {
     "uid": "sl_2026_26",
@@ -330,6 +348,15 @@
     ],
     "start": "2026-10-25",
     "end": "2026-10-26"
+  },
+  {
+    "uid": "sl_2026_38",
+    "summary": "Halloween",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2026-10-31",
+    "end": "2026-11-01"
   },
   {
     "uid": "sl_2026_27",

@@ -30,7 +30,7 @@
     "end": "2027-02-05"
   },
   {
-    "uid": "sl_obs_20270214@srilanka-holidays.api",
+    "uid": "sl_2027_26",
     "summary": "Valentine's Day",
     "categories": [
       "Observance"
@@ -59,7 +59,7 @@
     "end": "2027-03-07"
   },
   {
-    "uid": "sl_obs_20270308@srilanka-holidays.api",
+    "uid": "sl_2027_27",
     "summary": "International Women's Day",
     "categories": [
       "Observance"
@@ -128,6 +128,15 @@
     "end": "2027-04-21"
   },
   {
+    "uid": "sl_2027_28",
+    "summary": "Earth Day",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2027-04-22",
+    "end": "2027-04-23"
+  },
+  {
     "uid": "sl_2027_12",
     "summary": "Labour Day *",
     "categories": [
@@ -137,7 +146,7 @@
     "end": "2027-05-02"
   },
   {
-    "uid": "sl_obs_20270509@srilanka-holidays.api",
+    "uid": "sl_2027_34",
     "summary": "Mother's Day",
     "categories": [
       "Observance"
@@ -177,7 +186,7 @@
     "end": "2027-05-21"
   },
   {
-    "uid": "sl_obs_20270605@srilanka-holidays.api",
+    "uid": "sl_2027_29",
     "summary": "World Environment Day",
     "categories": [
       "Observance"
@@ -197,7 +206,7 @@
     "end": "2027-06-19"
   },
   {
-    "uid": "sl_obs_20270620@srilanka-holidays.api",
+    "uid": "sl_2027_35",
     "summary": "Father's Day",
     "categories": [
       "Observance"
@@ -248,7 +257,7 @@
     "end": "2027-09-16"
   },
   {
-    "uid": "sl_obs_20271001@srilanka-holidays.api",
+    "uid": "sl_2027_30",
     "summary": "Children's Day",
     "categories": [
       "Observance"
@@ -257,7 +266,7 @@
     "end": "2027-10-02"
   },
   {
-    "uid": "sl_obs_20271006@srilanka-holidays.api",
+    "uid": "sl_2027_31",
     "summary": "Teachers' Day",
     "categories": [
       "Observance"
@@ -277,6 +286,15 @@
     "end": "2027-10-16"
   },
   {
+    "uid": "sl_2027_32",
+    "summary": "World Food Day",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2027-10-16",
+    "end": "2027-10-17"
+  },
+  {
     "uid": "sl_2027_22",
     "summary": "Deepavali Festival Day *",
     "categories": [
@@ -284,6 +302,15 @@
     ],
     "start": "2027-10-28",
     "end": "2027-10-29"
+  },
+  {
+    "uid": "sl_2027_33",
+    "summary": "Halloween",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2027-10-31",
+    "end": "2027-11-01"
   },
   {
     "uid": "sl_2027_23",

@@ -136,6 +136,15 @@
     "end": "2023-04-23"
   },
   {
+    "uid": "sl_obs_20230422@srilanka-holidays.api",
+    "summary": "Earth Day",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2023-04-22",
+    "end": "2023-04-23"
+  },
+  {
     "uid": "sl_62@srilanka-holidays.api",
     "summary": "May Day *†‡",
     "categories": [
@@ -291,6 +300,15 @@
     "end": "2023-10-07"
   },
   {
+    "uid": "sl_obs_20231016@srilanka-holidays.api",
+    "summary": "World Food Day",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2023-10-16",
+    "end": "2023-10-17"
+  },
+  {
     "uid": "sl_72@srilanka-holidays.api",
     "summary": "Vap Full Moon Poya Day *†",
     "categories": [
@@ -300,6 +318,15 @@
     ],
     "start": "2023-10-28",
     "end": "2023-10-29"
+  },
+  {
+    "uid": "sl_obs_20231031@srilanka-holidays.api",
+    "summary": "Halloween",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2023-10-31",
+    "end": "2023-11-01"
   },
   {
     "uid": "sl_73@srilanka-holidays.api",

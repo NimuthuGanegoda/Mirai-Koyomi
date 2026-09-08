@@ -125,6 +125,15 @@
     "end": "2024-04-14"
   },
   {
+    "uid": "sl_obs_20240422@srilanka-holidays.api",
+    "summary": "Earth Day",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2024-04-22",
+    "end": "2024-04-23"
+  },
+  {
     "uid": "sl_87@srilanka-holidays.api",
     "summary": "Bak Full Moon Poya Day *†",
     "categories": [
@@ -280,6 +289,15 @@
     "end": "2024-10-07"
   },
   {
+    "uid": "sl_obs_20241016@srilanka-holidays.api",
+    "summary": "World Food Day",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2024-10-16",
+    "end": "2024-10-17"
+  },
+  {
     "uid": "sl_97@srilanka-holidays.api",
     "summary": "Vap Full Moon Poya Day *†",
     "categories": [
@@ -296,6 +314,15 @@
     "categories": [
       "Public Holiday",
       "Bank Holiday"
+    ],
+    "start": "2024-10-31",
+    "end": "2024-11-01"
+  },
+  {
+    "uid": "sl_obs_20241031@srilanka-holidays.api",
+    "summary": "Halloween",
+    "categories": [
+      "Observance"
     ],
     "start": "2024-10-31",
     "end": "2024-11-01"

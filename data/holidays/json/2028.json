@@ -125,6 +125,15 @@
     "end": "2028-04-15"
   },
   {
+    "uid": "sl_obs_20280422@srilanka-holidays.api",
+    "summary": "Earth Day",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2028-04-22",
+    "end": "2028-04-23"
+  },
+  {
     "uid": "sl_2028_11@srilanka-holidays.api",
     "summary": "Bak Full Moon Poya Day *†",
     "categories": [
@@ -280,6 +289,15 @@
     "end": "2028-10-07"
   },
   {
+    "uid": "sl_obs_20281016@srilanka-holidays.api",
+    "summary": "World Food Day",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2028-10-16",
+    "end": "2028-10-17"
+  },
+  {
     "uid": "sl_2028_21@srilanka-holidays.api",
     "summary": "Deepavali Festival Day *†",
     "categories": [
@@ -299,6 +317,15 @@
     ],
     "start": "2028-10-18",
     "end": "2028-10-19"
+  },
+  {
+    "uid": "sl_obs_20281031@srilanka-holidays.api",
+    "summary": "Halloween",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2028-10-31",
+    "end": "2028-11-01"
   },
   {
     "uid": "sl_2028_23@srilanka-holidays.api",

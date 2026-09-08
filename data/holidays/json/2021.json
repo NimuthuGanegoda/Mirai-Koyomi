@@ -115,6 +115,15 @@
     "end": "2021-04-15"
   },
   {
+    "uid": "sl_obs_20210422@srilanka-holidays.api",
+    "summary": "Earth Day",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2021-04-22",
+    "end": "2021-04-23"
+  },
+  {
     "uid": "sl_10@srilanka-holidays.api",
     "summary": "Bak Full Moon Poya Day *†",
     "categories": [
@@ -269,6 +278,15 @@
     "end": "2021-10-07"
   },
   {
+    "uid": "sl_obs_20211016@srilanka-holidays.api",
+    "summary": "World Food Day",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2021-10-16",
+    "end": "2021-10-17"
+  },
+  {
     "uid": "sl_20@srilanka-holidays.api",
     "summary": "Milad-Un-Nabi (Holy Prophet’s Birthday) *†‡",
     "categories": [
@@ -289,6 +307,15 @@
     ],
     "start": "2021-10-20",
     "end": "2021-10-21"
+  },
+  {
+    "uid": "sl_obs_20211031@srilanka-holidays.api",
+    "summary": "Halloween",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2021-10-31",
+    "end": "2021-11-01"
   },
   {
     "uid": "sl_22@srilanka-holidays.api",
