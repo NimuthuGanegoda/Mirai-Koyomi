@@ -3,10 +3,9 @@ VERSION:2.0
 PRODID:-//Dilshan-H//Sri Lanka Holidays//EN
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
-X-WR-CALNAME:Sri Lanka Holidays
+X-WR-CALNAME:Sri Lanka Master Calendar
 X-WR-TIMEZONE:Asia/Colombo
-X-WR-CALDESC:Comprehensive collection of Sri Lankan public, bank, and merca
- ntile holidays (2021-2028).
+X-WR-CALDESC:Comprehensive collection of Sri Lankan public, bank, and mercantile holidays (2021-2028).
 BEGIN:VTIMEZONE
 TZID:Asia/Colombo
 X-LIC-LOCATION:Asia/Colombo
