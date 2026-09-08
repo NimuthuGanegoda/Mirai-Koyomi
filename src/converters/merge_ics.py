@@ -59,8 +59,22 @@ def merge_all_ics():
     # Process yearly holiday files
     for filename in files:
         filepath = os.path.join(ics_dir, filename)
-        processed_lines = _process_ics_file(filepath)
-        master_content.extend(processed_lines)
+        with open(filepath, "r", encoding="utf-8") as f:
+            in_event = False
+            for line in f:
+                line = line.strip()
+                if line == "BEGIN:VEVENT":
+                    in_event = True
+                if in_event:
+                    # Adjusted DTSTART/DTEND for Apple compatibility (ensured TZID if needed)
+                    if line.startswith("DTSTART") and "VALUE=DATE" not in line:
+                        line = line.replace("DTSTART:", "DTSTART;TZID=Asia/Colombo:")
+                    if line.startswith("DTEND") and "VALUE=DATE" not in line:
+                        line = line.replace("DTEND:", "DTEND;TZID=Asia/Colombo:")
+                    
+                    master_content.append(line)
+                if line == "END:VEVENT":
+                    in_event = False
 
     master_content.append("END:VCALENDAR")
     
