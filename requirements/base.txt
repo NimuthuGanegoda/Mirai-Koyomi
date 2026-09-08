@@ -39,4 +39,4 @@ watchfiles==1.2.0
 websockets==17.1
 beautifulsoup4==4.15.0
 requests==2.34.2
-aiofiles==25.1.0
+aiofiles==23.2.1
