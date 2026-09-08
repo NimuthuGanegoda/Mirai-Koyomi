@@ -30,6 +30,15 @@
     "end": "2027-02-05"
   },
   {
+    "uid": "sl_obs_20270214@srilanka-holidays.api",
+    "summary": "Valentine's Day",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2027-02-14",
+    "end": "2027-02-15"
+  },
+  {
     "uid": "sl_2027_04",
     "summary": "Navam Full Moon Poya *†",
     "categories": [
@@ -48,6 +57,15 @@
     ],
     "start": "2027-03-06",
     "end": "2027-03-07"
+  },
+  {
+    "uid": "sl_obs_20270308@srilanka-holidays.api",
+    "summary": "International Women's Day",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2027-03-08",
+    "end": "2027-03-09"
   },
   {
     "uid": "sl_2027_06",
@@ -119,6 +137,15 @@
     "end": "2027-05-02"
   },
   {
+    "uid": "sl_obs_20270509@srilanka-holidays.api",
+    "summary": "Mother's Day",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2027-05-09",
+    "end": "2027-05-10"
+  },
+  {
     "uid": "sl_2027_13",
     "summary": "Idul Adha *",
     "categories": [
@@ -150,6 +177,15 @@
     "end": "2027-05-21"
   },
   {
+    "uid": "sl_obs_20270605@srilanka-holidays.api",
+    "summary": "World Environment Day",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2027-06-05",
+    "end": "2027-06-06"
+  },
+  {
     "uid": "sl_2027_16",
     "summary": "Poson Full Moon Poya *†",
     "categories": [
@@ -159,6 +195,15 @@
     ],
     "start": "2027-06-18",
     "end": "2027-06-19"
+  },
+  {
+    "uid": "sl_obs_20270620@srilanka-holidays.api",
+    "summary": "Father's Day",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2027-06-20",
+    "end": "2027-06-21"
   },
   {
     "uid": "sl_2027_17",
@@ -201,6 +246,24 @@
     ],
     "start": "2027-09-15",
     "end": "2027-09-16"
+  },
+  {
+    "uid": "sl_obs_20271001@srilanka-holidays.api",
+    "summary": "Children's Day",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2027-10-01",
+    "end": "2027-10-02"
+  },
+  {
+    "uid": "sl_obs_20271006@srilanka-holidays.api",
+    "summary": "Teachers' Day",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2027-10-06",
+    "end": "2027-10-07"
   },
   {
     "uid": "sl_2027_21",
