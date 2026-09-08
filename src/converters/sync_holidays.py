@@ -54,10 +54,10 @@ def sync_year(year):
             summary = f"{name} {markers}".strip()
             
             categories = []
-            if "*" in markers: categories.append("Public")
-            if "†" in markers: categories.append("Bank")
-            if "‡" in markers: categories.append("Mercantile")
-            if "Poya" in name: categories.append("Poya")
+            if "*" in markers: categories.append("Public Holiday")
+            if "†" in markers: categories.append("Bank Holiday")
+            if "‡" in markers: categories.append("Mercantile Holiday")
+            if "Poya" in name: categories.append("Poya Holiday")
             
             holidays.append({
                 "uid": f"sl_{year}_{len(holidays)+1:02d}",
