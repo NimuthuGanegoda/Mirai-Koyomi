@@ -2,9 +2,9 @@
 Sri Lanka Holidays API
 
 Main module for the API
-Author: Dilshan-H (https://github.com/Dilshan-H)
+Author: NimuthuGanegoda (https://github.com/NimuthuGanegoda)
 License: MIT License
-URL: https://github.com/Dilshan-H/srilanka-holidays
+URL: https://github.com/NimuthuGanegoda/Mirai-Koyomi
 
 API endpoints:
     [Frontend]
