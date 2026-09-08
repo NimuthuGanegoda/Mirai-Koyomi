@@ -4,6 +4,9 @@ import requests
 from bs4 import BeautifulSoup
 
 
+from datetime import datetime, timedelta
+
+
 def get_markers(summary, type_text):
     markers = ""
     # Official Sri Lankan markers based on type/category
@@ -16,6 +19,44 @@ def get_markers(summary, type_text):
     if is_bank: markers += "†"
     if is_merc: markers += "‡"
     return markers
+
+def _parse_holiday_rows(rows, year):
+    holiday_count = 0
+    for row in rows:
+        cols = row.find_all('td')
+        if len(cols) < 4: continue
+
+        # Format: Day, Date, Holiday Name, Type, Comments
+        date_raw = cols[1].text.strip() # e.g., "Jan 15"
+        name = cols[2].text.strip()
+        h_type = cols[3].text.strip()
+
+        # Parse date to ISO
+        try:
+            date_obj = datetime.strptime(f"{date_raw} {year}", "%b %d %Y")
+            start_date = date_obj.strftime("%Y-%m-%d")
+            end_date = (date_obj + timedelta(days=1)).strftime("%Y-%m-%d")
+        except:
+            continue
+
+        markers = get_markers(name, h_type)
+        summary = f"{name} {markers}".strip()
+
+        categories = []
+        if "*" in markers: categories.append("Public Holiday")
+        if "†" in markers: categories.append("Bank Holiday")
+        if "‡" in markers: categories.append("Mercantile Holiday")
+        if "Poya" in name: categories.append("Poya Holiday")
+
+        holiday_count += 1
+        yield {
+            "uid": f"sl_{year}_{holiday_count:02d}",
+            "summary": summary,
+            "categories": categories,
+            "start": start_date,
+            "end": end_date
+        }
+
 
 def sync_year(year):
     url = f"https://www.officeholidays.com/countries/sri-lanka/{year}"
@@ -30,42 +71,8 @@ def sync_year(year):
             print(f"No table found for {year}")
             return
             
-        holidays = []
         rows = table.find_all('tr')[1:] # Skip header
-        
-        for row in rows:
-            cols = row.find_all('td')
-            if len(cols) < 4: continue
-            
-            # Format: Day, Date, Holiday Name, Type, Comments
-            date_raw = cols[1].text.strip() # e.g., "Jan 15"
-            name = cols[2].text.strip()
-            h_type = cols[3].text.strip()
-            
-            # Parse date to ISO
-            try:
-                date_obj = datetime.strptime(f"{date_raw} {year}", "%b %d %Y")
-                start_date = date_obj.strftime("%Y-%m-%d")
-                end_date = (date_obj + timedelta(days=1)).strftime("%Y-%m-%d")
-            except:
-                continue
-                
-            markers = get_markers(name, h_type)
-            summary = f"{name} {markers}".strip()
-            
-            categories = []
-            if "*" in markers: categories.append("Public Holiday")
-            if "†" in markers: categories.append("Bank Holiday")
-            if "‡" in markers: categories.append("Mercantile Holiday")
-            if "Poya" in name: categories.append("Poya Holiday")
-            
-            holidays.append({
-                "uid": f"sl_{year}_{len(holidays)+1:02d}",
-                "summary": summary,
-                "categories": categories,
-                "start": start_date,
-                "end": end_date
-            })
+        holidays = list(_parse_holiday_rows(rows, year))
             
         if holidays:
             json_path = f"json/{year}.json"
@@ -77,7 +84,6 @@ def sync_year(year):
         print(f"Error syncing {year}: {e}")
 
 if __name__ == "__main__":
-    from datetime import datetime, timedelta
     # Sync current, next, and next-next year
     current_year = datetime.now().year
     for y in range(current_year, current_year + 3):
