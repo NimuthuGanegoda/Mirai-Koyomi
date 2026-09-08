@@ -498,12 +498,17 @@ async def combined_calendar(
         # Add timeout and size limits to prevent DoS
         async with httpx.AsyncClient(timeout=10.0, max_redirects=3) as client:
             # Fetch user ICS
-            user_response = await client.get(ics_url)
-            if user_response.status_code != 200:
-                raise HTTPException(status_code=400, detail="Failed to fetch the provided ICS URL")
+            user_content = bytearray()
+            async with client.stream("GET", ics_url) as user_response:
+                if user_response.status_code != 200:
+                    raise HTTPException(status_code=400, detail="Failed to fetch the provided ICS URL")
 
-            if len(user_response.content) > 5 * 1024 * 1024: # 5MB limit
-                raise HTTPException(status_code=400, detail="Provided ICS file is too large")
+                async for chunk in user_response.aiter_bytes():
+                    user_content.extend(chunk)
+                    if len(user_content) > 5 * 1024 * 1024: # 5MB limit
+                        raise HTTPException(status_code=400, detail="Provided ICS file is too large")
+
+            user_text = user_content.decode("utf-8", errors="ignore")
 
             # Fetch Sri Lanka Holidays Master ICS
             sl_holidays_url = "https://raw.githubusercontent.com/NimuthuGanegoda/Mirai-Koyomi/master/data/holidays/ics/srilanka-holidays.ics"
@@ -513,7 +518,7 @@ async def combined_calendar(
 
             # Parse calendars
             try:
-                user_cal = Calendar.from_ical(user_response.text)
+                user_cal = Calendar.from_ical(user_text)
             except Exception as e:
                 logger.error("Failed to parse user ICS: %s", str(e))
                 raise HTTPException(status_code=400, detail="Invalid ICS format in the provided URL")
