@@ -477,6 +477,7 @@ async def combined_calendar(
     api_key: str = Depends(verify_api_key),
 ):
     """Return a merged calendar of the provided ICS URL and Sri Lanka Holidays"""
+    import asyncio
     import socket
     from urllib.parse import urlparse
 
@@ -488,7 +489,9 @@ async def combined_calendar(
     try:
         # Check for local IP addresses
         if parsed_url.hostname:
-            ip = socket.gethostbyname(parsed_url.hostname)
+            loop = asyncio.get_running_loop()
+            res = await loop.getaddrinfo(parsed_url.hostname, None, family=socket.AF_INET)
+            ip = str(res[0][4][0])
             if ip.startswith("127.") or ip.startswith("192.168.") or ip.startswith("10.") or ip.startswith("172.") or ip == "0.0.0.0" or ip == "169.254.169.254":
                 raise HTTPException(status_code=400, detail="Invalid URL provided")
     except socket.gaierror:
