@@ -1,67 +1,62 @@
 import pytest
+
 import sys
 import os
-
-# Add src directory to path to allow importing src.converters.sync_holidays
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 
 from converters.sync_holidays import get_markers
 
-def test_get_markers_public_holiday():
-    # "public" triggers all three: is_public, is_bank, is_merc
-    # markers: *†‡
-    assert get_markers("Some Public Holiday", "Holiday") == "*†‡"
-    assert get_markers("Holiday", "Public") == "*†‡"
+@pytest.mark.parametrize(
+    "summary, type_text, expected",
+    [
+        # Only Public (national)
+        ("National Day", "Holiday", "*"),
+        ("Independence Day", "National Holiday", "*"),
 
-def test_get_markers_national_holiday():
-    # "national" triggers is_public only
-    # markers: *
-    assert get_markers("National Day", "Holiday") == "*"
-    assert get_markers("Holiday", "National") == "*"
+        # Only Mercantile
+        ("Christmas Day", "Holiday", "‡"),
+        ("May Day", "Observance", "‡"),
+        ("Thai Pongal Day", "Festival", "‡"),
+        ("Sinhala and Tamil New Year", "Festival", "‡"),
+        ("Regular Day", "Mercantile Holiday", "‡"),
 
-def test_get_markers_poya_holiday():
-    # "poya" triggers is_public and is_bank
-    # markers: *†
-    assert get_markers("Duruthu Full Moon Poya Day", "Holiday") == "*†"
-    assert get_markers("Holiday", "Poya") == "*†"
+        # Public and Bank (Poya matches both, but not Mercantile unless 'public' is present)
+        ("Duruthu Full Moon Poya Day", "Poya Day", "*†"),
+        ("Poya", "Holiday", "*†"),
 
-def test_get_markers_bank_holiday():
-    # "bank" triggers is_bank only
-    # markers: †
-    assert get_markers("Special Bank Holiday", "Holiday") == "†"
-    assert get_markers("Holiday", "Bank") == "†"
+        # Public, Bank, Mercantile ("Public" in name or type matches all)
+        ("Some Holiday", "Public Holiday", "*†‡"),
+        ("Public Event", "Holiday", "*†‡"),
 
-def test_get_markers_mercantile_holiday():
-    # "mercantile" triggers is_merc only
-    # markers: ‡
-    assert get_markers("Special Mercantile Holiday", "Holiday") == "‡"
-    assert get_markers("Holiday", "Mercantile") == "‡"
+        # Case insensitivity
+        ("pOyA Day", "holiday", "*†"),
+        ("MAY DAY", "Observance", "‡"),
+        ("chrIstMas", "holiday", "‡"),
+        ("NaTiOnAl DaY", "holiday", "*"),
 
-def test_get_markers_specific_mercantile_holidays():
-    # "new year", "thai pongal", "may day", "christmas" trigger is_merc only
-    # markers: ‡
-    assert get_markers("Sinhala and Tamil New Year", "Holiday") == "‡"
-    assert get_markers("Thai Pongal Day", "Holiday") == "‡"
-    assert get_markers("May Day", "Holiday") == "‡"
-    assert get_markers("Christmas Day", "Holiday") == "‡"
+        # Empty or non-matching
+        ("Regular Day", "Working Day", ""),
+        ("", "", ""),
+        ("Some Festival", "Observance", ""),
 
-def test_get_markers_case_insensitivity():
-    # Should be case insensitive
-    assert get_markers("NATIONAL", "holiday") == "*"
-    assert get_markers("holiday", "BANK") == "†"
-    assert get_markers("mErCaNtIlE", "holiday") == "‡"
-    assert get_markers("pUBLic", "holiday") == "*†‡"
-    assert get_markers("POYA", "holiday") == "*†"
+        # Checking edge cases where keywords are substrings (the logic uses 'in', so it should match)
+        ("Specialbankholiday", "Event", "†"), # Note: 'bank' is a substring
+        ("National Holiday", "Bank Holiday", "*†"),
+        ("Full Moon Poya", "Mercantile", "*†‡"),
+    ]
+)
+def test_get_markers(summary, type_text, expected):
+    """
+    Test the get_markers heuristic used for official Sri Lankan markers.
 
-def test_get_markers_no_match():
-    # No matching keywords
-    assert get_markers("Regular Day Off", "Holiday") == ""
-    assert get_markers("Weekend", "Weekly") == ""
-    assert get_markers("", "") == ""
+    The logic:
+    is_public = any(x in type_text.lower() or x in summary.lower() for x in ["public", "national", "poya"])
+    is_bank = any(x in type_text.lower() or x in summary.lower() for x in ["public", "bank", "poya"])
+    is_merc = any(x in type_text.lower() or x in summary.lower() for x in ["public", "mercantile", "new year", "thai pongal", "may day", "christmas"])
 
-def test_get_markers_multiple_matches_different_fields():
-    # Both summary and type have matching keywords
-    # summary="National" (*), type="Bank" (†) -> "*†"
-    assert get_markers("National Holiday", "Bank Holiday") == "*†"
-    # summary="Poya" (*†), type="Mercantile" (‡) -> "*†‡"
-    assert get_markers("Full Moon Poya", "Mercantile") == "*†‡"
+    Markers:
+    Public = *
+    Bank = †
+    Mercantile = ‡
+    """
+    assert get_markers(summary, type_text) == expected
