@@ -159,6 +159,21 @@ async def verify_api_key(key: str | None = Depends(api_key_header_scheme)):
     )
 
 
+def _validate_and_read_json_file(
+    year: int,
+) -> tuple[list[dict] | None, int | None, dict | None]:
+    """Validate path and load holiday data from JSON file for the given year."""
+    base_dir = Path("json")
+    filename = base_dir / f"{year}.json"
+
+    # Resolve the path to prevent directory traversal
+    resolved_path = filename.resolve()
+
+    # Ensure the resolved path is within the intended directory
+    if not resolved_path.parent.samefile(base_dir.resolve()):
+        logger.warning("Invalid file path received: %s", resolved_path)
+        return None, status.HTTP_400_BAD_REQUEST, {"error": "Invalid file path"}
+
 def read_json_file_sync(path: Path) -> list:
     """Helper function to read and parse a JSON file synchronously."""
     with open(path, "r", encoding="utf-8") as file:
@@ -168,13 +183,29 @@ def read_json_file_sync(path: Path) -> list:
 async def get_holiday_info(year: int, month: int, day: int):
     """Process provided date and return holiday information with status code"""
     try:
-        date_to_check = date(year, month, day)
-    except (ValueError, TypeError):
-        logger.error(
-            "Invalid date provided: year=%s, month=%s, day=%s", year, month, day
+        with open(resolved_path, "r", encoding="utf-8") as file:
+            holiday_data = json.load(file)
+            return holiday_data, None, None
+    except FileNotFoundError:
+        logger.error("Data file not found for year %s", year)
+        return (
+            None,
+            status.HTTP_404_NOT_FOUND,
+            {"error": "Data for requested year not available"},
         )
-        return None, status.HTTP_400_BAD_REQUEST, {"error": "Invalid date provided"}
+    except json.JSONDecodeError:
+        logger.error("Invalid JSON format in file for year %s", year)
+        return (
+            None,
+            status.HTTP_500_INTERNAL_SERVER_ERROR,
+            {
+                "error": "Invalid data format for requested year. Please notify the admin."
+            },
+        )
 
+
+def _fetch_holiday_data(year: int) -> tuple[list[dict] | None, int | None, dict | None]:
+    """Fetch holiday data from Redis cache or fallback to file reading."""
     cache_key = f"holidays:{year}"
     holiday_data = None
 
@@ -186,6 +217,7 @@ async def get_holiday_info(year: int, month: int, day: int):
             if holiday_data_cached:
                 logger.info("Cache hit for %s in Redis", cache_key)
                 holiday_data = json.loads(holiday_data_cached)  # type: ignore
+                return holiday_data, None, None
         except redis.RedisError:
             logger.error(
                 "Redis cache failed for %s, falling back to file read", cache_key
@@ -198,21 +230,22 @@ async def get_holiday_info(year: int, month: int, day: int):
         logger.info(
             "No cache hit for %s, reading from file for year %s", cache_key, year
         )
-        base_dir = Path("json")
-        filename = base_dir / f"{year}.json"
+        holiday_data, err_status, err_detail = _validate_and_read_json_file(year)
+        if err_status is not None:
+            return None, err_status, err_detail
 
-        # Resolve the path to prevent directory traversal
-        resolved_path = filename.resolve()
+        # Cache in Redis with 24-hour TTL
+        if holiday_data and REDIS_CLIENT:
+            try:
+                REDIS_CLIENT.setex(cache_key, 86400, json.dumps(holiday_data))
+                logger.info("Cached %s in Redis", cache_key)
+            except redis.RedisError:
+                logger.error("Failed to cache %s in Redis", cache_key)
+                # Continue without caching if Redis fails
 
-        # Ensure the resolved path is within the intended directory
-        if not resolved_path.parent.samefile(base_dir.resolve()):
-            logger.warning("Invalid file path received: %s", resolved_path)
-            return (
-                date_to_check,
-                status.HTTP_400_BAD_REQUEST,
-                {"error": "Invalid file path"},
-            )
+        return holiday_data, None, None
 
+    return holiday_data, None, None
         try:
             async with aiofiles.open(resolved_path, "r", encoding="utf-8") as file:
                 content = await file.read()
@@ -242,7 +275,11 @@ async def get_holiday_info(year: int, month: int, day: int):
                 },
             )
 
-    # Process holiday data (from cache or file)
+
+def _find_matching_holidays(
+    holiday_data: list[dict], date_to_check: date
+) -> list[dict]:
+    """Find holidays that match the provided date."""
     matches = []
     for holiday in holiday_data:
         try:
@@ -262,6 +299,24 @@ async def get_holiday_info(year: int, month: int, day: int):
                     "holiday_end": holiday.get("end"),
                 }
             )
+    return matches
+
+
+async def get_holiday_info(year: int, month: int, day: int):
+    """Process provided date and return holiday information with status code"""
+    try:
+        date_to_check = date(year, month, day)
+    except (ValueError, TypeError):
+        logger.error(
+            "Invalid date provided: year=%s, month=%s, day=%s", year, month, day
+        )
+        return None, status.HTTP_400_BAD_REQUEST, {"error": "Invalid date provided"}
+
+    holiday_data, err_status, err_detail = _fetch_holiday_data(year)
+    if err_status is not None:
+        return date_to_check, err_status, err_detail
+
+    matches = _find_matching_holidays(holiday_data or [], date_to_check)
 
     if matches:
         result = {
@@ -279,7 +334,7 @@ async def get_holiday_info(year: int, month: int, day: int):
             result.update(
                 {
                     "id": single.get("id"),
-                    "holiday": single.get("summary"),
+                    "holiday": single.get("holiday"),
                     "type": single.get("type"),
                     "holiday_start": single.get("holiday_start"),
                     "holiday_end": single.get("holiday_end"),
