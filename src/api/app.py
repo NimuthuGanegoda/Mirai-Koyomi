@@ -556,6 +556,17 @@ async def combined_calendar(
         # Add timeout and size limits to prevent DoS
         async with httpx.AsyncClient(timeout=10.0, max_redirects=3) as client:
             # Fetch user ICS
+            user_content = bytearray()
+            async with client.stream("GET", ics_url) as user_response:
+                if user_response.status_code != 200:
+                    raise HTTPException(status_code=400, detail="Failed to fetch the provided ICS URL")
+
+                async for chunk in user_response.aiter_bytes():
+                    user_content.extend(chunk)
+                    if len(user_content) > 5 * 1024 * 1024: # 5MB limit
+                        raise HTTPException(status_code=400, detail="Provided ICS file is too large")
+
+            user_text = user_content.decode("utf-8", errors="ignore")
             user_response = await client.get(ics_url)
             if user_response.status_code != 200:
                 raise HTTPException(
@@ -571,6 +582,33 @@ async def combined_calendar(
             sl_holidays_url = "https://raw.githubusercontent.com/NimuthuGanegoda/Mirai-Koyomi/master/data/holidays/ics/srilanka-holidays.ics"
             sl_response = await client.get(sl_holidays_url)
             if sl_response.status_code != 200:
+                raise HTTPException(status_code=500, detail="Failed to fetch the Sri Lanka Holidays Master ICS")
+
+            # Parse calendars
+            try:
+                user_cal = Calendar.from_ical(user_text)
+            except Exception as e:
+                logger.error("Failed to parse user ICS: %s", str(e))
+                raise HTTPException(status_code=400, detail="Invalid ICS format in the provided URL")
+
+            try:
+                sl_cal = Calendar.from_ical(sl_response.text)
+            except Exception as e:
+                logger.error("Failed to parse SL ICS: %s", str(e))
+                raise HTTPException(status_code=500, detail="Failed to parse the Sri Lanka Holidays Master ICS")
+
+            # Create merged calendar
+            merged_cal = Calendar()
+            merged_cal.add('prodid', '-//Sri Lanka Holidays Combined API//')
+            merged_cal.add('version', '2.0')
+
+            # Add events from user cal
+            for component in user_cal.walk('vevent'):
+                merged_cal.add_component(component)
+
+            # Add events from SL cal
+            for component in sl_cal.walk('vevent'):
+                merged_cal.add_component(component)
                 raise HTTPException(
                     status_code=500,
                     detail="Failed to fetch the Sri Lanka Holidays Master ICS",
