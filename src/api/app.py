@@ -695,6 +695,9 @@ async def combined_calendar(
 
     except HTTPException:
         raise
+    except httpx.ConnectError as e:
+        logger.error("SSRF attempt blocked or connection error in combined_calendar: %s", str(e))
+        raise HTTPException(status_code=400, detail="Invalid or unreachable URL provided")
     except Exception as e:
         logger.error("Error in combined_calendar: %s", str(e))
         raise HTTPException(
