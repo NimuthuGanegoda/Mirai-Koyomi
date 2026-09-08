@@ -446,6 +446,8 @@ async def holidays_list(
     result = []
     # Track seen dates when returning simple format to avoid duplicates
     seen_dates = set()
+    type_lower = params.type.lower() if params.type else None
+
     for holiday in holiday_data:
         try:
             if "start" not in holiday or "end" not in holiday:
@@ -455,7 +457,7 @@ async def holidays_list(
             if params.month and start_date.month != params.month:
                 continue
             # Filter by type if provided
-            if params.type and params.type.lower() not in [
+            if type_lower and type_lower not in [
                 cat.lower() for cat in holiday.get("categories", [])
             ]:
                 continue
@@ -491,16 +493,25 @@ def validate_ics_url(
 
     parsed_url = urlparse(ics_url)
     if parsed_url.scheme not in ("http", "https"):
-        raise HTTPException(status_code=400, detail="Invalid URL scheme. Must be http or https.")
+        raise HTTPException(
+            status_code=400, detail="Invalid URL scheme. Must be http or https."
+        )
 
     try:
         # Check for local IP addresses
         if parsed_url.hostname:
             ip = socket.gethostbyname(parsed_url.hostname)
-            if ip.startswith("127.") or ip.startswith("192.168.") or ip.startswith("10.") or ip.startswith("172.") or ip == "0.0.0.0" or ip == "169.254.169.254":
+            if (
+                ip.startswith("127.")
+                or ip.startswith("192.168.")
+                or ip.startswith("10.")
+                or ip.startswith("172.")
+                or ip == "0.0.0.0"
+                or ip == "169.254.169.254"
+            ):
                 raise HTTPException(status_code=400, detail="Invalid URL provided")
     except socket.gaierror:
-        pass # Will fail in the fetch step anyway if host is unknown
+        pass  # Will fail in the fetch step anyway if host is unknown
 
     return ics_url
 
@@ -547,16 +558,23 @@ async def combined_calendar(
             # Fetch user ICS
             user_response = await client.get(ics_url)
             if user_response.status_code != 200:
-                raise HTTPException(status_code=400, detail="Failed to fetch the provided ICS URL")
+                raise HTTPException(
+                    status_code=400, detail="Failed to fetch the provided ICS URL"
+                )
 
-            if len(user_response.content) > 5 * 1024 * 1024: # 5MB limit
-                raise HTTPException(status_code=400, detail="Provided ICS file is too large")
+            if len(user_response.content) > 5 * 1024 * 1024:  # 5MB limit
+                raise HTTPException(
+                    status_code=400, detail="Provided ICS file is too large"
+                )
 
             # Fetch Sri Lanka Holidays Master ICS
             sl_holidays_url = "https://raw.githubusercontent.com/NimuthuGanegoda/Mirai-Koyomi/master/data/holidays/ics/srilanka-holidays.ics"
             sl_response = await client.get(sl_holidays_url)
             if sl_response.status_code != 200:
-                raise HTTPException(status_code=500, detail="Failed to fetch the Sri Lanka Holidays Master ICS")
+                raise HTTPException(
+                    status_code=500,
+                    detail="Failed to fetch the Sri Lanka Holidays Master ICS",
+                )
 
             ical_content = merge_calendars(user_response.text, sl_response.text)
             return Response(content=ical_content, media_type="text/calendar")
@@ -565,4 +583,6 @@ async def combined_calendar(
         raise
     except Exception as e:
         logger.error("Error in combined_calendar: %s", str(e))
-        raise HTTPException(status_code=500, detail="Failed to process and merge calendars")
+        raise HTTPException(
+            status_code=500, detail="Failed to process and merge calendars"
+        )
