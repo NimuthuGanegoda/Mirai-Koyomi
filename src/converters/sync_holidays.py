@@ -4,6 +4,58 @@ import requests
 from bs4 import BeautifulSoup
 
 
+def get_nth_weekday_of_month(year, month, weekday, n):
+    count = 0
+    date = datetime(year, month, 1)
+    while count < n:
+        if date.weekday() == weekday:
+            count += 1
+        if count == n:
+            return date
+        date += timedelta(days=1)
+
+def get_observances(year):
+    # Static observances
+    static_obs = [
+        {"month": 2, "day": 14, "name": "Valentine's Day"},
+        {"month": 3, "day": 8, "name": "International Women's Day"},
+        {"month": 4, "day": 22, "name": "Earth Day"},
+        {"month": 6, "day": 5, "name": "World Environment Day"},
+        {"month": 10, "day": 1, "name": "Children's Day"},
+        {"month": 10, "day": 6, "name": "Teachers' Day"},
+        {"month": 10, "day": 16, "name": "World Food Day"},
+        {"month": 10, "day": 31, "name": "Halloween"},
+    ]
+
+    observances = []
+
+    for obs in static_obs:
+        d = datetime(year, obs["month"], obs["day"])
+        observances.append({
+            "name": obs["name"],
+            "start": d.strftime("%Y-%m-%d"),
+            "end": (d + timedelta(days=1)).strftime("%Y-%m-%d")
+        })
+
+    # Dynamic observances
+    # Mother's Day (2nd Sunday in May)
+    md = get_nth_weekday_of_month(year, 5, 6, 2)
+    observances.append({
+        "name": "Mother's Day",
+        "start": md.strftime("%Y-%m-%d"),
+        "end": (md + timedelta(days=1)).strftime("%Y-%m-%d")
+    })
+
+    # Father's Day (3rd Sunday in June)
+    fd = get_nth_weekday_of_month(year, 6, 6, 3)
+    observances.append({
+        "name": "Father's Day",
+        "start": fd.strftime("%Y-%m-%d"),
+        "end": (fd + timedelta(days=1)).strftime("%Y-%m-%d")
+    })
+
+    return observances
+
 def get_markers(summary, type_text):
     markers = ""
     # Official Sri Lankan markers based on type/category
@@ -68,6 +120,23 @@ def sync_year(year):
             })
             
         if holidays:
+            # Add observances that don't conflict with existing holidays
+            existing_starts = {h["start"] for h in holidays}
+            observances = get_observances(year)
+
+            for obs in observances:
+                if obs["start"] not in existing_starts:
+                    holidays.append({
+                        "uid": f"sl_{year}_{len(holidays)+1:02d}",
+                        "summary": obs["name"],
+                        "categories": ["Observance"],
+                        "start": obs["start"],
+                        "end": obs["end"]
+                    })
+
+            # Sort holidays by start date, keeping UIDs intact
+            holidays.sort(key=lambda x: x["start"])
+
             json_path = f"json/{year}.json"
             with open(json_path, "w", encoding="utf-8") as f:
                 json.dump(holidays, f, indent=2, ensure_ascii=False)

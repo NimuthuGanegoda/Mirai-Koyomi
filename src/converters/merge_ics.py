@@ -31,7 +31,9 @@ def merge_all_ics():
         "METHOD:PUBLISH",
         "X-WR-CALNAME:Sri Lanka Master Calendar",
         "X-WR-TIMEZONE:Asia/Colombo",
-        "X-WR-CALDESC:Comprehensive collection of Sri Lankan public, bank, and mercantile holidays (2021-2028)."
+        "X-WR-CALDESC:Comprehensive collection of Sri Lankan public, bank, and mercantile holidays (2021-2028).",
+        "REFRESH-INTERVAL;VALUE=DURATION:PT12H",
+        "X-PUBLISHED-TTL:PT12H"
     ]
     master_content.extend(vtimezone)
     
