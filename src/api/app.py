@@ -48,6 +48,7 @@ from fastapi.responses import RedirectResponse
 from fastapi.security import APIKeyHeader
 from fastapi.staticfiles import StaticFiles
 from icalendar import Calendar
+import anyio
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -156,6 +157,12 @@ async def verify_api_key(key: str | None = Depends(api_key_header_scheme)):
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Invalid or revoked API key. Use 'X-API-Key' header with a valid key.",
     )
+
+
+def read_json_file_sync(path: Path) -> list:
+    """Helper function to read and parse a JSON file synchronously."""
+    with open(path, "r", encoding="utf-8") as file:
+        return json.load(file)
 
 
 async def get_holiday_info(year: int, month: int, day: int):
@@ -585,32 +592,40 @@ async def combined_calendar(
             sl_holidays_url = "https://raw.githubusercontent.com/NimuthuGanegoda/Mirai-Koyomi/master/data/holidays/ics/srilanka-holidays.ics"
             sl_response = await client.get(sl_holidays_url)
             if sl_response.status_code != 200:
-                raise HTTPException(status_code=500, detail="Failed to fetch the Sri Lanka Holidays Master ICS")
+                raise HTTPException(
+                    status_code=500,
+                    detail="Failed to fetch the Sri Lanka Holidays Master ICS",
+                )
 
             # Parse calendars
             try:
                 user_cal = Calendar.from_ical(user_text)
             except Exception as e:
                 logger.error("Failed to parse user ICS: %s", str(e))
-                raise HTTPException(status_code=400, detail="Invalid ICS format in the provided URL")
+                raise HTTPException(
+                    status_code=400, detail="Invalid ICS format in the provided URL"
+                )
 
             try:
                 sl_cal = Calendar.from_ical(sl_response.text)
             except Exception as e:
                 logger.error("Failed to parse SL ICS: %s", str(e))
-                raise HTTPException(status_code=500, detail="Failed to parse the Sri Lanka Holidays Master ICS")
+                raise HTTPException(
+                    status_code=500,
+                    detail="Failed to parse the Sri Lanka Holidays Master ICS",
+                )
 
             # Create merged calendar
             merged_cal = Calendar()
-            merged_cal.add('prodid', '-//Sri Lanka Holidays Combined API//')
-            merged_cal.add('version', '2.0')
+            merged_cal.add("prodid", "-//Sri Lanka Holidays Combined API//")
+            merged_cal.add("version", "2.0")
 
             # Add events from user cal
-            for component in user_cal.walk('vevent'):
+            for component in user_cal.walk("vevent"):
                 merged_cal.add_component(component)
 
             # Add events from SL cal
-            for component in sl_cal.walk('vevent'):
+            for component in sl_cal.walk("vevent"):
                 merged_cal.add_component(component)
                 raise HTTPException(
                     status_code=500,
