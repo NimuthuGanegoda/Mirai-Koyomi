@@ -1,10 +1,8 @@
 import json
+from datetime import datetime, timedelta
 
 import requests
 from bs4 import BeautifulSoup
-
-
-from datetime import datetime, timedelta
 
 
 def get_markers(summary, type_text):
@@ -21,7 +19,7 @@ def get_markers(summary, type_text):
     return markers
 
 def _parse_holiday_rows(rows, year):
-    holiday_count = 0
+    holidays_count = 0
     for row in rows:
         cols = row.find_all('td')
         if len(cols) < 4: continue
@@ -48,15 +46,14 @@ def _parse_holiday_rows(rows, year):
         if "‡" in markers: categories.append("Mercantile Holiday")
         if "Poya" in name: categories.append("Poya Holiday")
 
-        holiday_count += 1
+        holidays_count += 1
         yield {
-            "uid": f"sl_{year}_{holiday_count:02d}",
+            "uid": f"sl_{year}_{holidays_count:02d}",
             "summary": summary,
             "categories": categories,
             "start": start_date,
             "end": end_date
         }
-
 
 def sync_year(year):
     url = f"https://www.officeholidays.com/countries/sri-lanka/{year}"

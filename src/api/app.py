@@ -393,24 +393,35 @@ async def holiday_info(
     return {"date": date_provided, "response": result}
 
 
+class HolidaysQueryParams:
+    def __init__(
+        self,
+        year: Annotated[int, Query(ge=YEAR_MIN, le=YEAR_MAX)],
+        month: Annotated[int | None, Query(ge=1, le=12)] = None,
+        type: Annotated[str | None, Query()] = None,
+        format: Annotated[str, Query()] = "full",
+    ):
+        self.year = year
+        self.month = month
+        self.type = type
+        self.format = format
+
+
 @app.get("/api/v1/holidays")
 async def holidays_list(
-    year: Annotated[int, Query(ge=YEAR_MIN, le=YEAR_MAX)],
+    params: Annotated[HolidaysQueryParams, Depends()],
     response: Response,
-    month: Annotated[int | None, Query(ge=1, le=12)] = None,
-    type: Annotated[str | None, Query()] = None,
-    format: Annotated[str, Query()] = "full",
     api_key: str = Depends(verify_api_key),
 ):
     """Return list of holidays for a given year or year/month, optionally filtered by type"""
     # Validate format
-    if format not in ["simple", "full"]:
+    if params.format not in ["simple", "full"]:
         response.status_code = status.HTTP_400_BAD_REQUEST
         return {"error": "Invalid format. Use 'simple' or 'full'"}
 
     # Safely construct file path
     base_dir = Path("json")
-    filename = base_dir / f"{year}.json"
+    filename = base_dir / f"{params.year}.json"
     resolved_path = filename.resolve()
 
     # Ensure path is within json directory
@@ -441,15 +452,15 @@ async def holidays_list(
                 continue  # Skip invalid holiday entries
             start_date = datetime.strptime(holiday["start"], "%Y-%m-%d").date()
             # Filter by month if provided
-            if month and start_date.month != month:
+            if params.month and start_date.month != params.month:
                 continue
             # Filter by type if provided
-            if type and type.lower() not in [
+            if params.type and params.type.lower() not in [
                 cat.lower() for cat in holiday.get("categories", [])
             ]:
                 continue
             # Format output
-            if format == "simple":
+            if params.format == "simple":
                 # Avoid adding the same date multiple times
                 if holiday["start"] in seen_dates:
                     continue
@@ -471,16 +482,13 @@ async def holidays_list(
     response.status_code = status.HTTP_200_OK
     return {"holidays": result}
 
-@app.get("/api/v1/combined_calendar")
-async def combined_calendar(
-    ics_url: str = Query(..., description="The user's ICS feed URL (e.g., from Canvas, Moodle, Edu Mail)"),
-    api_key: str = Depends(verify_api_key),
-):
-    """Return a merged calendar of the provided ICS URL and Sri Lanka Holidays"""
+def validate_ics_url(
+    ics_url: str = Query(..., description="The user's ICS feed URL (e.g., from Canvas, Moodle, Edu Mail)")
+) -> str:
+    """Validate the ICS URL to prevent SSRF"""
     import socket
     from urllib.parse import urlparse
 
-    # Validate the URL to prevent SSRF
     parsed_url = urlparse(ics_url)
     if parsed_url.scheme not in ("http", "https"):
         raise HTTPException(status_code=400, detail="Invalid URL scheme. Must be http or https.")
@@ -494,6 +502,45 @@ async def combined_calendar(
     except socket.gaierror:
         pass # Will fail in the fetch step anyway if host is unknown
 
+    return ics_url
+
+
+def merge_calendars(user_ics_text: str, sl_ics_text: str) -> bytes:
+    """Parse and merge two ICS calendars"""
+    try:
+        user_cal = Calendar.from_ical(user_ics_text)
+    except Exception as e:
+        logger.error("Failed to parse user ICS: %s", str(e))
+        raise HTTPException(status_code=400, detail="Invalid ICS format in the provided URL")
+
+    try:
+        sl_cal = Calendar.from_ical(sl_ics_text)
+    except Exception as e:
+        logger.error("Failed to parse SL ICS: %s", str(e))
+        raise HTTPException(status_code=500, detail="Failed to parse the Sri Lanka Holidays Master ICS")
+
+    # Create merged calendar
+    merged_cal = Calendar()
+    merged_cal.add('prodid', '-//Sri Lanka Holidays Combined API//')
+    merged_cal.add('version', '2.0')
+
+    # Add events from user cal
+    for component in user_cal.walk('vevent'):
+        merged_cal.add_component(component)
+
+    # Add events from SL cal
+    for component in sl_cal.walk('vevent'):
+        merged_cal.add_component(component)
+
+    return merged_cal.to_ical()
+
+
+@app.get("/api/v1/combined_calendar")
+async def combined_calendar(
+    ics_url: str = Depends(validate_ics_url),
+    api_key: str = Depends(verify_api_key),
+):
+    """Return a merged calendar of the provided ICS URL and Sri Lanka Holidays"""
     try:
         # Add timeout and size limits to prevent DoS
         async with httpx.AsyncClient(timeout=10.0, max_redirects=3) as client:
@@ -511,33 +558,8 @@ async def combined_calendar(
             if sl_response.status_code != 200:
                 raise HTTPException(status_code=500, detail="Failed to fetch the Sri Lanka Holidays Master ICS")
 
-            # Parse calendars
-            try:
-                user_cal = Calendar.from_ical(user_response.text)
-            except Exception as e:
-                logger.error("Failed to parse user ICS: %s", str(e))
-                raise HTTPException(status_code=400, detail="Invalid ICS format in the provided URL")
-
-            try:
-                sl_cal = Calendar.from_ical(sl_response.text)
-            except Exception as e:
-                logger.error("Failed to parse SL ICS: %s", str(e))
-                raise HTTPException(status_code=500, detail="Failed to parse the Sri Lanka Holidays Master ICS")
-
-            # Create merged calendar
-            merged_cal = Calendar()
-            merged_cal.add('prodid', '-//Sri Lanka Holidays Combined API//')
-            merged_cal.add('version', '2.0')
-
-            # Add events from user cal
-            for component in user_cal.walk('vevent'):
-                merged_cal.add_component(component)
-
-            # Add events from SL cal
-            for component in sl_cal.walk('vevent'):
-                merged_cal.add_component(component)
-
-            return Response(content=merged_cal.to_ical(), media_type="text/calendar")
+            ical_content = merge_calendars(user_response.text, sl_response.text)
+            return Response(content=ical_content, media_type="text/calendar")
 
     except HTTPException:
         raise
