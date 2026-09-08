@@ -77,6 +77,7 @@ if os.getenv("ENV") == "DEV":
     app.mount("/public", StaticFiles(directory="public", html=True), name="public")
 
 # Initialize Redis client
+REDIS_CLIENT: redis.Redis | None = None
 try:
     REDIS_CLIENT = redis.Redis(
         host=os.getenv("REDIS_HOST", ""),
@@ -108,30 +109,31 @@ async def verify_api_key(key: str | None = Depends(api_key_header_scheme)):
     if REDIS_CLIENT:
         try:
             logger.info("Checking API key in Redis")
-            json_data = REDIS_CLIENT.json().get("API_KEYS_V2", Path(".api_keys")) or []
-            for entry in json_data:
-                if not compare_digest(entry.get("hash"), provided_hash):  # type: ignore
-                    continue
-                if entry.get("active") is False:  # type: ignore
-                    logger.warning("API key marked as revoked in Redis")
-                    raise HTTPException(
-                        status_code=status.HTTP_401_UNAUTHORIZED,
-                        detail="Invalid or revoked API key. Use 'X-API-Key' header with a valid key.",
-                    )
-                # Increment usage counter
-                try:
-                    utc_now = datetime.now(timezone.utc)
-                    hour_str = utc_now.strftime("%Y%m%d%H")  # 2025112814
-                    counter_key = f"usage:{provided_hash[:16]}:{hour_str}"
+            json_data = REDIS_CLIENT.json().get("API_KEYS_V2", ".api_keys") or []
+            if isinstance(json_data, list):
+                for entry in json_data:
+                    if not compare_digest(entry.get("hash"), provided_hash):  # type: ignore
+                        continue
+                    if entry.get("active") is False:  # type: ignore
+                        logger.warning("API key marked as revoked in Redis")
+                        raise HTTPException(
+                            status_code=status.HTTP_401_UNAUTHORIZED,
+                            detail="Invalid or revoked API key. Use 'X-API-Key' header with a valid key.",
+                        )
+                    # Increment usage counter
+                    try:
+                        utc_now = datetime.now(timezone.utc)
+                        hour_str = utc_now.strftime("%Y%m%d%H")  # 2025112814
+                        counter_key = f"usage:{provided_hash[:16]}:{hour_str}"
 
-                    pipe = REDIS_CLIENT.pipeline()
-                    pipe.incr(counter_key)
-                    pipe.expire(counter_key, 86400 * 30)
-                    pipe.execute()
-                except Exception:
-                    logger.error("Failed to log usage")
-                logger.info("API key validated via Redis")
-                return key
+                        pipe = REDIS_CLIENT.pipeline()
+                        pipe.incr(counter_key)
+                        pipe.expire(counter_key, 86400 * 30)
+                        pipe.execute()
+                    except Exception:
+                        logger.error("Failed to log usage")
+                    logger.info("API key validated via Redis")
+                    return key
             logger.warning("API key not found in Redis. Possibly invalid key")
         except (redis.RedisError, ValueError, AttributeError):
             logger.error("Auth backend failed")
