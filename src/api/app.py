@@ -47,7 +47,7 @@ import httpcore
 import redis
 from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, HTTPException, Query, Response, status
-from fastapi.responses import RedirectResponse
+from fastapi.responses import RedirectResponse, FileResponse
 from fastapi.security import APIKeyHeader
 from fastapi.staticfiles import StaticFiles
 from icalendar import Calendar
@@ -577,6 +577,19 @@ def merge_calendars(user_ics_text: str, sl_ics_text: str) -> bytes:
 
     return merged_cal.to_ical()
 
+
+@app.get("/api/v1/master_calendar")
+async def master_calendar():
+    """Return the Master Sri Lanka Holidays ICS calendar"""
+    import os
+    file_path = "ics/srilanka-holidays.ics"
+    if not os.path.exists(file_path):
+        file_path = "data/holidays/ics/srilanka-holidays.ics"
+    if os.path.exists(file_path):
+        return FileResponse(file_path, media_type="text/calendar", filename="srilanka-holidays.ics")
+    raise HTTPException(status_code=404, detail="Master ICS file not found")
+
+@app.get("/api/v1/combined_calendar")
 
 @app.get("/api/v1/combined_calendar")
 async def combined_calendar(
