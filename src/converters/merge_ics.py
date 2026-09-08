@@ -47,7 +47,7 @@ def merge_all_ics():
     master_content = [
         "BEGIN:VCALENDAR",
         "VERSION:2.0",
-        "PRODID:-//Dilshan-H//Sri Lanka Holidays//EN",
+        "PRODID:-//NimuthuGanegoda//Sri Lanka Holidays//EN",
         "CALSCALE:GREGORIAN",
         "METHOD:PUBLISH",
         "X-WR-CALNAME:Sri Lanka Master Calendar",

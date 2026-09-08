@@ -38,8 +38,8 @@ jobs:
             branch_name="src-files-$year"
 
             # git config
-            git config --global user.email "77499497+Dilshan-H@users.noreply.github.com"
-            git config --global user.name "dilshan-h"
+            git config --global user.email "77499497+NimuthuGanegoda@users.noreply.github.com"
+            git config --global user.name "nimuthuganegoda"
 
             # Checkout branch
             git checkout master
