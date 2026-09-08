@@ -393,24 +393,35 @@ async def holiday_info(
     return {"date": date_provided, "response": result}
 
 
+class HolidaysQueryParams:
+    def __init__(
+        self,
+        year: Annotated[int, Query(ge=YEAR_MIN, le=YEAR_MAX)],
+        month: Annotated[int | None, Query(ge=1, le=12)] = None,
+        type: Annotated[str | None, Query()] = None,
+        format: Annotated[str, Query()] = "full",
+    ):
+        self.year = year
+        self.month = month
+        self.type = type
+        self.format = format
+
+
 @app.get("/api/v1/holidays")
 async def holidays_list(
-    year: Annotated[int, Query(ge=YEAR_MIN, le=YEAR_MAX)],
+    params: Annotated[HolidaysQueryParams, Depends()],
     response: Response,
-    month: Annotated[int | None, Query(ge=1, le=12)] = None,
-    type: Annotated[str | None, Query()] = None,
-    format: Annotated[str, Query()] = "full",
     api_key: str = Depends(verify_api_key),
 ):
     """Return list of holidays for a given year or year/month, optionally filtered by type"""
     # Validate format
-    if format not in ["simple", "full"]:
+    if params.format not in ["simple", "full"]:
         response.status_code = status.HTTP_400_BAD_REQUEST
         return {"error": "Invalid format. Use 'simple' or 'full'"}
 
     # Safely construct file path
     base_dir = Path("json")
-    filename = base_dir / f"{year}.json"
+    filename = base_dir / f"{params.year}.json"
     resolved_path = filename.resolve()
 
     # Ensure path is within json directory
@@ -441,15 +452,15 @@ async def holidays_list(
                 continue  # Skip invalid holiday entries
             start_date = datetime.strptime(holiday["start"], "%Y-%m-%d").date()
             # Filter by month if provided
-            if month and start_date.month != month:
+            if params.month and start_date.month != params.month:
                 continue
             # Filter by type if provided
-            if type and type.lower() not in [
+            if params.type and params.type.lower() not in [
                 cat.lower() for cat in holiday.get("categories", [])
             ]:
                 continue
             # Format output
-            if format == "simple":
+            if params.format == "simple":
                 # Avoid adding the same date multiple times
                 if holiday["start"] in seen_dates:
                     continue
