@@ -1,6 +1,5 @@
 import pytest
 
-# Adding src to path so we can import from converters
 import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
@@ -19,6 +18,7 @@ from converters.sync_holidays import get_markers
         ("May Day", "Observance", "‡"),
         ("Thai Pongal Day", "Festival", "‡"),
         ("Sinhala and Tamil New Year", "Festival", "‡"),
+        ("Regular Day", "Mercantile Holiday", "‡"),
 
         # Public and Bank (Poya matches both, but not Mercantile unless 'public' is present)
         ("Duruthu Full Moon Poya Day", "Poya Day", "*†"),
@@ -41,6 +41,8 @@ from converters.sync_holidays import get_markers
 
         # Checking edge cases where keywords are substrings (the logic uses 'in', so it should match)
         ("Specialbankholiday", "Event", "†"), # Note: 'bank' is a substring
+        ("National Holiday", "Bank Holiday", "*†"),
+        ("Full Moon Poya", "Mercantile", "*†‡"),
     ]
 )
 def test_get_markers(summary, type_text, expected):
