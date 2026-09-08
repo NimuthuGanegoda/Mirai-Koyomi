@@ -45,7 +45,7 @@ def merge_all_ics():
                 if line == "BEGIN:VEVENT":
                     in_event = True
                 if in_event:
-                    # Fix DTSTART/DTEND for Apple compatibility (ensure TZID if needed)
+                    # Adjusted DTSTART/DTEND for Apple compatibility (ensured TZID if needed)
                     if line.startswith("DTSTART") and "VALUE=DATE" not in line:
                         line = line.replace("DTSTART:", "DTSTART;TZID=Asia/Colombo:")
                     if line.startswith("DTEND") and "VALUE=DATE" not in line:
