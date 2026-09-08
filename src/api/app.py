@@ -610,17 +610,25 @@ async def combined_calendar(
                     status_code=400, detail="Provided ICS file is too large"
                 )
 
-            # Fetch Sri Lanka Holidays Master ICS
-            sl_holidays_url = "https://raw.githubusercontent.com/NimuthuGanegoda/Mirai-Koyomi/master/data/holidays/ics/srilanka-holidays.ics"
-            sl_response = await client.get(sl_holidays_url)
-            if sl_response.status_code != 200:
-                raise HTTPException(
-                    status_code=500,
-                    detail="Failed to fetch the Sri Lanka Holidays Master ICS",
-                )
+            # Fetch Sri Lanka Holidays Master ICS locally for offline support
+            sl_ics_path = "ics/srilanka-holidays.ics"
+            import aiofiles
+            try:
+                async with aiofiles.open(sl_ics_path, "r", encoding="utf-8") as sl_file:
+                    sl_response_text = await sl_file.read()
+            except FileNotFoundError:
+                sl_ics_path = "data/holidays/ics/srilanka-holidays.ics"
+                try:
+                    async with aiofiles.open(sl_ics_path, "r", encoding="utf-8") as sl_file:
+                        sl_response_text = await sl_file.read()
+                except FileNotFoundError:
+                    raise HTTPException(
+                        status_code=500,
+                        detail="Local Sri Lanka Holidays Master ICS file not found",
+                    )
 
             # Parse calendars
-            ical_content = merge_calendars(user_response.text, sl_response.text)
+            ical_content = merge_calendars(user_text, sl_response_text)
             return Response(content=ical_content, media_type="text/calendar")
 
     except HTTPException:
