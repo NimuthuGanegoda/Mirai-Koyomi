@@ -393,6 +393,47 @@ async def holiday_info(
     return {"date": date_provided, "response": result}
 
 
+def _filter_holidays(holiday_data: list, month: int | None, type: str | None, format: str) -> list:
+    """Helper function to filter and format holidays based on month, type, and format"""
+    result = []
+    # Track seen dates when returning simple format to avoid duplicates
+    seen_dates = set()
+    for holiday in holiday_data:
+        try:
+            if "start" not in holiday or "end" not in holiday:
+                continue  # Skip invalid holiday entries
+            start_date = datetime.strptime(holiday["start"], "%Y-%m-%d").date()
+            # Filter by month if provided
+            if month and start_date.month != month:
+                continue
+            # Filter by type if provided
+            if type and type.lower() not in [
+                cat.lower() for cat in holiday.get("categories", [])
+            ]:
+                continue
+            # Format output
+            if format == "simple":
+                # Avoid adding the same date multiple times
+                if holiday["start"] in seen_dates:
+                    continue
+                seen_dates.add(holiday["start"])
+                result.append(holiday["start"])
+            else:
+                result.append(
+                    {
+                        "date": holiday["start"],
+                        "name": holiday["summary"],
+                        "type": holiday["categories"],
+                        "start": holiday["start"],
+                        "end": holiday["end"],
+                        "id": holiday["uid"],
+                    }
+                )
+        except (ValueError, KeyError):
+            continue  # Skip holidays with invalid data
+    return result
+
+
 @app.get("/api/v1/holidays")
 async def holidays_list(
     year: Annotated[int, Query(ge=YEAR_MIN, le=YEAR_MAX)],
@@ -432,42 +473,8 @@ async def holidays_list(
         }
 
     # Filter and format holidays
-    result = []
-    # Track seen dates when returning simple format to avoid duplicates
-    seen_dates = set()
-    for holiday in holiday_data:
-        try:
-            if "start" not in holiday or "end" not in holiday:
-                continue  # Skip invalid holiday entries
-            start_date = datetime.strptime(holiday["start"], "%Y-%m-%d").date()
-            # Filter by month if provided
-            if month and start_date.month != month:
-                continue
-            # Filter by type if provided
-            if type and type.lower() not in [
-                cat.lower() for cat in holiday.get("categories", [])
-            ]:
-                continue
-            # Format output
-            if format == "simple":
-                # Avoid adding the same date multiple times
-                if holiday["start"] in seen_dates:
-                    continue
-                seen_dates.add(holiday["start"])
-                result.append(holiday["start"])
-            else:
-                result.append(
-                    {
-                        "date": holiday["start"],
-                        "name": holiday["summary"],
-                        "type": holiday["categories"],
-                        "start": holiday["start"],
-                        "end": holiday["end"],
-                        "id": holiday["uid"],
-                    }
-                )
-        except (ValueError, KeyError):
-            continue  # Skip holidays with invalid data
+    result = _filter_holidays(holiday_data, month, type, format)
+
     response.status_code = status.HTTP_200_OK
     return {"holidays": result}
 
