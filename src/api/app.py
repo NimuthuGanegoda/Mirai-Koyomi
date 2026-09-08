@@ -32,14 +32,21 @@ Docs:
 # pylint: disable=import-error
 import hashlib
 import json
+import aiofiles
 import logging
 import os
 from datetime import date, datetime, timezone
 from pathlib import Path
+
+import aiofiles
 from secrets import compare_digest
 from typing import Annotated
 
+import aiofiles
 import httpx
+import asyncio
+import socket
+import httpcore
 import redis
 from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, HTTPException, Query, Response, status
@@ -47,6 +54,7 @@ from fastapi.responses import RedirectResponse
 from fastapi.security import APIKeyHeader
 from fastapi.staticfiles import StaticFiles
 from icalendar import Calendar
+import anyio
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -157,16 +165,53 @@ async def verify_api_key(key: str | None = Depends(api_key_header_scheme)):
     )
 
 
+def _validate_and_read_json_file(
+    year: int,
+) -> tuple[list[dict] | None, int | None, dict | None]:
+    """Validate path and load holiday data from JSON file for the given year."""
+    base_dir = Path("json")
+    filename = base_dir / f"{year}.json"
+
+    # Resolve the path to prevent directory traversal
+    resolved_path = filename.resolve()
+
+    # Ensure the resolved path is within the intended directory
+    if not resolved_path.parent.samefile(base_dir.resolve()):
+        logger.warning("Invalid file path received: %s", resolved_path)
+        return None, status.HTTP_400_BAD_REQUEST, {"error": "Invalid file path"}
+
+def read_json_file_sync(path: Path) -> list:
+    """Helper function to read and parse a JSON file synchronously."""
+    with open(path, "r", encoding="utf-8") as file:
+        return json.load(file)
+
+
 async def get_holiday_info(year: int, month: int, day: int):
     """Process provided date and return holiday information with status code"""
     try:
-        date_to_check = date(year, month, day)
-    except (ValueError, TypeError):
-        logger.error(
-            "Invalid date provided: year=%s, month=%s, day=%s", year, month, day
+        with open(resolved_path, "r", encoding="utf-8") as file:
+            holiday_data = json.load(file)
+            return holiday_data, None, None
+    except FileNotFoundError:
+        logger.error("Data file not found for year %s", year)
+        return (
+            None,
+            status.HTTP_404_NOT_FOUND,
+            {"error": "Data for requested year not available"},
         )
-        return None, status.HTTP_400_BAD_REQUEST, {"error": "Invalid date provided"}
+    except json.JSONDecodeError:
+        logger.error("Invalid JSON format in file for year %s", year)
+        return (
+            None,
+            status.HTTP_500_INTERNAL_SERVER_ERROR,
+            {
+                "error": "Invalid data format for requested year. Please notify the admin."
+            },
+        )
 
+
+def _fetch_holiday_data(year: int) -> tuple[list[dict] | None, int | None, dict | None]:
+    """Fetch holiday data from Redis cache or fallback to file reading."""
     cache_key = f"holidays:{year}"
     holiday_data = None
 
@@ -178,6 +223,7 @@ async def get_holiday_info(year: int, month: int, day: int):
             if holiday_data_cached:
                 logger.info("Cache hit for %s in Redis", cache_key)
                 holiday_data = json.loads(holiday_data_cached)  # type: ignore
+                return holiday_data, None, None
         except redis.RedisError:
             logger.error(
                 "Redis cache failed for %s, falling back to file read", cache_key
@@ -190,24 +236,26 @@ async def get_holiday_info(year: int, month: int, day: int):
         logger.info(
             "No cache hit for %s, reading from file for year %s", cache_key, year
         )
-        base_dir = Path("json")
-        filename = base_dir / f"{year}.json"
+        holiday_data, err_status, err_detail = _validate_and_read_json_file(year)
+        if err_status is not None:
+            return None, err_status, err_detail
 
-        # Resolve the path to prevent directory traversal
-        resolved_path = filename.resolve()
+        # Cache in Redis with 24-hour TTL
+        if holiday_data and REDIS_CLIENT:
+            try:
+                REDIS_CLIENT.setex(cache_key, 86400, json.dumps(holiday_data))
+                logger.info("Cached %s in Redis", cache_key)
+            except redis.RedisError:
+                logger.error("Failed to cache %s in Redis", cache_key)
+                # Continue without caching if Redis fails
 
-        # Ensure the resolved path is within the intended directory
-        if not resolved_path.parent.samefile(base_dir.resolve()):
-            logger.warning("Invalid file path received: %s", resolved_path)
-            return (
-                date_to_check,
-                status.HTTP_400_BAD_REQUEST,
-                {"error": "Invalid file path"},
-            )
+        return holiday_data, None, None
 
+    return holiday_data, None, None
         try:
-            with open(resolved_path, "r", encoding="utf-8") as file:
-                holiday_data = json.load(file)
+            async with aiofiles.open(resolved_path, "r", encoding="utf-8") as file:
+                content = await file.read()
+                holiday_data = json.loads(content)
                 # Cache in Redis with 24-hour TTL
                 if REDIS_CLIENT:
                     try:
@@ -233,7 +281,11 @@ async def get_holiday_info(year: int, month: int, day: int):
                 },
             )
 
-    # Process holiday data (from cache or file)
+
+def _find_matching_holidays(
+    holiday_data: list[dict], date_to_check: date
+) -> list[dict]:
+    """Find holidays that match the provided date."""
     matches = []
     for holiday in holiday_data:
         try:
@@ -253,6 +305,24 @@ async def get_holiday_info(year: int, month: int, day: int):
                     "holiday_end": holiday.get("end"),
                 }
             )
+    return matches
+
+
+async def get_holiday_info(year: int, month: int, day: int):
+    """Process provided date and return holiday information with status code"""
+    try:
+        date_to_check = date(year, month, day)
+    except (ValueError, TypeError):
+        logger.error(
+            "Invalid date provided: year=%s, month=%s, day=%s", year, month, day
+        )
+        return None, status.HTTP_400_BAD_REQUEST, {"error": "Invalid date provided"}
+
+    holiday_data, err_status, err_detail = _fetch_holiday_data(year)
+    if err_status is not None:
+        return date_to_check, err_status, err_detail
+
+    matches = _find_matching_holidays(holiday_data or [], date_to_check)
 
     if matches:
         result = {
@@ -270,7 +340,7 @@ async def get_holiday_info(year: int, month: int, day: int):
             result.update(
                 {
                     "id": single.get("id"),
-                    "holiday": single.get("summary"),
+                    "holiday": single.get("holiday"),
                     "type": single.get("type"),
                     "holiday_start": single.get("holiday_start"),
                     "holiday_end": single.get("holiday_end"),
@@ -393,24 +463,35 @@ async def holiday_info(
     return {"date": date_provided, "response": result}
 
 
+class HolidaysQueryParams:
+    def __init__(
+        self,
+        year: Annotated[int, Query(ge=YEAR_MIN, le=YEAR_MAX)],
+        month: Annotated[int | None, Query(ge=1, le=12)] = None,
+        type: Annotated[str | None, Query()] = None,
+        format: Annotated[str, Query()] = "full",
+    ):
+        self.year = year
+        self.month = month
+        self.type = type
+        self.format = format
+
+
 @app.get("/api/v1/holidays")
 async def holidays_list(
-    year: Annotated[int, Query(ge=YEAR_MIN, le=YEAR_MAX)],
+    params: Annotated[HolidaysQueryParams, Depends()],
     response: Response,
-    month: Annotated[int | None, Query(ge=1, le=12)] = None,
-    type: Annotated[str | None, Query()] = None,
-    format: Annotated[str, Query()] = "full",
     api_key: str = Depends(verify_api_key),
 ):
     """Return list of holidays for a given year or year/month, optionally filtered by type"""
     # Validate format
-    if format not in ["simple", "full"]:
+    if params.format not in ["simple", "full"]:
         response.status_code = status.HTTP_400_BAD_REQUEST
         return {"error": "Invalid format. Use 'simple' or 'full'"}
 
     # Safely construct file path
     base_dir = Path("json")
-    filename = base_dir / f"{year}.json"
+    filename = base_dir / f"{params.year}.json"
     resolved_path = filename.resolve()
 
     # Ensure path is within json directory
@@ -420,8 +501,9 @@ async def holidays_list(
 
     # Load holiday data
     try:
-        with open(resolved_path, "r", encoding="utf-8") as file:
-            holiday_data = json.load(file)
+        async with aiofiles.open(resolved_path, "r", encoding="utf-8") as file:
+            content = await file.read()
+            holiday_data = json.loads(content)
     except FileNotFoundError:
         response.status_code = status.HTTP_404_NOT_FOUND
         return {"error": "Data for requested year not available"}
@@ -435,21 +517,23 @@ async def holidays_list(
     result = []
     # Track seen dates when returning simple format to avoid duplicates
     seen_dates = set()
+    type_lower = params.type.lower() if params.type else None
+
     for holiday in holiday_data:
         try:
             if "start" not in holiday or "end" not in holiday:
                 continue  # Skip invalid holiday entries
             start_date = datetime.strptime(holiday["start"], "%Y-%m-%d").date()
             # Filter by month if provided
-            if month and start_date.month != month:
+            if params.month and start_date.month != params.month:
                 continue
             # Filter by type if provided
-            if type and type.lower() not in [
+            if type_lower and type_lower not in [
                 cat.lower() for cat in holiday.get("categories", [])
             ]:
                 continue
             # Format output
-            if format == "simple":
+            if params.format == "simple":
                 # Avoid adding the same date multiple times
                 if holiday["start"] in seen_dates:
                     continue
@@ -471,76 +555,154 @@ async def holidays_list(
     response.status_code = status.HTTP_200_OK
     return {"holidays": result}
 
-@app.get("/api/v1/combined_calendar")
-async def combined_calendar(
-    ics_url: str = Query(..., description="The user's ICS feed URL (e.g., from Canvas, Moodle, Edu Mail)"),
-    api_key: str = Depends(verify_api_key),
-):
-    """Return a merged calendar of the provided ICS URL and Sri Lanka Holidays"""
+def validate_ics_url(
+    ics_url: str = Query(..., description="The user's ICS feed URL (e.g., from Canvas, Moodle, Edu Mail)")
+) -> str:
+    """Validate the ICS URL to prevent SSRF"""
     import socket
     from urllib.parse import urlparse
 
-    # Validate the URL to prevent SSRF
     parsed_url = urlparse(ics_url)
     if parsed_url.scheme not in ("http", "https"):
-        raise HTTPException(status_code=400, detail="Invalid URL scheme. Must be http or https.")
+        raise HTTPException(
+            status_code=400, detail="Invalid URL scheme. Must be http or https."
+        )
 
     try:
         # Check for local IP addresses
         if parsed_url.hostname:
             ip = socket.gethostbyname(parsed_url.hostname)
-            if ip.startswith("127.") or ip.startswith("192.168.") or ip.startswith("10.") or ip.startswith("172.") or ip == "0.0.0.0" or ip == "169.254.169.254":
+            if (
+                ip.startswith("127.")
+                or ip.startswith("192.168.")
+                or ip.startswith("10.")
+                or ip.startswith("172.")
+                or ip == "0.0.0.0"
+                or ip == "169.254.169.254"
+            ):
                 raise HTTPException(status_code=400, detail="Invalid URL provided")
     except socket.gaierror:
-        pass # Will fail in the fetch step anyway if host is unknown
+        pass  # Will fail in the fetch step anyway if host is unknown
 
+    return ics_url
+
+
+def merge_calendars(user_ics_text: str, sl_ics_text: str) -> bytes:
+    """Parse and merge two ICS calendars"""
+    try:
+        user_cal = Calendar.from_ical(user_ics_text)
+    except Exception as e:
+        logger.error("Failed to parse user ICS: %s", str(e))
+        raise HTTPException(status_code=400, detail="Invalid ICS format in the provided URL")
+
+    try:
+        sl_cal = Calendar.from_ical(sl_ics_text)
+    except Exception as e:
+        logger.error("Failed to parse SL ICS: %s", str(e))
+        raise HTTPException(status_code=500, detail="Failed to parse the Sri Lanka Holidays Master ICS")
+
+    # Create merged calendar
+    merged_cal = Calendar()
+    merged_cal.add('prodid', '-//Sri Lanka Holidays Combined API//')
+    merged_cal.add('version', '2.0')
+
+    # Add events from user cal
+    for component in user_cal.walk('vevent'):
+        merged_cal.add_component(component)
+
+    # Add events from SL cal
+    for component in sl_cal.walk('vevent'):
+        merged_cal.add_component(component)
+
+    return merged_cal.to_ical()
+
+
+@app.get("/api/v1/combined_calendar")
+async def combined_calendar(
+    ics_url: str = Depends(validate_ics_url),
+    api_key: str = Depends(verify_api_key),
+):
+    """Return a merged calendar of the provided ICS URL and Sri Lanka Holidays"""
     try:
         # Add timeout and size limits to prevent DoS
         async with httpx.AsyncClient(timeout=10.0, max_redirects=3) as client:
             # Fetch user ICS
+            user_content = bytearray()
+            async with client.stream("GET", ics_url) as user_response:
+                if user_response.status_code != 200:
+                    raise HTTPException(status_code=400, detail="Failed to fetch the provided ICS URL")
+
+                async for chunk in user_response.aiter_bytes():
+                    user_content.extend(chunk)
+                    if len(user_content) > 5 * 1024 * 1024: # 5MB limit
+                        raise HTTPException(status_code=400, detail="Provided ICS file is too large")
+
+            user_text = user_content.decode("utf-8", errors="ignore")
             user_response = await client.get(ics_url)
             if user_response.status_code != 200:
-                raise HTTPException(status_code=400, detail="Failed to fetch the provided ICS URL")
+                raise HTTPException(
+                    status_code=400, detail="Failed to fetch the provided ICS URL"
+                )
 
-            if len(user_response.content) > 5 * 1024 * 1024: # 5MB limit
-                raise HTTPException(status_code=400, detail="Provided ICS file is too large")
+            if len(user_response.content) > 5 * 1024 * 1024:  # 5MB limit
+                raise HTTPException(
+                    status_code=400, detail="Provided ICS file is too large"
+                )
 
             # Fetch Sri Lanka Holidays Master ICS
             sl_holidays_url = "https://raw.githubusercontent.com/NimuthuGanegoda/Mirai-Koyomi/master/data/holidays/ics/srilanka-holidays.ics"
             sl_response = await client.get(sl_holidays_url)
             if sl_response.status_code != 200:
-                raise HTTPException(status_code=500, detail="Failed to fetch the Sri Lanka Holidays Master ICS")
+                raise HTTPException(
+                    status_code=500,
+                    detail="Failed to fetch the Sri Lanka Holidays Master ICS",
+                )
 
             # Parse calendars
             try:
-                user_cal = Calendar.from_ical(user_response.text)
+                user_cal = Calendar.from_ical(user_text)
             except Exception as e:
                 logger.error("Failed to parse user ICS: %s", str(e))
-                raise HTTPException(status_code=400, detail="Invalid ICS format in the provided URL")
+                raise HTTPException(
+                    status_code=400, detail="Invalid ICS format in the provided URL"
+                )
 
             try:
                 sl_cal = Calendar.from_ical(sl_response.text)
             except Exception as e:
                 logger.error("Failed to parse SL ICS: %s", str(e))
-                raise HTTPException(status_code=500, detail="Failed to parse the Sri Lanka Holidays Master ICS")
+                raise HTTPException(
+                    status_code=500,
+                    detail="Failed to parse the Sri Lanka Holidays Master ICS",
+                )
 
             # Create merged calendar
             merged_cal = Calendar()
-            merged_cal.add('prodid', '-//Sri Lanka Holidays Combined API//')
-            merged_cal.add('version', '2.0')
+            merged_cal.add("prodid", "-//Sri Lanka Holidays Combined API//")
+            merged_cal.add("version", "2.0")
 
             # Add events from user cal
-            for component in user_cal.walk('vevent'):
+            for component in user_cal.walk("vevent"):
                 merged_cal.add_component(component)
 
             # Add events from SL cal
-            for component in sl_cal.walk('vevent'):
+            for component in sl_cal.walk("vevent"):
                 merged_cal.add_component(component)
+                raise HTTPException(
+                    status_code=500,
+                    detail="Failed to fetch the Sri Lanka Holidays Master ICS",
+                )
 
-            return Response(content=merged_cal.to_ical(), media_type="text/calendar")
+            ical_content = merge_calendars(user_response.text, sl_response.text)
+            return Response(content=ical_content, media_type="text/calendar")
 
     except HTTPException:
         raise
+    except httpx.ConnectError as e:
+        logger.error("SSRF attempt blocked or connection error in combined_calendar: %s", str(e))
+        raise HTTPException(status_code=400, detail="Invalid or unreachable URL provided")
     except Exception as e:
         logger.error("Error in combined_calendar: %s", str(e))
-        raise HTTPException(status_code=500, detail="Failed to process and merge calendars")
+        raise HTTPException(
+            status_code=500, detail="Failed to process and merge calendars"
+        )

@@ -23,18 +23,9 @@ END:VCALENDAR
     # Create a temporary output directory
     out_dir = tmp_path / "out_json"
 
-    # Safely mock abspath to return the temp directory only for the json_dir target
-    original_abspath = __import__("os").path.abspath
-    original_join = __import__("os").path.join
+    with patch("src.converters.icalendar_to_json.os.path.abspath") as mock_abspath:
+        mock_abspath.return_value = str(out_dir)
 
-    expected_path = original_join(__import__("os").curdir, __import__("os").pardir, "srilanka-holidays", "json")
-
-    def side_effect_abspath(path):
-        if path == expected_path:
-            return str(out_dir)
-        return original_abspath(path)
-
-    with patch("src.converters.icalendar_to_json.os.path.abspath", side_effect=side_effect_abspath) as mock_abspath:
         ics_to_json(str(ics_file))
 
     # Check output
