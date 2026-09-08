@@ -40,6 +40,9 @@ from secrets import compare_digest
 from typing import Annotated
 
 import httpx
+import asyncio
+import socket
+import httpcore
 import redis
 from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, HTTPException, Query, Response, status
@@ -477,7 +480,6 @@ async def combined_calendar(
     api_key: str = Depends(verify_api_key),
 ):
     """Return a merged calendar of the provided ICS URL and Sri Lanka Holidays"""
-    import socket
     from urllib.parse import urlparse
 
     # Validate the URL to prevent SSRF
@@ -485,62 +487,120 @@ async def combined_calendar(
     if parsed_url.scheme not in ("http", "https"):
         raise HTTPException(status_code=400, detail="Invalid URL scheme. Must be http or https.")
 
-    try:
-        # Check for local IP addresses
-        if parsed_url.hostname:
-            ip = socket.gethostbyname(parsed_url.hostname)
-            if ip.startswith("127.") or ip.startswith("192.168.") or ip.startswith("10.") or ip.startswith("172.") or ip == "0.0.0.0" or ip == "169.254.169.254":
-                raise HTTPException(status_code=400, detail="Invalid URL provided")
-    except socket.gaierror:
-        pass # Will fail in the fetch step anyway if host is unknown
+    import ipaddress
+    from contextlib import contextmanager
+
+    def is_internal(ip_str: str) -> bool:
+        try:
+            ip_obj = ipaddress.ip_address(ip_str)
+            return (
+                ip_obj.is_private
+                or ip_obj.is_loopback
+                or ip_obj.is_link_local
+                or ip_obj.is_multicast
+                or ip_obj.is_reserved
+                or ip_obj.is_unspecified
+            )
+        except ValueError:
+            return False
+
+    class SafeAsyncNetworkBackend(httpcore.AsyncNetworkBackend):
+        def __init__(self):
+            from httpcore._backends.auto import AutoBackend
+            self.backend = AutoBackend()
+
+        async def connect_tcp(self, host, port, timeout=None, local_address=None, **kwargs):
+            loop = asyncio.get_running_loop()
+            addrs = await loop.getaddrinfo(host, port, family=socket.AF_UNSPEC, type=socket.SOCK_STREAM)
+
+            for _, _, _, _, sockaddr in addrs:
+                ip = sockaddr[0]
+                if is_internal(ip):
+                    raise Exception(f"SSRF attempt: Blocked access to IP {ip}")
+
+                return await self.backend.connect_tcp(ip, port, timeout=timeout, local_address=local_address, **kwargs)
+            raise Exception("Could not resolve IP")
+
+        async def connect_tls(self, stream, *args, **kwargs):
+            return await self.backend.connect_tls(stream, *args, **kwargs)
+
+        async def connect_unix_socket(self, path, timeout=None, **kwargs):
+            raise Exception("Unix sockets disabled")
+
+        async def sleep(self, seconds):
+            await self.backend.sleep(seconds)
 
     try:
         # Add timeout and size limits to prevent DoS
-        async with httpx.AsyncClient(timeout=10.0, max_redirects=3) as client:
-            # Fetch user ICS
-            user_response = await client.get(ics_url)
-            if user_response.status_code != 200:
-                raise HTTPException(status_code=400, detail="Failed to fetch the provided ICS URL")
+        # We need a transport that uses our safe network backend.
+        # Since httpx hides the network backend, we can override the backend in the transport's pool.
+        transport = httpx.AsyncHTTPTransport(retries=0)
+        transport._pool = httpcore.AsyncConnectionPool(
+            network_backend=SafeAsyncNetworkBackend(),
+            retries=0,
+            max_connections=100,
+            max_keepalive_connections=20,
+            keepalive_expiry=5.0
+        )
+        async with httpx.AsyncClient(transport=transport, timeout=10.0, max_redirects=3, follow_redirects=True) as client:
+                # Fetch user ICS
+                user_response = await client.get(ics_url)
+                if user_response.status_code != 200:
+                    raise HTTPException(status_code=400, detail="Failed to fetch the provided ICS URL")
 
-            if len(user_response.content) > 5 * 1024 * 1024: # 5MB limit
-                raise HTTPException(status_code=400, detail="Provided ICS file is too large")
+                if len(user_response.content) > 5 * 1024 * 1024: # 5MB limit
+                    raise HTTPException(status_code=400, detail="Provided ICS file is too large")
 
-            # Fetch Sri Lanka Holidays Master ICS
-            sl_holidays_url = "https://raw.githubusercontent.com/NimuthuGanegoda/Mirai-Koyomi/master/data/holidays/ics/srilanka-holidays.ics"
-            sl_response = await client.get(sl_holidays_url)
-            if sl_response.status_code != 200:
-                raise HTTPException(status_code=500, detail="Failed to fetch the Sri Lanka Holidays Master ICS")
+                # Fetch Sri Lanka Holidays Master ICS
+                sl_holidays_url = "https://raw.githubusercontent.com/NimuthuGanegoda/Mirai-Koyomi/master/data/holidays/ics/srilanka-holidays.ics"
+                sl_response = await client.get(sl_holidays_url)
+                if sl_response.status_code != 200:
+                    raise HTTPException(status_code=500, detail="Failed to fetch the Sri Lanka Holidays Master ICS")
 
-            # Parse calendars
-            try:
-                user_cal = Calendar.from_ical(user_response.text)
-            except Exception as e:
-                logger.error("Failed to parse user ICS: %s", str(e))
-                raise HTTPException(status_code=400, detail="Invalid ICS format in the provided URL")
+                # Parse calendars
+                try:
+                    user_cal = Calendar.from_ical(user_response.text)
+                except Exception as e:
+                    logger.error("Failed to parse user ICS: %s", str(e))
+                    raise HTTPException(status_code=400, detail="Invalid ICS format in the provided URL")
 
-            try:
-                sl_cal = Calendar.from_ical(sl_response.text)
-            except Exception as e:
-                logger.error("Failed to parse SL ICS: %s", str(e))
-                raise HTTPException(status_code=500, detail="Failed to parse the Sri Lanka Holidays Master ICS")
+                try:
+                    sl_cal = Calendar.from_ical(sl_response.text)
+                except Exception as e:
+                    logger.error("Failed to parse SL ICS: %s", str(e))
+                    raise HTTPException(status_code=500, detail="Failed to parse the Sri Lanka Holidays Master ICS")
 
-            # Create merged calendar
-            merged_cal = Calendar()
-            merged_cal.add('prodid', '-//Sri Lanka Holidays Combined API//')
-            merged_cal.add('version', '2.0')
+                # Create merged calendar
+                merged_cal = Calendar()
+                merged_cal.add('prodid', '-//Sri Lanka Holidays Combined API//')
+                merged_cal.add('version', '2.0')
 
-            # Add events from user cal
-            for component in user_cal.walk('vevent'):
-                merged_cal.add_component(component)
+                # Add events from user cal
+                for component in user_cal.walk('vevent'):
+                    merged_cal.add_component(component)
 
-            # Add events from SL cal
-            for component in sl_cal.walk('vevent'):
-                merged_cal.add_component(component)
+                # Add events from SL cal
+                for component in sl_cal.walk('vevent'):
+                    merged_cal.add_component(component)
 
-            return Response(content=merged_cal.to_ical(), media_type="text/calendar")
+                return Response(content=merged_cal.to_ical(), media_type="text/calendar")
 
     except HTTPException:
         raise
     except Exception as e:
         logger.error("Error in combined_calendar: %s", str(e))
+        curr_e = e
+        is_ssrf = False
+        while curr_e:
+            if "SSRF attempt" in str(curr_e):
+                is_ssrf = True
+                break
+            curr_e = getattr(curr_e, '__cause__', None) or getattr(curr_e, '__context__', None) # type: ignore
+
+        if is_ssrf:
+            raise HTTPException(status_code=400, detail="Invalid URL provided")
+
+        if isinstance(e, (httpx.ConnectError, httpx.TimeoutException)):
+            raise HTTPException(status_code=400, detail="Failed to connect to the provided URL")
+
         raise HTTPException(status_code=500, detail="Failed to process and merge calendars")
