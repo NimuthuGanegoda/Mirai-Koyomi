@@ -38,11 +38,8 @@ import os
 from datetime import date, datetime, timezone
 from pathlib import Path
 
-import aiofiles
 from secrets import compare_digest
 from typing import Annotated
-
-import aiofiles
 import httpx
 import asyncio
 import socket
@@ -180,14 +177,6 @@ def _validate_and_read_json_file(
         logger.warning("Invalid file path received: %s", resolved_path)
         return None, status.HTTP_400_BAD_REQUEST, {"error": "Invalid file path"}
 
-def read_json_file_sync(path: Path) -> list:
-    """Helper function to read and parse a JSON file synchronously."""
-    with open(path, "r", encoding="utf-8") as file:
-        return json.load(file)
-
-
-async def get_holiday_info(year: int, month: int, day: int):
-    """Process provided date and return holiday information with status code"""
     try:
         with open(resolved_path, "r", encoding="utf-8") as file:
             holiday_data = json.load(file)
@@ -252,34 +241,6 @@ def _fetch_holiday_data(year: int) -> tuple[list[dict] | None, int | None, dict 
         return holiday_data, None, None
 
     return holiday_data, None, None
-        try:
-            async with aiofiles.open(resolved_path, "r", encoding="utf-8") as file:
-                content = await file.read()
-                holiday_data = json.loads(content)
-                # Cache in Redis with 24-hour TTL
-                if REDIS_CLIENT:
-                    try:
-                        REDIS_CLIENT.setex(cache_key, 86400, json.dumps(holiday_data))
-                        logger.info("Cached %s in Redis", cache_key)
-                    except redis.RedisError:
-                        logger.error("Failed to cache %s in Redis", cache_key)
-                        # Continue without caching if Redis fails
-        except FileNotFoundError:
-            logger.error("Data file not found for year %s", year)
-            return (
-                date_to_check,
-                status.HTTP_404_NOT_FOUND,
-                {"error": "Data for requested year not available"},
-            )
-        except json.JSONDecodeError:
-            logger.error("Invalid JSON format in file for year %s", year)
-            return (
-                date_to_check,
-                status.HTTP_500_INTERNAL_SERVER_ERROR,
-                {
-                    "error": "Invalid data format for requested year. Please notify the admin."
-                },
-            )
 
 
 def _find_matching_holidays(
@@ -659,40 +620,6 @@ async def combined_calendar(
                 )
 
             # Parse calendars
-            try:
-                user_cal = Calendar.from_ical(user_text)
-            except Exception as e:
-                logger.error("Failed to parse user ICS: %s", str(e))
-                raise HTTPException(
-                    status_code=400, detail="Invalid ICS format in the provided URL"
-                )
-
-            try:
-                sl_cal = Calendar.from_ical(sl_response.text)
-            except Exception as e:
-                logger.error("Failed to parse SL ICS: %s", str(e))
-                raise HTTPException(
-                    status_code=500,
-                    detail="Failed to parse the Sri Lanka Holidays Master ICS",
-                )
-
-            # Create merged calendar
-            merged_cal = Calendar()
-            merged_cal.add("prodid", "-//Sri Lanka Holidays Combined API//")
-            merged_cal.add("version", "2.0")
-
-            # Add events from user cal
-            for component in user_cal.walk("vevent"):
-                merged_cal.add_component(component)
-
-            # Add events from SL cal
-            for component in sl_cal.walk("vevent"):
-                merged_cal.add_component(component)
-                raise HTTPException(
-                    status_code=500,
-                    detail="Failed to fetch the Sri Lanka Holidays Master ICS",
-                )
-
             ical_content = merge_calendars(user_response.text, sl_response.text)
             return Response(content=ical_content, media_type="text/calendar")
 
