@@ -36,6 +36,8 @@ import logging
 import os
 from datetime import date, datetime, timezone
 from pathlib import Path
+
+import aiofiles
 from secrets import compare_digest
 from typing import Annotated
 
@@ -206,8 +208,9 @@ async def get_holiday_info(year: int, month: int, day: int):
             )
 
         try:
-            with open(resolved_path, "r", encoding="utf-8") as file:
-                holiday_data = json.load(file)
+            async with aiofiles.open(resolved_path, "r", encoding="utf-8") as file:
+                content = await file.read()
+                holiday_data = json.loads(content)
                 # Cache in Redis with 24-hour TTL
                 if REDIS_CLIENT:
                     try:
@@ -420,8 +423,9 @@ async def holidays_list(
 
     # Load holiday data
     try:
-        with open(resolved_path, "r", encoding="utf-8") as file:
-            holiday_data = json.load(file)
+        async with aiofiles.open(resolved_path, "r", encoding="utf-8") as file:
+            content = await file.read()
+            holiday_data = json.loads(content)
     except FileNotFoundError:
         response.status_code = status.HTTP_404_NOT_FOUND
         return {"error": "Data for requested year not available"}
