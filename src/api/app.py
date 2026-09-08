@@ -42,6 +42,7 @@ import aiofiles
 from secrets import compare_digest
 from typing import Annotated
 
+import aiofiles
 import httpx
 import redis
 from dotenv import load_dotenv
