@@ -1,6 +1,27 @@
 import os
 
 
+def _process_ics_file(filepath):
+    processed_lines = []
+    with open(filepath, "r", encoding="utf-8") as f:
+        in_event = False
+        for line in f:
+            line = line.strip()
+            if line == "BEGIN:VEVENT":
+                in_event = True
+            if in_event:
+                # Fix DTSTART/DTEND for Apple compatibility (ensure TZID if needed)
+                if line.startswith("DTSTART") and "VALUE=DATE" not in line:
+                    line = line.replace("DTSTART:", "DTSTART;TZID=Asia/Colombo:")
+                if line.startswith("DTEND") and "VALUE=DATE" not in line:
+                    line = line.replace("DTEND:", "DTEND;TZID=Asia/Colombo:")
+
+                processed_lines.append(line)
+            if line == "END:VEVENT":
+                in_event = False
+    return processed_lines
+
+
 def merge_all_ics():
     ics_dir = "ics"
     output_file = os.path.join(ics_dir, "srilanka-holidays.ics")
@@ -47,7 +68,7 @@ def merge_all_ics():
                 if line == "BEGIN:VEVENT":
                     in_event = True
                 if in_event:
-                    # Fix DTSTART/DTEND for Apple compatibility (ensure TZID if needed)
+                    # Adjusted DTSTART/DTEND for Apple compatibility (ensured TZID if needed)
                     if line.startswith("DTSTART") and "VALUE=DATE" not in line:
                         line = line.replace("DTSTART:", "DTSTART;TZID=Asia/Colombo:")
                     if line.startswith("DTEND") and "VALUE=DATE" not in line:
