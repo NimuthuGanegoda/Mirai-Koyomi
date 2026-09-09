@@ -33,6 +33,15 @@
     "end": "2021-02-05"
   },
   {
+    "uid": "sl_obs_20210214@srilanka-holidays.api",
+    "summary": "Valentine's Day",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2021-02-14",
+    "end": "2021-02-15"
+  },
+  {
     "uid": "sl_4@srilanka-holidays.api",
     "summary": "Nawam Full Moon Poya Day *†",
     "categories": [
@@ -42,6 +51,15 @@
     ],
     "start": "2021-02-26",
     "end": "2021-02-27"
+  },
+  {
+    "uid": "sl_obs_20210308@srilanka-holidays.api",
+    "summary": "International Women's Day",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2021-03-08",
+    "end": "2021-03-09"
   },
   {
     "uid": "sl_5@srilanka-holidays.api",

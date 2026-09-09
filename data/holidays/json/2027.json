@@ -30,6 +30,15 @@
     "end": "2027-02-05"
   },
   {
+    "uid": "sl_obs_20270214@srilanka-holidays.api",
+    "summary": "Valentine's Day",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2027-02-14",
+    "end": "2027-02-15"
+  },
+  {
     "uid": "sl_2027_04",
     "summary": "Navam Full Moon Poya *†",
     "categories": [
@@ -48,6 +57,15 @@
     ],
     "start": "2027-03-06",
     "end": "2027-03-07"
+  },
+  {
+    "uid": "sl_obs_20270308@srilanka-holidays.api",
+    "summary": "International Women's Day",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2027-03-08",
+    "end": "2027-03-09"
   },
   {
     "uid": "sl_2027_06",
@@ -157,6 +175,15 @@
     ],
     "start": "2027-05-20",
     "end": "2027-05-21"
+  },
+  {
+    "uid": "sl_obs_20270605@srilanka-holidays.api",
+    "summary": "World Environment Day",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2027-06-05",
+    "end": "2027-06-06"
   },
   {
     "uid": "sl_2027_16",

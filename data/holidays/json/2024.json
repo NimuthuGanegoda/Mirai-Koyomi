@@ -33,6 +33,15 @@
     "end": "2024-02-05"
   },
   {
+    "uid": "sl_obs_20240214@srilanka-holidays.api",
+    "summary": "Valentine's Day",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2024-02-14",
+    "end": "2024-02-15"
+  },
+  {
     "uid": "sl_80@srilanka-holidays.api",
     "summary": "Nawam Full Moon Poya Day *†",
     "categories": [
@@ -49,6 +58,15 @@
     "categories": [
       "Public Holiday",
       "Bank Holiday"
+    ],
+    "start": "2024-03-08",
+    "end": "2024-03-09"
+  },
+  {
+    "uid": "sl_obs_20240308@srilanka-holidays.api",
+    "summary": "International Women's Day",
+    "categories": [
+      "Observance"
     ],
     "start": "2024-03-08",
     "end": "2024-03-09"

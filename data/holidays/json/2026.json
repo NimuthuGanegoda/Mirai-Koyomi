@@ -41,6 +41,15 @@
     "end": "2026-02-05"
   },
   {
+    "uid": "sl_obs_20260214@srilanka-holidays.api",
+    "summary": "Valentine's Day",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2026-02-14",
+    "end": "2026-02-15"
+  },
+  {
     "uid": "sl_2026_05",
     "summary": "Mahasivarathri Day *",
     "categories": [
@@ -59,6 +68,15 @@
     ],
     "start": "2026-03-02",
     "end": "2026-03-03"
+  },
+  {
+    "uid": "sl_obs_20260308@srilanka-holidays.api",
+    "summary": "International Women's Day",
+    "categories": [
+      "Observance"
+    ],
+    "start": "2026-03-08",
+    "end": "2026-03-09"
   },
   {
     "uid": "sl_2026_07",
