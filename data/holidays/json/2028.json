@@ -189,15 +189,6 @@
     "end": "2028-05-25"
   },
   {
-    "uid": "sl_obs_20280605@srilanka-holidays.api",
-    "summary": "World Environment Day",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2028-06-05",
-    "end": "2028-06-06"
-  },
-  {
     "uid": "sl_obs_20280618@srilanka-holidays.api",
     "summary": "Father's Day",
     "categories": [

@@ -137,7 +137,7 @@
     "end": "2027-05-02"
   },
   {
-    "uid": "sl_obs_20270509@srilanka-holidays.api",
+    "uid": "sl_2027_34",
     "summary": "Mother's Day",
     "categories": [
       "Observance"
@@ -197,7 +197,7 @@
     "end": "2027-06-19"
   },
   {
-    "uid": "sl_obs_20270620@srilanka-holidays.api",
+    "uid": "sl_2027_35",
     "summary": "Father's Day",
     "categories": [
       "Observance"
@@ -248,7 +248,7 @@
     "end": "2027-09-16"
   },
   {
-    "uid": "sl_obs_20271001@srilanka-holidays.api",
+    "uid": "sl_2027_30",
     "summary": "Children's Day",
     "categories": [
       "Observance"
@@ -257,7 +257,7 @@
     "end": "2027-10-02"
   },
   {
-    "uid": "sl_obs_20271006@srilanka-holidays.api",
+    "uid": "sl_2027_31",
     "summary": "Teachers' Day",
     "categories": [
       "Observance"
