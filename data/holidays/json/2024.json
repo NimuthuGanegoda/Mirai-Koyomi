@@ -33,15 +33,6 @@
     "end": "2024-02-05"
   },
   {
-    "uid": "sl_obs_20240214@srilanka-holidays.api",
-    "summary": "Valentine's Day",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2024-02-14",
-    "end": "2024-02-15"
-  },
-  {
     "uid": "sl_80@srilanka-holidays.api",
     "summary": "Nawam Full Moon Poya Day *†",
     "categories": [
@@ -58,15 +49,6 @@
     "categories": [
       "Public Holiday",
       "Bank Holiday"
-    ],
-    "start": "2024-03-08",
-    "end": "2024-03-09"
-  },
-  {
-    "uid": "sl_obs_20240308@srilanka-holidays.api",
-    "summary": "International Women's Day",
-    "categories": [
-      "Observance"
     ],
     "start": "2024-03-08",
     "end": "2024-03-09"
@@ -125,15 +107,6 @@
     "end": "2024-04-14"
   },
   {
-    "uid": "sl_obs_20240422@srilanka-holidays.api",
-    "summary": "Earth Day",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2024-04-22",
-    "end": "2024-04-23"
-  },
-  {
     "uid": "sl_87@srilanka-holidays.api",
     "summary": "Bak Full Moon Poya Day *†",
     "categories": [
@@ -186,15 +159,6 @@
     ],
     "start": "2024-05-24",
     "end": "2024-05-25"
-  },
-  {
-    "uid": "sl_obs_20240605@srilanka-holidays.api",
-    "summary": "World Environment Day",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2024-06-05",
-    "end": "2024-06-06"
   },
   {
     "uid": "sl_obs_20240616@srilanka-holidays.api",
@@ -289,15 +253,6 @@
     "end": "2024-10-07"
   },
   {
-    "uid": "sl_obs_20241016@srilanka-holidays.api",
-    "summary": "World Food Day",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2024-10-16",
-    "end": "2024-10-17"
-  },
-  {
     "uid": "sl_97@srilanka-holidays.api",
     "summary": "Vap Full Moon Poya Day *†",
     "categories": [
@@ -314,15 +269,6 @@
     "categories": [
       "Public Holiday",
       "Bank Holiday"
-    ],
-    "start": "2024-10-31",
-    "end": "2024-11-01"
-  },
-  {
-    "uid": "sl_obs_20241031@srilanka-holidays.api",
-    "summary": "Halloween",
-    "categories": [
-      "Observance"
     ],
     "start": "2024-10-31",
     "end": "2024-11-01"

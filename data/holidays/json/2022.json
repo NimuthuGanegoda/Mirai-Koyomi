@@ -33,15 +33,6 @@
     "end": "2022-02-05"
   },
   {
-    "uid": "sl_obs_20220214@srilanka-holidays.api",
-    "summary": "Valentine's Day",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2022-02-14",
-    "end": "2022-02-15"
-  },
-  {
     "uid": "sl_29@srilanka-holidays.api",
     "summary": "Nawam Full Moon Poya Day *†",
     "categories": [
@@ -61,15 +52,6 @@
     ],
     "start": "2022-03-01",
     "end": "2022-03-02"
-  },
-  {
-    "uid": "sl_obs_20220308@srilanka-holidays.api",
-    "summary": "International Women's Day",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2022-03-08",
-    "end": "2022-03-09"
   },
   {
     "uid": "sl_31@srilanka-holidays.api",
@@ -126,15 +108,6 @@
     "end": "2022-04-17"
   },
   {
-    "uid": "sl_obs_20220422@srilanka-holidays.api",
-    "summary": "Earth Day",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2022-04-22",
-    "end": "2022-04-23"
-  },
-  {
     "uid": "sl_36@srilanka-holidays.api",
     "summary": "May Day *†‡",
     "categories": [
@@ -186,15 +159,6 @@
     ],
     "start": "2022-05-16",
     "end": "2022-05-17"
-  },
-  {
-    "uid": "sl_obs_20220605@srilanka-holidays.api",
-    "summary": "World Environment Day",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2022-06-05",
-    "end": "2022-06-06"
   },
   {
     "uid": "sl_40@srilanka-holidays.api",
@@ -300,15 +264,6 @@
     "end": "2022-10-10"
   },
   {
-    "uid": "sl_obs_20221016@srilanka-holidays.api",
-    "summary": "World Food Day",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2022-10-16",
-    "end": "2022-10-17"
-  },
-  {
     "uid": "sl_47@srilanka-holidays.api",
     "summary": "Deepavali Festival Day *†",
     "categories": [
@@ -317,15 +272,6 @@
     ],
     "start": "2022-10-24",
     "end": "2022-10-25"
-  },
-  {
-    "uid": "sl_obs_20221031@srilanka-holidays.api",
-    "summary": "Halloween",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2022-10-31",
-    "end": "2022-11-01"
   },
   {
     "uid": "sl_48@srilanka-holidays.api",

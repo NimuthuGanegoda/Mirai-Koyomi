@@ -30,15 +30,6 @@
     "end": "2027-02-05"
   },
   {
-    "uid": "sl_2027_26",
-    "summary": "Valentine's Day",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2027-02-14",
-    "end": "2027-02-15"
-  },
-  {
     "uid": "sl_2027_04",
     "summary": "Navam Full Moon Poya *†",
     "categories": [
@@ -57,15 +48,6 @@
     ],
     "start": "2027-03-06",
     "end": "2027-03-07"
-  },
-  {
-    "uid": "sl_2027_27",
-    "summary": "International Women's Day",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2027-03-08",
-    "end": "2027-03-09"
   },
   {
     "uid": "sl_2027_06",
@@ -128,15 +110,6 @@
     "end": "2027-04-21"
   },
   {
-    "uid": "sl_2027_28",
-    "summary": "Earth Day",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2027-04-22",
-    "end": "2027-04-23"
-  },
-  {
     "uid": "sl_2027_12",
     "summary": "Labour Day *",
     "categories": [
@@ -184,15 +157,6 @@
     ],
     "start": "2027-05-20",
     "end": "2027-05-21"
-  },
-  {
-    "uid": "sl_2027_29",
-    "summary": "World Environment Day",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2027-06-05",
-    "end": "2027-06-06"
   },
   {
     "uid": "sl_2027_16",
@@ -286,15 +250,6 @@
     "end": "2027-10-16"
   },
   {
-    "uid": "sl_2027_32",
-    "summary": "World Food Day",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2027-10-16",
-    "end": "2027-10-17"
-  },
-  {
     "uid": "sl_2027_22",
     "summary": "Deepavali Festival Day *",
     "categories": [
@@ -302,15 +257,6 @@
     ],
     "start": "2027-10-28",
     "end": "2027-10-29"
-  },
-  {
-    "uid": "sl_2027_33",
-    "summary": "Halloween",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2027-10-31",
-    "end": "2027-11-01"
   },
   {
     "uid": "sl_2027_23",

@@ -44,15 +44,6 @@
     "end": "2025-02-13"
   },
   {
-    "uid": "sl_obs_20250214@srilanka-holidays.api",
-    "summary": "Valentine's Day",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2025-02-14",
-    "end": "2025-02-15"
-  },
-  {
     "uid": "sl_106@srilanka-holidays.api",
     "summary": "Maha Sivarathri Day *†",
     "categories": [
@@ -61,15 +52,6 @@
     ],
     "start": "2025-02-26",
     "end": "2025-02-27"
-  },
-  {
-    "uid": "sl_obs_20250308@srilanka-holidays.api",
-    "summary": "International Women's Day",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2025-03-08",
-    "end": "2025-03-09"
   },
   {
     "uid": "sl_107@srilanka-holidays.api",
@@ -136,15 +118,6 @@
     "end": "2025-04-19"
   },
   {
-    "uid": "sl_obs_20250422@srilanka-holidays.api",
-    "summary": "Earth Day",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2025-04-22",
-    "end": "2025-04-23"
-  },
-  {
     "uid": "sl_113@srilanka-holidays.api",
     "summary": "May Day (International Workers’ Day) *†‡",
     "categories": [
@@ -186,15 +159,6 @@
     ],
     "start": "2025-05-13",
     "end": "2025-05-14"
-  },
-  {
-    "uid": "sl_obs_20250605@srilanka-holidays.api",
-    "summary": "World Environment Day",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2025-06-05",
-    "end": "2025-06-06"
   },
   {
     "uid": "sl_116@srilanka-holidays.api",
@@ -300,15 +264,6 @@
     "end": "2025-10-07"
   },
   {
-    "uid": "sl_obs_20251016@srilanka-holidays.api",
-    "summary": "World Food Day",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2025-10-16",
-    "end": "2025-10-17"
-  },
-  {
     "uid": "sl_123@srilanka-holidays.api",
     "summary": "Deepavali Festival Day *†",
     "categories": [
@@ -317,15 +272,6 @@
     ],
     "start": "2025-10-20",
     "end": "2025-10-21"
-  },
-  {
-    "uid": "sl_obs_20251031@srilanka-holidays.api",
-    "summary": "Halloween",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2025-10-31",
-    "end": "2025-11-01"
   },
   {
     "uid": "sl_124@srilanka-holidays.api",

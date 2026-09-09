@@ -33,15 +33,6 @@
     "end": "2028-02-05"
   },
   {
-    "uid": "sl_obs_20280214@srilanka-holidays.api",
-    "summary": "Valentine's Day",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2028-02-14",
-    "end": "2028-02-15"
-  },
-  {
     "uid": "sl_2028_04@srilanka-holidays.api",
     "summary": "Mahasivarathri Day *†",
     "categories": [
@@ -71,15 +62,6 @@
     ],
     "start": "2028-02-26",
     "end": "2028-02-27"
-  },
-  {
-    "uid": "sl_obs_20280308@srilanka-holidays.api",
-    "summary": "International Women's Day",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2028-03-08",
-    "end": "2028-03-09"
   },
   {
     "uid": "sl_2028_07@srilanka-holidays.api",
@@ -123,15 +105,6 @@
     ],
     "start": "2028-04-14",
     "end": "2028-04-15"
-  },
-  {
-    "uid": "sl_obs_20280422@srilanka-holidays.api",
-    "summary": "Earth Day",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2028-04-22",
-    "end": "2028-04-23"
   },
   {
     "uid": "sl_2028_11@srilanka-holidays.api",
@@ -196,15 +169,6 @@
     ],
     "start": "2028-05-24",
     "end": "2028-05-25"
-  },
-  {
-    "uid": "sl_obs_20280605@srilanka-holidays.api",
-    "summary": "World Environment Day",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2028-06-05",
-    "end": "2028-06-06"
   },
   {
     "uid": "sl_obs_20280618@srilanka-holidays.api",
@@ -289,15 +253,6 @@
     "end": "2028-10-07"
   },
   {
-    "uid": "sl_obs_20281016@srilanka-holidays.api",
-    "summary": "World Food Day",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2028-10-16",
-    "end": "2028-10-17"
-  },
-  {
     "uid": "sl_2028_21@srilanka-holidays.api",
     "summary": "Deepavali Festival Day *†",
     "categories": [
@@ -317,15 +272,6 @@
     ],
     "start": "2028-10-18",
     "end": "2028-10-19"
-  },
-  {
-    "uid": "sl_obs_20281031@srilanka-holidays.api",
-    "summary": "Halloween",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2028-10-31",
-    "end": "2028-11-01"
   },
   {
     "uid": "sl_2028_23@srilanka-holidays.api",
