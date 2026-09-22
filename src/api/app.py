@@ -522,6 +522,7 @@ def validate_ics_url(
     """Validate the ICS URL to prevent SSRF"""
     import socket
     from urllib.parse import urlparse
+    import ipaddress
 
     parsed_url = urlparse(ics_url)
     if parsed_url.scheme not in ("http", "https"):
@@ -530,9 +531,16 @@ def validate_ics_url(
         )
 
     try:
-        # Check for local IP addresses
         if parsed_url.hostname:
+            try:
+                ip_addr = ipaddress.ip_address(parsed_url.hostname)
+                if ip_addr.is_private or ip_addr.is_loopback or ip_addr.is_link_local or str(ip_addr) == "0.0.0.0":
+                    raise HTTPException(status_code=400, detail="Invalid URL provided")
+            except ValueError:
+                pass
+
             ip = socket.gethostbyname(parsed_url.hostname)
+
             if (
                 ip.startswith("127.")
                 or ip.startswith("192.168.")
@@ -542,8 +550,13 @@ def validate_ics_url(
                 or ip == "169.254.169.254"
             ):
                 raise HTTPException(status_code=400, detail="Invalid URL provided")
+
     except socket.gaierror:
-        pass  # Will fail in the fetch step anyway if host is unknown
+        raise HTTPException(status_code=400, detail="Failed to fetch the provided ICS URL")
+    except Exception as e:
+        if isinstance(e, HTTPException):
+            raise
+        raise HTTPException(status_code=400, detail="Invalid URL provided")
 
     return ics_url
 
@@ -590,11 +603,9 @@ async def master_calendar():
     raise HTTPException(status_code=404, detail="Master ICS file not found")
 
 @app.get("/api/v1/combined_calendar")
-
-@app.get("/api/v1/combined_calendar")
 async def combined_calendar(
-    ics_url: str = Depends(validate_ics_url),
     api_key: str = Depends(verify_api_key),
+    ics_url: str = Depends(validate_ics_url),
 ):
     """Return a merged calendar of the provided ICS URL and Sri Lanka Holidays"""
     try:
@@ -612,16 +623,6 @@ async def combined_calendar(
                         raise HTTPException(status_code=400, detail="Provided ICS file is too large")
 
             user_text = user_content.decode("utf-8", errors="ignore")
-            user_response = await client.get(ics_url)
-            if user_response.status_code != 200:
-                raise HTTPException(
-                    status_code=400, detail="Failed to fetch the provided ICS URL"
-                )
-
-            if len(user_response.content) > 5 * 1024 * 1024:  # 5MB limit
-                raise HTTPException(
-                    status_code=400, detail="Provided ICS file is too large"
-                )
 
             # Fetch Sri Lanka Holidays Master ICS locally for offline support
             sl_ics_path = "ics/srilanka-holidays.ics"
