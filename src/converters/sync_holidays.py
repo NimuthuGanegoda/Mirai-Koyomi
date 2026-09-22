@@ -17,7 +17,7 @@ def get_nth_weekday_of_month(year, month, weekday, n):
 
 def get_observances(year):
     # Static observances
-        static_obs = [
+    static_obs = [
         {"month": 10, "day": 1, "name": "Children's Day"},
         {"month": 10, "day": 6, "name": "Teachers' Day"},
     ]
@@ -106,9 +106,9 @@ def sync_year(year):
     print(f"Syncing {year} from {url}...")
     
     try:
-        import subprocess
-        result = subprocess.run(["curl", "-s", "-A", "Mozilla/5.0", url], capture_output=True, text=True)
-        html_text = result.stdout
+        response = requests.get(url, headers={"User-Agent": "Mozilla/5.0"})
+        response.raise_for_status()
+        html_text = response.text
         soup = BeautifulSoup(html_text, 'html.parser')
         table = soup.find('table', class_='country-table')
         
