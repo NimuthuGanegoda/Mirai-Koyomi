@@ -250,8 +250,8 @@ def _find_matching_holidays(
     matches = []
     for holiday in holiday_data:
         try:
-            start_date = datetime.strptime(holiday["start"], "%Y-%m-%d").date()
-            end_date = datetime.strptime(holiday["end"], "%Y-%m-%d").date()
+            start_date = date.fromisoformat(holiday["start"])
+            end_date = date.fromisoformat(holiday["end"])
         except (ValueError, KeyError):
             logger.warning("Invalid holiday entry detected: %s", holiday)
             continue  # Skip invalid holiday entries
@@ -484,7 +484,7 @@ async def holidays_list(
         try:
             if "start" not in holiday or "end" not in holiday:
                 continue  # Skip invalid holiday entries
-            start_date = datetime.strptime(holiday["start"], "%Y-%m-%d").date()
+            start_date = date.fromisoformat(holiday["start"])
             # Filter by month if provided
             if params.month and start_date.month != params.month:
                 continue

@@ -15,6 +15,7 @@ def get_nth_weekday_of_month(year, month, weekday, n):
             return date
         date += timedelta(days=1)
 
+
 def get_observances(year):
     # Static observances
     static_obs = [
@@ -26,52 +27,80 @@ def get_observances(year):
 
     for obs in static_obs:
         d = datetime(year, obs["month"], obs["day"])
-        observances.append({
-            "name": obs["name"],
-            "start": d.strftime("%Y-%m-%d"),
-            "end": (d + timedelta(days=1)).strftime("%Y-%m-%d")
-        })
+        observances.append(
+            {
+                "name": obs["name"],
+                "start": d.strftime("%Y-%m-%d"),
+                "end": (d + timedelta(days=1)).strftime("%Y-%m-%d"),
+            }
+        )
 
     # Dynamic observances
     # Mother's Day (2nd Sunday in May)
     md = get_nth_weekday_of_month(year, 5, 6, 2)
-    observances.append({
-        "name": "Mother's Day",
-        "start": md.strftime("%Y-%m-%d"),
-        "end": (md + timedelta(days=1)).strftime("%Y-%m-%d")
-    })
+    observances.append(
+        {
+            "name": "Mother's Day",
+            "start": md.strftime("%Y-%m-%d"),
+            "end": (md + timedelta(days=1)).strftime("%Y-%m-%d"),
+        }
+    )
 
     # Father's Day (3rd Sunday in June)
     fd = get_nth_weekday_of_month(year, 6, 6, 3)
-    observances.append({
-        "name": "Father's Day",
-        "start": fd.strftime("%Y-%m-%d"),
-        "end": (fd + timedelta(days=1)).strftime("%Y-%m-%d")
-    })
+    observances.append(
+        {
+            "name": "Father's Day",
+            "start": fd.strftime("%Y-%m-%d"),
+            "end": (fd + timedelta(days=1)).strftime("%Y-%m-%d"),
+        }
+    )
 
     return observances
+
 
 def get_markers(summary, type_text):
     markers = ""
     # Official Sri Lankan markers based on type/category
     # This is a heuristic based on common naming/typing on holiday sites
-    is_public = any(x in type_text.lower() or x in summary.lower() for x in ["public", "national", "poya"])
-    is_bank = any(x in type_text.lower() or x in summary.lower() for x in ["public", "bank", "poya"])
-    is_merc = any(x in type_text.lower() or x in summary.lower() for x in ["public", "mercantile", "new year", "thai pongal", "may day", "christmas"])
-    
-    if is_public: markers += "*"
-    if is_bank: markers += "†"
-    if is_merc: markers += "‡"
+    is_public = any(
+        x in type_text.lower() or x in summary.lower()
+        for x in ["public", "national", "poya"]
+    )
+    is_bank = any(
+        x in type_text.lower() or x in summary.lower()
+        for x in ["public", "bank", "poya"]
+    )
+    is_merc = any(
+        x in type_text.lower() or x in summary.lower()
+        for x in [
+            "public",
+            "mercantile",
+            "new year",
+            "thai pongal",
+            "may day",
+            "christmas",
+        ]
+    )
+
+    if is_public:
+        markers += "*"
+    if is_bank:
+        markers += "†"
+    if is_merc:
+        markers += "‡"
     return markers
+
 
 def _parse_holiday_rows(rows, year):
     holidays_count = 0
     for row in rows:
-        cols = row.find_all('td')
-        if len(cols) < 4: continue
+        cols = row.find_all("td")
+        if len(cols) < 4:
+            continue
 
         # Format: Day, Date, Holiday Name, Type, Comments
-        date_raw = cols[1].text.strip() # e.g., "Jan 15"
+        date_raw = cols[1].text.strip()  # e.g., "Jan 15"
         name = cols[2].text.strip()
         h_type = cols[3].text.strip()
 
@@ -80,17 +109,21 @@ def _parse_holiday_rows(rows, year):
             date_obj = datetime.strptime(f"{date_raw} {year}", "%b %d %Y")
             start_date = date_obj.strftime("%Y-%m-%d")
             end_date = (date_obj + timedelta(days=1)).strftime("%Y-%m-%d")
-        except:
+        except ValueError:
             continue
 
         markers = get_markers(name, h_type)
         summary = f"{name} {markers}".strip()
 
         categories = []
-        if "*" in markers: categories.append("Public Holiday")
-        if "†" in markers: categories.append("Bank Holiday")
-        if "‡" in markers: categories.append("Mercantile Holiday")
-        if "Poya" in name: categories.append("Poya Holiday")
+        if "*" in markers:
+            categories.append("Public Holiday")
+        if "†" in markers:
+            categories.append("Bank Holiday")
+        if "‡" in markers:
+            categories.append("Mercantile Holiday")
+        if "Poya" in name:
+            categories.append("Poya Holiday")
 
         holidays_count += 1
         yield {
@@ -98,27 +131,28 @@ def _parse_holiday_rows(rows, year):
             "summary": summary,
             "categories": categories,
             "start": start_date,
-            "end": end_date
+            "end": end_date,
         }
+
 
 def sync_year(year):
     url = f"https://www.officeholidays.com/countries/sri-lanka/{year}"
     print(f"Syncing {year} from {url}...")
-    
+
     try:
-        import requests
-        result = requests.get(url, headers={"User-Agent": "Mozilla/5.0"})
-        html_text = result.text
+        response = requests.get(url, headers={"User-Agent": "Mozilla/5.0"})
+        response.raise_for_status()
+        html_text = response.text
         soup = BeautifulSoup(html_text, 'html.parser')
         table = soup.find('table', class_='country-table')
         
         if not table:
             print(f"No table found for {year}")
             return
-            
-        rows = table.find_all('tr')[1:] # Skip header
+
+        rows = table.find_all("tr")[1:]  # Skip header
         holidays = list(_parse_holiday_rows(rows, year))
-            
+
         if holidays:
             # Add observances that don't conflict with existing holidays
             existing_starts = {h["start"] for h in holidays}
@@ -126,13 +160,15 @@ def sync_year(year):
 
             for obs in observances:
                 if obs["start"] not in existing_starts:
-                    holidays.append({
-                        "uid": f"sl_{year}_{len(holidays)+1:02d}",
-                        "summary": obs["name"],
-                        "categories": ["Observance"],
-                        "start": obs["start"],
-                        "end": obs["end"]
-                    })
+                    holidays.append(
+                        {
+                            "uid": f"sl_{year}_{len(holidays)+1:02d}",
+                            "summary": obs["name"],
+                            "categories": ["Observance"],
+                            "start": obs["start"],
+                            "end": obs["end"],
+                        }
+                    )
 
             # Sort holidays by start date, keeping UIDs intact
             holidays.sort(key=lambda x: x["start"])
@@ -141,9 +177,10 @@ def sync_year(year):
             with open(json_path, "w", encoding="utf-8") as f:
                 json.dump(holidays, f, indent=2, ensure_ascii=False)
             print(f"Updated {json_path} with {len(holidays)} holidays.")
-            
+
     except Exception as e:
         print(f"Error syncing {year}: {e}")
+
 
 if __name__ == "__main__":
     # Sync current, next, and next-next year
