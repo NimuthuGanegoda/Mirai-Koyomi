@@ -140,14 +140,12 @@ def sync_year(year):
     print(f"Syncing {year} from {url}...")
 
     try:
-        response = requests.get(
-            url, headers={"User-Agent": "Mozilla/5.0"}, timeout=10
-        )
+        response = requests.get(url, headers={"User-Agent": "Mozilla/5.0"})
         response.raise_for_status()
         html_text = response.text
-        soup = BeautifulSoup(html_text, "html.parser")
-        table = soup.find("table", class_="country-table")
-
+        soup = BeautifulSoup(html_text, 'html.parser')
+        table = soup.find('table', class_='country-table')
+        
         if not table:
             print(f"No table found for {year}")
             return
