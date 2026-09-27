@@ -65,3 +65,11 @@ def test_combined_calendar_unknown_host(mock_dns_resolve):
         # In this case it should fail at the fetch step since status_code is 400
         assert response.status_code == 400
         assert response.json()["detail"] == "Failed to fetch the provided ICS URL"
+
+
+@pytest.fixture(autouse=True)
+def bypass_api_key():
+    from src.api.app import app, verify_api_key
+    app.dependency_overrides[verify_api_key] = lambda: "test"
+    yield
+    app.dependency_overrides.clear()

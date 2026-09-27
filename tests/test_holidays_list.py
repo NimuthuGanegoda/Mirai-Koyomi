@@ -1,6 +1,21 @@
 import json
 import pytest
 from unittest.mock import patch, mock_open
+
+from unittest.mock import AsyncMock, MagicMock
+
+def mock_aiofiles_open(read_data=""):
+    mock_file = AsyncMock()
+    mock_file.read.return_value = read_data
+
+    mock_context = MagicMock()
+    mock_context.__aenter__.return_value = mock_file
+    mock_context.__aexit__.return_value = None
+
+    mock_open_func = MagicMock(return_value=mock_context)
+    return mock_open_func
+
+
 from fastapi.testclient import TestClient
 
 from src.api.app import app, verify_api_key
@@ -39,7 +54,7 @@ MOCK_JSON_STRING = json.dumps(MOCK_HOLIDAYS_DATA)
 
 
 def test_holidays_list_valid_year_full_format():
-    with patch("builtins.open", mock_open(read_data=MOCK_JSON_STRING)):
+    with patch("aiofiles.open", mock_aiofiles_open(read_data=MOCK_JSON_STRING)):
         response = client.get("/api/v1/holidays?year=2024")
         assert response.status_code == 200
         data = response.json()
@@ -56,7 +71,7 @@ def test_holidays_list_valid_year_full_format():
 
 
 def test_holidays_list_valid_year_simple_format():
-    with patch("builtins.open", mock_open(read_data=MOCK_JSON_STRING)):
+    with patch("aiofiles.open", mock_aiofiles_open(read_data=MOCK_JSON_STRING)):
         response = client.get("/api/v1/holidays?year=2024&format=simple")
         assert response.status_code == 200
         data = response.json()
@@ -67,7 +82,7 @@ def test_holidays_list_valid_year_simple_format():
 
 
 def test_holidays_list_filter_by_month():
-    with patch("builtins.open", mock_open(read_data=MOCK_JSON_STRING)):
+    with patch("aiofiles.open", mock_aiofiles_open(read_data=MOCK_JSON_STRING)):
         response = client.get("/api/v1/holidays?year=2024&month=1")
         assert response.status_code == 200
         data = response.json()
@@ -78,7 +93,7 @@ def test_holidays_list_filter_by_month():
 
 
 def test_holidays_list_filter_by_type():
-    with patch("builtins.open", mock_open(read_data=MOCK_JSON_STRING)):
+    with patch("aiofiles.open", mock_aiofiles_open(read_data=MOCK_JSON_STRING)):
         response = client.get("/api/v1/holidays?year=2024&type=poya holiday")
         assert response.status_code == 200
         data = response.json()
@@ -88,7 +103,7 @@ def test_holidays_list_filter_by_type():
 
 
 def test_holidays_list_filter_by_month_and_type():
-    with patch("builtins.open", mock_open(read_data=MOCK_JSON_STRING)):
+    with patch("aiofiles.open", mock_aiofiles_open(read_data=MOCK_JSON_STRING)):
         response = client.get("/api/v1/holidays?year=2024&month=1&type=public holiday")
         assert response.status_code == 200
         data = response.json()
@@ -109,14 +124,14 @@ def test_holidays_list_invalid_format():
 
 
 def test_holidays_list_file_not_found():
-    with patch("builtins.open", side_effect=FileNotFoundError):
+    with patch("aiofiles.open", side_effect=FileNotFoundError):
         response = client.get("/api/v1/holidays?year=2024")
         assert response.status_code == 404
         assert response.json() == {"error": "Data for requested year not available"}
 
 
 def test_holidays_list_invalid_json():
-    with patch("builtins.open", mock_open(read_data="{invalid_json:")):
+    with patch("aiofiles.open", mock_aiofiles_open(read_data="{invalid_json:")):
         response = client.get("/api/v1/holidays?year=2024")
         assert response.status_code == 500
         assert response.json() == {"error": "Invalid data format for requested year. Please notify the admin."}
@@ -149,7 +164,7 @@ def test_holidays_list_skip_invalid_entries():
             "end": "2024-01-16"
         }
     ]
-    with patch("builtins.open", mock_open(read_data=json.dumps(invalid_data))):
+    with patch("aiofiles.open", mock_aiofiles_open(read_data=json.dumps(invalid_data))):
         response = client.get("/api/v1/holidays?year=2024")
         assert response.status_code == 200
         data = response.json()
@@ -174,7 +189,7 @@ def test_holidays_list_simple_format_duplicates():
             "end": "2024-01-16"
         }
     ]
-    with patch("builtins.open", mock_open(read_data=json.dumps(duplicate_data))):
+    with patch("aiofiles.open", mock_aiofiles_open(read_data=json.dumps(duplicate_data))):
         response = client.get("/api/v1/holidays?year=2024&format=simple")
         assert response.status_code == 200
         data = response.json()
@@ -190,3 +205,11 @@ def test_holidays_list_invalid_year_range():
     assert response.status_code == 422 # Validation error, YEAR_MIN = 2021
     response = client.get("/api/v1/holidays?year=2030")
     assert response.status_code == 422 # Validation error, YEAR_MAX = 2028
+
+
+@pytest.fixture(autouse=True)
+def bypass_api_key():
+    from src.api.app import app, verify_api_key
+    app.dependency_overrides[verify_api_key] = lambda: "test"
+    yield
+    app.dependency_overrides.clear()
