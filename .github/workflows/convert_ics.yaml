@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - "ics/**" # Trigger workflow when changes are pushed to 'ics' directory
+      - "data/holidays/ics/**" # Trigger workflow when changes are pushed to 'ics' directory
   workflow_dispatch:
 
 jobs:
@@ -24,7 +24,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.11"
 
       - name: Install dependencies
         run: |
@@ -33,8 +33,10 @@ jobs:
 
       - name: Check and Convert
         run: |
-          for file in ics/*.ics; do
+          for file in data/holidays/ics/*.ics; do
             year=$(basename "$file" .ics)
+            # Skip master calendar
+            if [ "$year" = "srilanka-holidays" ]; then continue; fi
             branch_name="src-files-$year"
 
             # git config
@@ -48,37 +50,37 @@ jobs:
             # Track if changes are made
             changes_made=false
             
-            # CSV Conversion
-            if [ ! -f "csv/$year.csv" ]; then
-              python converters/icalendar_to_csv.py "$file"
-              git add "csv/$year.csv"
+            # CSV Conversion - always regenerate to keep in sync
+            python src/converters/icalendar_to_csv.py "$file"
+            if ! git diff --quiet -- data/holidays/csv/$year.csv; then
+              git add "data/holidays/csv/$year.csv"
               git commit -m "Convert $year.ics to $year.csv [skip ci]"
               git push -u origin "$branch_name"
               changes_made=true
             else
-              echo "CSV file for $year.ics already exists. Skipping CSV conversion."
+              echo "CSV file for $year.ics is up to date."
             fi
             
-            # XML Conversion
-            if [ ! -f "xml/$year.xml" ]; then
-              python converters/icalendar_to_xml.py "$file"
-              git add "xml/$year.xml"
+            # XML Conversion - always regenerate
+            python src/converters/icalendar_to_xml.py "$file"
+            if ! git diff --quiet -- data/holidays/xml/$year.xml; then
+              git add "data/holidays/xml/$year.xml"
               git commit -m "Convert $year.ics to $year.xml [skip ci]"
               git push origin "$branch_name"
               changes_made=true
             else
-              echo "XML file for $year.ics already exists. Skipping XML conversion."
+              echo "XML file for $year.ics is up to date."
             fi
             
-            # JSON Conversion
-            if [ ! -f "json/$year.json" ]; then
-              python converters/icalendar_to_json.py "$file"
-              git add "json/$year.json"
+            # JSON Conversion - always regenerate
+            python src/converters/icalendar_to_json.py "$file"
+            if ! git diff --quiet -- data/holidays/json/$year.json; then
+              git add "data/holidays/json/$year.json"
               git commit -m "Convert $year.ics to $year.json [skip ci]"
               git push origin "$branch_name"
               changes_made=true
             else
-              echo "JSON file for $year.ics already exists. Skipping JSON conversion."
+              echo "JSON file for $year.ics is up to date."
             fi
 
             # Only create PR if changes were made

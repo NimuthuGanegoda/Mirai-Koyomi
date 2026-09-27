@@ -1,17 +1,18 @@
 [
   {
-    "uid": "sl_2027_01",
-    "summary": "Tamil Thai Pongal Day *‡",
+    "uid": "sl_153@srilanka-holidays.api",
+    "summary": "Tamil Thai Pongal Day *†‡",
     "categories": [
       "Public Holiday",
+      "Bank Holiday",
       "Mercantile Holiday"
     ],
     "start": "2027-01-15",
     "end": "2027-01-16"
   },
   {
-    "uid": "sl_2027_02",
-    "summary": "Duruthu Full Moon Poya *†",
+    "uid": "sl_154@srilanka-holidays.api",
+    "summary": "Duruthu Full Moon Poya Day *†",
     "categories": [
       "Public Holiday",
       "Bank Holiday",
@@ -21,26 +22,19 @@
     "end": "2027-01-23"
   },
   {
-    "uid": "sl_2027_03",
-    "summary": "National Day *",
+    "uid": "sl_155@srilanka-holidays.api",
+    "summary": "National Day *†‡",
     "categories": [
-      "Public Holiday"
+      "Public Holiday",
+      "Bank Holiday",
+      "Mercantile Holiday"
     ],
     "start": "2027-02-04",
     "end": "2027-02-05"
   },
   {
-    "uid": "sl_obs_20270214@srilanka-holidays.api",
-    "summary": "Valentine's Day",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2027-02-14",
-    "end": "2027-02-15"
-  },
-  {
-    "uid": "sl_2027_04",
-    "summary": "Navam Full Moon Poya *†",
+    "uid": "sl_156@srilanka-holidays.api",
+    "summary": "Navam Full Moon Poya Day *†",
     "categories": [
       "Public Holiday",
       "Bank Holiday",
@@ -50,75 +44,71 @@
     "end": "2027-02-21"
   },
   {
-    "uid": "sl_2027_05",
-    "summary": "Mahasivarathri Day *",
+    "uid": "sl_157@srilanka-holidays.api",
+    "summary": "Mahasivarathri Day *†",
     "categories": [
-      "Public Holiday"
+      "Public Holiday",
+      "Bank Holiday"
     ],
     "start": "2027-03-06",
     "end": "2027-03-07"
   },
   {
-    "uid": "sl_obs_20270308@srilanka-holidays.api",
-    "summary": "International Women's Day",
+    "uid": "sl_158@srilanka-holidays.api",
+    "summary": "Id Ul-Fitr (Ramazan Festival Day) *†",
     "categories": [
-      "Observance"
-    ],
-    "start": "2027-03-08",
-    "end": "2027-03-09"
-  },
-  {
-    "uid": "sl_2027_06",
-    "summary": "Id-Ul-Fitr *",
-    "categories": [
-      "Public Holiday"
+      "Public Holiday",
+      "Bank Holiday"
     ],
     "start": "2027-03-10",
     "end": "2027-03-11"
   },
   {
-    "uid": "sl_2027_07",
-    "summary": "Madin Full Moon Poya *†",
+    "uid": "sl_159@srilanka-holidays.api",
+    "summary": "Madin Full Moon Poya Day *†",
     "categories": [
       "Public Holiday",
       "Bank Holiday",
       "Poya Holiday"
     ],
-    "start": "2027-03-22",
-    "end": "2027-03-23"
+    "start": "2027-03-21",
+    "end": "2027-03-22"
   },
   {
-    "uid": "sl_2027_08",
-    "summary": "Good Friday *",
+    "uid": "sl_160@srilanka-holidays.api",
+    "summary": "Good Friday *†",
     "categories": [
-      "Public Holiday"
+      "Public Holiday",
+      "Bank Holiday"
     ],
     "start": "2027-03-26",
     "end": "2027-03-27"
   },
   {
-    "uid": "sl_2027_09",
-    "summary": "Sinhala and Tamil New Year Eve *‡",
+    "uid": "sl_161@srilanka-holidays.api",
+    "summary": "Day prior to Sinhala & Tamil New Year Day *†‡",
     "categories": [
       "Public Holiday",
+      "Bank Holiday",
       "Mercantile Holiday"
     ],
     "start": "2027-04-13",
     "end": "2027-04-14"
   },
   {
-    "uid": "sl_2027_10",
-    "summary": "Sinhala and Tamil New Year *‡",
+    "uid": "sl_162@srilanka-holidays.api",
+    "summary": "Sinhala & Tamil New Year Day *†‡",
     "categories": [
       "Public Holiday",
+      "Bank Holiday",
       "Mercantile Holiday"
     ],
     "start": "2027-04-14",
     "end": "2027-04-15"
   },
   {
-    "uid": "sl_2027_11",
-    "summary": "Bak Full Moon Poya *†",
+    "uid": "sl_163@srilanka-holidays.api",
+    "summary": "Bak Full Moon Poya Day *†",
     "categories": [
       "Public Holiday",
       "Bank Holiday",
@@ -128,16 +118,18 @@
     "end": "2027-04-21"
   },
   {
-    "uid": "sl_2027_12",
-    "summary": "Labour Day *",
+    "uid": "sl_164@srilanka-holidays.api",
+    "summary": "May Day (Labour Day) *†‡",
     "categories": [
-      "Public Holiday"
+      "Public Holiday",
+      "Bank Holiday",
+      "Mercantile Holiday"
     ],
     "start": "2027-05-01",
     "end": "2027-05-02"
   },
   {
-    "uid": "sl_2027_34",
+    "uid": "sl_obs_20270509@srilanka-holidays.api",
     "summary": "Mother's Day",
     "categories": [
       "Observance"
@@ -146,28 +138,18 @@
     "end": "2027-05-10"
   },
   {
-    "uid": "sl_2027_13",
-    "summary": "Idul Adha *",
+    "uid": "sl_165@srilanka-holidays.api",
+    "summary": "Id Ul-Alha (Hadji Festival Day) *†",
     "categories": [
-      "Public Holiday"
+      "Public Holiday",
+      "Bank Holiday"
     ],
     "start": "2027-05-17",
     "end": "2027-05-18"
   },
   {
-    "uid": "sl_2027_14",
-    "summary": "Vesak Full Moon Poya *†",
-    "categories": [
-      "Public Holiday",
-      "Bank Holiday",
-      "Poya Holiday"
-    ],
-    "start": "2027-05-19",
-    "end": "2027-05-20"
-  },
-  {
-    "uid": "sl_2027_15",
-    "summary": "Vesak Full Moon Poya Holiday *†",
+    "uid": "sl_166@srilanka-holidays.api",
+    "summary": "Vesak Full Moon Poya Day *†",
     "categories": [
       "Public Holiday",
       "Bank Holiday",
@@ -177,17 +159,20 @@
     "end": "2027-05-21"
   },
   {
-    "uid": "sl_obs_20270605@srilanka-holidays.api",
-    "summary": "World Environment Day",
+    "uid": "sl_167@srilanka-holidays.api",
+    "summary": "Day following Vesak Full Moon Poya Day *†‡",
     "categories": [
-      "Observance"
+      "Public Holiday",
+      "Bank Holiday",
+      "Mercantile Holiday",
+      "Poya Holiday"
     ],
-    "start": "2027-06-05",
-    "end": "2027-06-06"
+    "start": "2027-05-21",
+    "end": "2027-05-22"
   },
   {
-    "uid": "sl_2027_16",
-    "summary": "Poson Full Moon Poya *†",
+    "uid": "sl_168@srilanka-holidays.api",
+    "summary": "Poson Full Moon Poya Day *†",
     "categories": [
       "Public Holiday",
       "Bank Holiday",
@@ -197,7 +182,7 @@
     "end": "2027-06-19"
   },
   {
-    "uid": "sl_2027_35",
+    "uid": "sl_obs_20270620@srilanka-holidays.api",
     "summary": "Father's Day",
     "categories": [
       "Observance"
@@ -206,8 +191,8 @@
     "end": "2027-06-21"
   },
   {
-    "uid": "sl_2027_17",
-    "summary": "Esala Full Moon Poya *†",
+    "uid": "sl_169@srilanka-holidays.api",
+    "summary": "Esala Full Moon Poya Day *†",
     "categories": [
       "Public Holiday",
       "Bank Holiday",
@@ -217,17 +202,19 @@
     "end": "2027-07-19"
   },
   {
-    "uid": "sl_2027_18",
-    "summary": "Milad-Un-Nabi *",
+    "uid": "sl_170@srilanka-holidays.api",
+    "summary": "Milad-un-Nabi (Holy Prophet's Birthday) *†‡",
     "categories": [
-      "Public Holiday"
+      "Public Holiday",
+      "Bank Holiday",
+      "Mercantile Holiday"
     ],
     "start": "2027-08-15",
     "end": "2027-08-16"
   },
   {
-    "uid": "sl_2027_19",
-    "summary": "Nikini Full Moon Poya *†",
+    "uid": "sl_171@srilanka-holidays.api",
+    "summary": "Nikini Full Moon Poya Day *†",
     "categories": [
       "Public Holiday",
       "Bank Holiday",
@@ -237,8 +224,8 @@
     "end": "2027-08-17"
   },
   {
-    "uid": "sl_2027_20",
-    "summary": "Binara Full Moon Poya *†",
+    "uid": "sl_172@srilanka-holidays.api",
+    "summary": "Binara Full Moon Poya Day *†",
     "categories": [
       "Public Holiday",
       "Bank Holiday",
@@ -248,7 +235,7 @@
     "end": "2027-09-16"
   },
   {
-    "uid": "sl_2027_30",
+    "uid": "sl_obs_20271001@srilanka-holidays.api",
     "summary": "Children's Day",
     "categories": [
       "Observance"
@@ -257,7 +244,7 @@
     "end": "2027-10-02"
   },
   {
-    "uid": "sl_2027_31",
+    "uid": "sl_obs_20271006@srilanka-holidays.api",
     "summary": "Teachers' Day",
     "categories": [
       "Observance"
@@ -266,8 +253,8 @@
     "end": "2027-10-07"
   },
   {
-    "uid": "sl_2027_21",
-    "summary": "Vap Full Moon Poya *†",
+    "uid": "sl_173@srilanka-holidays.api",
+    "summary": "Vap Full Moon Poya Day *†",
     "categories": [
       "Public Holiday",
       "Bank Holiday",
@@ -277,17 +264,18 @@
     "end": "2027-10-16"
   },
   {
-    "uid": "sl_2027_22",
-    "summary": "Deepavali Festival Day *",
+    "uid": "sl_174@srilanka-holidays.api",
+    "summary": "Deepavali Festival Day *†",
     "categories": [
-      "Public Holiday"
+      "Public Holiday",
+      "Bank Holiday"
     ],
     "start": "2027-10-28",
     "end": "2027-10-29"
   },
   {
-    "uid": "sl_2027_23",
-    "summary": "Ill Full Moon Poya *†",
+    "uid": "sl_175@srilanka-holidays.api",
+    "summary": "Ill Full Moon Poya Day *†",
     "categories": [
       "Public Holiday",
       "Bank Holiday",
@@ -297,8 +285,8 @@
     "end": "2027-11-14"
   },
   {
-    "uid": "sl_2027_24",
-    "summary": "Unduvap Full Moon Poya *†",
+    "uid": "sl_176@srilanka-holidays.api",
+    "summary": "Unduvap Full Moon Poya Day *†",
     "categories": [
       "Public Holiday",
       "Bank Holiday",
@@ -308,10 +296,11 @@
     "end": "2027-12-14"
   },
   {
-    "uid": "sl_2027_25",
-    "summary": "Christmas Day *‡",
+    "uid": "sl_177@srilanka-holidays.api",
+    "summary": "Christmas Day *†‡",
     "categories": [
       "Public Holiday",
+      "Bank Holiday",
       "Mercantile Holiday"
     ],
     "start": "2027-12-25",

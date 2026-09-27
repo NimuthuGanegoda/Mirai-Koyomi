@@ -52,6 +52,74 @@ from fastapi.security import APIKeyHeader
 from fastapi.staticfiles import StaticFiles
 from icalendar import Calendar
 import anyio
+import ipaddress
+import ssl
+
+
+class SafeNetworkBackend(httpcore.AsyncNetworkBackend):
+    def __init__(self):
+        self.backend = httpcore.AnyIOBackend()
+
+    async def connect_tcp(
+        self,
+        host: str,
+        port: int,
+        timeout: float | None = None,
+        local_address: str | None = None,
+        **kwargs,
+    ) -> httpcore.AsyncNetworkStream:
+        loop = asyncio.get_running_loop()
+        try:
+            addrinfo = await loop.getaddrinfo(host, port, type=socket.SOCK_STREAM)
+        except socket.gaierror as e:
+            raise httpcore.ConnectError(f"DNS resolution failed: {e}")
+
+        valid_ip = None
+        for family, type_, proto, canonname, sockaddr in addrinfo:
+            ip = sockaddr[0]
+            ip_obj = ipaddress.ip_address(ip)
+            if ip_obj.is_global and not ip_obj.is_multicast and not ip_obj.is_unspecified and not ip_obj.is_loopback and not ip_obj.is_private and not ip_obj.is_link_local:
+                valid_ip = ip
+                break
+
+        if not valid_ip:
+            raise httpcore.ConnectError("Connection to local or private IP is not allowed")
+
+        return await self.backend.connect_tcp(
+            valid_ip,
+            port,
+            timeout=timeout,
+            local_address=local_address,
+            **kwargs,
+        )
+
+    async def connect_unix_socket(
+        self,
+        path: str,
+        timeout: float | None = None,
+        **kwargs,
+    ) -> httpcore.AsyncNetworkStream:
+        raise httpcore.ConnectError("Unix sockets are not allowed")
+
+    async def sleep(self, seconds: float) -> None:
+        await self.backend.sleep(seconds)
+
+
+class SafeAsyncHTTPTransport(httpx.AsyncHTTPTransport):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._pool = httpcore.AsyncConnectionPool(
+            ssl_context=kwargs.get("verify", True) if isinstance(kwargs.get("verify", True), ssl.SSLContext) else httpcore.default_ssl_context(),
+            max_connections=kwargs.get("limits", httpx.Limits()).max_connections,
+            max_keepalive_connections=kwargs.get("limits", httpx.Limits()).max_keepalive_connections,
+            keepalive_expiry=kwargs.get("limits", httpx.Limits()).keepalive_expiry,
+            http1=kwargs.get("http1", True),
+            http2=kwargs.get("http2", False),
+            retries=kwargs.get("retries", 0),
+            local_address=kwargs.get("local_address", None),
+            uds=kwargs.get("uds", None),
+            network_backend=SafeNetworkBackend(),
+        )
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -62,7 +130,7 @@ logger.info("Loading environment variables from .env file")
 load_dotenv()
 
 # Define API version
-API_VERSION = "1.1.1"
+API_VERSION = "1.1.2"
 
 # Define year limits
 YEAR_MIN = 2021
@@ -609,8 +677,8 @@ async def combined_calendar(
 ):
     """Return a merged calendar of the provided ICS URL and Sri Lanka Holidays"""
     try:
-        # Add timeout and size limits to prevent DoS
-        async with httpx.AsyncClient(timeout=10.0, max_redirects=3) as client:
+        # Add timeout and size limits to prevent DoS, using SafeNetworkBackend to block private IPs
+        async with httpx.AsyncClient(transport=SafeAsyncHTTPTransport(), timeout=10.0, max_redirects=3) as client:
             # Fetch user ICS
             user_content = bytearray()
             async with client.stream("GET", ics_url) as user_response:

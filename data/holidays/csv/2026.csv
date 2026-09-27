@@ -39,11 +39,13 @@ sl_140@srilanka-holidays.api,Day following Vesak Full Moon Poya Day *†‡,"- P
 - Bank Holiday
 - Mercantile Holiday
 - Poya Holiday",2026-05-02,2026-05-03
+sl_obs_20260510@srilanka-holidays.api,Mother's Day,Observance,2026-05-10,2026-05-11
 sl_141@srilanka-holidays.api,Id-Ul-Alha (Hadji Festival Day) *†,"- Public Holiday
 - Bank Holiday",2026-05-28,2026-05-29
 sl_142@srilanka-holidays.api,Adhi Poson Full Moon Poya Day *†,"- Public Holiday
 - Bank Holiday
 - Poya Holiday",2026-05-30,2026-05-31
+sl_obs_20260621@srilanka-holidays.api,Father's Day,Observance,2026-06-21,2026-06-22
 sl_143@srilanka-holidays.api,Poson Full Moon Poya Day *†,"- Public Holiday
 - Bank Holiday
 - Poya Holiday",2026-06-29,2026-06-30
@@ -59,6 +61,8 @@ sl_146@srilanka-holidays.api,Nikini Full Moon Poya Day *†,"- Public Holiday
 sl_147@srilanka-holidays.api,Binara Full Moon Poya Day *†,"- Public Holiday
 - Bank Holiday
 - Poya Holiday",2026-09-26,2026-09-27
+sl_obs_20261001@srilanka-holidays.api,Children's Day,Observance,2026-10-01,2026-10-02
+sl_obs_20261006@srilanka-holidays.api,Teachers' Day,Observance,2026-10-06,2026-10-07
 sl_148@srilanka-holidays.api,Vap Full Moon Poya Day *†,"- Public Holiday
 - Bank Holiday
 - Poya Holiday",2026-10-25,2026-10-26

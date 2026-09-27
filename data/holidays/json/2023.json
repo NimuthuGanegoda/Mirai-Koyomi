@@ -22,6 +22,15 @@
     "end": "2023-01-16"
   },
   {
+    "uid": "sl_special_20230116@srilanka-holidays.api",
+    "summary": "Special Bank Holiday †",
+    "categories": [
+      "Bank Holiday"
+    ],
+    "start": "2023-01-16",
+    "end": "2023-01-17"
+  },
+  {
     "uid": "sl_53@srilanka-holidays.api",
     "summary": "Independence Day *†‡",
     "categories": [
