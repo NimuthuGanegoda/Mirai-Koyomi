@@ -34,6 +34,7 @@ sl_2028_12@srilanka-holidays.api,May Day *†‡,"- Public Holiday
 - Mercantile Holiday",2028-05-01,2028-05-02
 sl_2028_13@srilanka-holidays.api,Id Ul-Alha (Hadji Festival Day) *†,"- Public Holiday
 - Bank Holiday",2028-05-05,2028-05-06
+sl_obs_20280514@srilanka-holidays.api,Mother's Day,Observance,2028-05-14,2028-05-15
 sl_2028_14@srilanka-holidays.api,Vesak Full Moon Poya Day *†,"- Public Holiday
 - Bank Holiday
 - Poya Holiday",2028-05-23,2028-05-24
@@ -41,6 +42,7 @@ sl_2028_15@srilanka-holidays.api,Day following Vesak Full Moon Poya Day *†‡,
 - Bank Holiday
 - Mercantile Holiday
 - Poya Holiday",2028-05-24,2028-05-25
+sl_obs_20280618@srilanka-holidays.api,Father's Day,Observance,2028-06-18,2028-06-19
 sl_2028_16@srilanka-holidays.api,Poson Full Moon Poya Day *†,"- Public Holiday
 - Bank Holiday
 - Poya Holiday",2028-06-22,2028-06-23
@@ -56,6 +58,8 @@ sl_2028_19@srilanka-holidays.api,Nikini Full Moon Poya Day *†,"- Public Holida
 sl_2028_20@srilanka-holidays.api,Binara Full Moon Poya Day *†,"- Public Holiday
 - Bank Holiday
 - Poya Holiday",2028-09-18,2028-09-19
+sl_obs_20281001@srilanka-holidays.api,Children's Day,Observance,2028-10-01,2028-10-02
+sl_obs_20281006@srilanka-holidays.api,Teachers' Day,Observance,2028-10-06,2028-10-07
 sl_2028_21@srilanka-holidays.api,Deepavali Festival Day *†,"- Public Holiday
 - Bank Holiday",2028-10-17,2028-10-18
 sl_2028_22@srilanka-holidays.api,Vap Full Moon Poya Day *†,"- Public Holiday

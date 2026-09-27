@@ -7,8 +7,8 @@ on:
     branches:
       - master
     paths:
-      - "ics/20*.ics"
-      - "converters/**"
+      - "data/holidays/ics/20*.ics"
+      - "src/converters/**"
   workflow_dispatch:
 
 jobs:
@@ -21,7 +21,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.11"
 
       - name: Install dependencies
         run: |
@@ -29,7 +29,7 @@ jobs:
           pip install -r requirements/github.txt
 
       - name: Sync from Official Sources
-        run: python converters/sync_holidays.py
+        run: python src/converters/sync_holidays.py
 
       - name: Generate ICS files from JSON
         run: |
@@ -37,27 +37,29 @@ jobs:
           python3 -c '
           import json, os
           for year in range(2021, 2030):
-              json_path = f"json/{year}.json"
+              json_path = f"data/holidays/json/{year}.json"
               if os.path.exists(json_path):
                   with open(json_path) as f: holidays = json.load(f)
-                  content = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//NimuthuGanegoda//Sri Lanka Holidays//EN", "METHOD:PUBLISH"]
+                  content = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//NimuthuGanegoda//Sri Lanka Holidays//EN", "CALSCALE:GREGORIAN", "METHOD:PUBLISH", "X-WR-CALNAME:Sri Lanka Holidays "+str(year), "X-WR-TIMEZONE:Asia/Colombo"]
                   for h in holidays:
-                      content.extend(["BEGIN:VEVENT", f"UID:{h[\"uid\"]}@srilanka-holidays.api", f"DTSTART;VALUE=DATE:{h[\"start\"].replace(\"-\", \"\")}", f"DTEND;VALUE=DATE:{h[\"end\"].replace(\"-\", \"\")}", f"SUMMARY:{h[\"summary\"]}", "STATUS:CONFIRMED", "TRANSP:TRANSPARENT", "X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC", "BEGIN:VALARM", "ACTION:AUDIO", "TRIGGER:-PT15H", "END:VALARM", "END:VEVENT"])
+                      uid = h["uid"] if "@" in h["uid"] else h["uid"]+"@srilanka-holidays.api"
+                      content.extend(["BEGIN:VEVENT", f"UID:{uid}", f"DTSTART;VALUE=DATE:{h[\"start\"].replace(\"-\", \"\")}", f"DTEND;VALUE=DATE:{h[\"end\"].replace(\"-\", \"\")}", f"SUMMARY:{h[\"summary\"]}", "STATUS:CONFIRMED", "TRANSP:TRANSPARENT", "X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC", "BEGIN:VALARM", "ACTION:AUDIO", "TRIGGER:-PT15H", "END:VALARM", "END:VEVENT"])
                   content.append("END:VCALENDAR")
-                  with open(f"ics/{year}.ics", "w") as f: f.write("\n".join(content))
+                  with open(f"data/holidays/ics/{year}.ics", "w") as f: f.write("\n".join(content))
           '
 
       - name: Run CSV/XML Converters
         run: |
           for year in {2021..2029}; do
-            if [ -f "ics/$year.ics" ]; then
-              python converters/icalendar_to_csv.py ics/$year.ics
-              python converters/icalendar_to_xml.py ics/$year.ics
+            if [ -f "data/holidays/ics/$year.ics" ]; then
+              python src/converters/icalendar_to_csv.py data/holidays/ics/$year.ics
+              python src/converters/icalendar_to_xml.py data/holidays/ics/$year.ics
+              python src/converters/icalendar_to_json.py data/holidays/ics/$year.ics
             fi
           done
 
       - name: Merge Master ICS
-        run: python converters/merge_ics.py
+        run: python src/converters/merge_ics.py
 
       - name: Commit and push changes
         run: |

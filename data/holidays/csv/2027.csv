@@ -32,6 +32,7 @@ sl_163@srilanka-holidays.api,Bak Full Moon Poya Day *†,"- Public Holiday
 sl_164@srilanka-holidays.api,May Day (Labour Day) *†‡,"- Public Holiday
 - Bank Holiday
 - Mercantile Holiday",2027-05-01,2027-05-02
+sl_obs_20270509@srilanka-holidays.api,Mother's Day,Observance,2027-05-09,2027-05-10
 sl_165@srilanka-holidays.api,Id Ul-Alha (Hadji Festival Day) *†,"- Public Holiday
 - Bank Holiday",2027-05-17,2027-05-18
 sl_166@srilanka-holidays.api,Vesak Full Moon Poya Day *†,"- Public Holiday
@@ -44,6 +45,7 @@ sl_167@srilanka-holidays.api,Day following Vesak Full Moon Poya Day *†‡,"- P
 sl_168@srilanka-holidays.api,Poson Full Moon Poya Day *†,"- Public Holiday
 - Bank Holiday
 - Poya Holiday",2027-06-18,2027-06-19
+sl_obs_20270620@srilanka-holidays.api,Father's Day,Observance,2027-06-20,2027-06-21
 sl_169@srilanka-holidays.api,Esala Full Moon Poya Day *†,"- Public Holiday
 - Bank Holiday
 - Poya Holiday",2027-07-18,2027-07-19
@@ -56,6 +58,8 @@ sl_171@srilanka-holidays.api,Nikini Full Moon Poya Day *†,"- Public Holiday
 sl_172@srilanka-holidays.api,Binara Full Moon Poya Day *†,"- Public Holiday
 - Bank Holiday
 - Poya Holiday",2027-09-15,2027-09-16
+sl_obs_20271001@srilanka-holidays.api,Children's Day,Observance,2027-10-01,2027-10-02
+sl_obs_20271006@srilanka-holidays.api,Teachers' Day,Observance,2027-10-06,2027-10-07
 sl_173@srilanka-holidays.api,Vap Full Moon Poya Day *†,"- Public Holiday
 - Bank Holiday
 - Poya Holiday",2027-10-15,2027-10-16

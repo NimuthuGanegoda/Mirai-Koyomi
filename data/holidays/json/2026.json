@@ -1,7 +1,7 @@
 [
   {
-    "uid": "sl_2026_01",
-    "summary": "Duruthu Full Moon Poya *†",
+    "uid": "sl_127@srilanka-holidays.api",
+    "summary": "Duruthu Full Moon Poya Day *†",
     "categories": [
       "Public Holiday",
       "Bank Holiday",
@@ -11,18 +11,19 @@
     "end": "2026-01-04"
   },
   {
-    "uid": "sl_2026_02",
-    "summary": "Tamil Thai Pongal Day *‡",
+    "uid": "sl_128@srilanka-holidays.api",
+    "summary": "Tamil Thai Pongal Day *†‡",
     "categories": [
       "Public Holiday",
+      "Bank Holiday",
       "Mercantile Holiday"
     ],
     "start": "2026-01-15",
     "end": "2026-01-16"
   },
   {
-    "uid": "sl_2026_03",
-    "summary": "Navam Full Moon Poya *†",
+    "uid": "sl_129@srilanka-holidays.api",
+    "summary": "Nawam Full Moon Poya Day *†",
     "categories": [
       "Public Holiday",
       "Bank Holiday",
@@ -32,35 +33,29 @@
     "end": "2026-02-02"
   },
   {
-    "uid": "sl_2026_04",
-    "summary": "National Day *",
+    "uid": "sl_130@srilanka-holidays.api",
+    "summary": "Independence Day *†‡",
     "categories": [
-      "Public Holiday"
+      "Public Holiday",
+      "Bank Holiday",
+      "Mercantile Holiday"
     ],
     "start": "2026-02-04",
     "end": "2026-02-05"
   },
   {
-    "uid": "sl_obs_20260214@srilanka-holidays.api",
-    "summary": "Valentine's Day",
+    "uid": "sl_131@srilanka-holidays.api",
+    "summary": "Maha Sivarathri Day *†",
     "categories": [
-      "Observance"
-    ],
-    "start": "2026-02-14",
-    "end": "2026-02-15"
-  },
-  {
-    "uid": "sl_2026_05",
-    "summary": "Mahasivarathri Day *",
-    "categories": [
-      "Public Holiday"
+      "Public Holiday",
+      "Bank Holiday"
     ],
     "start": "2026-02-15",
     "end": "2026-02-16"
   },
   {
-    "uid": "sl_2026_06",
-    "summary": "Madin Full Moon Poya *†",
+    "uid": "sl_132@srilanka-holidays.api",
+    "summary": "Madin Full Moon Poya Day *†",
     "categories": [
       "Public Holiday",
       "Bank Holiday",
@@ -70,48 +65,18 @@
     "end": "2026-03-03"
   },
   {
-    "uid": "sl_obs_20260308@srilanka-holidays.api",
-    "summary": "International Women's Day",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2026-03-08",
-    "end": "2026-03-09"
-  },
-  {
-    "uid": "sl_2026_07",
-    "summary": "Public Holiday *†‡",
+    "uid": "sl_133@srilanka-holidays.api",
+    "summary": "Id-Ul-Fitr (Ramazan Festival Day) *†",
     "categories": [
       "Public Holiday",
-      "Bank Holiday",
-      "Mercantile Holiday"
-    ],
-    "start": "2026-03-18",
-    "end": "2026-03-19"
-  },
-  {
-    "uid": "sl_2026_08",
-    "summary": "Id-Ul-Fitr *",
-    "categories": [
-      "Public Holiday"
+      "Bank Holiday"
     ],
     "start": "2026-03-21",
     "end": "2026-03-22"
   },
   {
-    "uid": "sl_2026_09",
-    "summary": "Public Holiday *†‡",
-    "categories": [
-      "Public Holiday",
-      "Bank Holiday",
-      "Mercantile Holiday"
-    ],
-    "start": "2026-03-25",
-    "end": "2026-03-26"
-  },
-  {
-    "uid": "sl_2026_10",
-    "summary": "Bak Full Moon Poya *†",
+    "uid": "sl_134@srilanka-holidays.api",
+    "summary": "Bak Full Moon Poya Day *†",
     "categories": [
       "Public Holiday",
       "Bank Holiday",
@@ -121,78 +86,73 @@
     "end": "2026-04-02"
   },
   {
-    "uid": "sl_2026_11",
-    "summary": "Public Holiday *†‡",
+    "uid": "sl_135@srilanka-holidays.api",
+    "summary": "Good Friday *†",
     "categories": [
       "Public Holiday",
-      "Bank Holiday",
-      "Mercantile Holiday"
-    ],
-    "start": "2026-04-01",
-    "end": "2026-04-02"
-  },
-  {
-    "uid": "sl_2026_12",
-    "summary": "Good Friday *",
-    "categories": [
-      "Public Holiday"
+      "Bank Holiday"
     ],
     "start": "2026-04-03",
     "end": "2026-04-04"
   },
   {
-    "uid": "sl_2026_13",
-    "summary": "Public Holiday *†‡",
+    "uid": "sl_136@srilanka-holidays.api",
+    "summary": "Day prior to Sinhala & Tamil New Year Day *†‡",
     "categories": [
       "Public Holiday",
       "Bank Holiday",
-      "Mercantile Holiday"
-    ],
-    "start": "2026-04-08",
-    "end": "2026-04-09"
-  },
-  {
-    "uid": "sl_2026_14",
-    "summary": "Sinhala and Tamil New Year Eve *‡",
-    "categories": [
-      "Public Holiday",
       "Mercantile Holiday"
     ],
     "start": "2026-04-13",
     "end": "2026-04-14"
   },
   {
-    "uid": "sl_2026_15",
-    "summary": "Sinhala and Tamil New Year *‡",
+    "uid": "sl_137@srilanka-holidays.api",
+    "summary": "Sinhala & Tamil New Year Day *†‡",
     "categories": [
       "Public Holiday",
+      "Bank Holiday",
       "Mercantile Holiday"
     ],
     "start": "2026-04-14",
     "end": "2026-04-15"
   },
   {
-    "uid": "sl_2026_16",
-    "summary": "Public Holiday *†‡",
+    "uid": "sl_138@srilanka-holidays.api",
+    "summary": "May Day (International Workers’ Day) *†‡",
     "categories": [
       "Public Holiday",
       "Bank Holiday",
       "Mercantile Holiday"
     ],
-    "start": "2026-04-15",
-    "end": "2026-04-16"
+    "start": "2026-05-01",
+    "end": "2026-05-02"
   },
   {
-    "uid": "sl_2026_17",
-    "summary": "Labour Day *",
+    "uid": "sl_139@srilanka-holidays.api",
+    "summary": "Vesak Full Moon Poya Day *†",
     "categories": [
-      "Public Holiday"
+      "Public Holiday",
+      "Bank Holiday",
+      "Poya Holiday"
     ],
     "start": "2026-05-01",
     "end": "2026-05-02"
   },
   {
-    "uid": "sl_2026_39",
+    "uid": "sl_140@srilanka-holidays.api",
+    "summary": "Day following Vesak Full Moon Poya Day *†‡",
+    "categories": [
+      "Public Holiday",
+      "Bank Holiday",
+      "Mercantile Holiday",
+      "Poya Holiday"
+    ],
+    "start": "2026-05-02",
+    "end": "2026-05-03"
+  },
+  {
+    "uid": "sl_obs_20260510@srilanka-holidays.api",
     "summary": "Mother's Day",
     "categories": [
       "Observance"
@@ -201,17 +161,18 @@
     "end": "2026-05-11"
   },
   {
-    "uid": "sl_2026_18",
-    "summary": "Idul Adha *",
+    "uid": "sl_141@srilanka-holidays.api",
+    "summary": "Id-Ul-Alha (Hadji Festival Day) *†",
     "categories": [
-      "Public Holiday"
+      "Public Holiday",
+      "Bank Holiday"
     ],
     "start": "2026-05-28",
     "end": "2026-05-29"
   },
   {
-    "uid": "sl_2026_19",
-    "summary": "Vesak Full Moon Poya (in lieu) *†",
+    "uid": "sl_142@srilanka-holidays.api",
+    "summary": "Adhi Poson Full Moon Poya Day *†",
     "categories": [
       "Public Holiday",
       "Bank Holiday",
@@ -221,18 +182,7 @@
     "end": "2026-05-31"
   },
   {
-    "uid": "sl_2026_20",
-    "summary": "Vesak Full Moon Poya Holiday *†",
-    "categories": [
-      "Public Holiday",
-      "Bank Holiday",
-      "Poya Holiday"
-    ],
-    "start": "2026-05-31",
-    "end": "2026-06-01"
-  },
-  {
-    "uid": "sl_2026_40",
+    "uid": "sl_obs_20260621@srilanka-holidays.api",
     "summary": "Father's Day",
     "categories": [
       "Observance"
@@ -241,8 +191,8 @@
     "end": "2026-06-22"
   },
   {
-    "uid": "sl_2026_21",
-    "summary": "Poson Full Moon Poya *†",
+    "uid": "sl_143@srilanka-holidays.api",
+    "summary": "Poson Full Moon Poya Day *†",
     "categories": [
       "Public Holiday",
       "Bank Holiday",
@@ -252,8 +202,8 @@
     "end": "2026-06-30"
   },
   {
-    "uid": "sl_2026_22",
-    "summary": "Esala Full Moon Poya *†",
+    "uid": "sl_144@srilanka-holidays.api",
+    "summary": "Esala Full Moon Poya Day *†",
     "categories": [
       "Public Holiday",
       "Bank Holiday",
@@ -263,17 +213,19 @@
     "end": "2026-07-30"
   },
   {
-    "uid": "sl_2026_23",
-    "summary": "Milad-Un-Nabi *",
+    "uid": "sl_145@srilanka-holidays.api",
+    "summary": "Milad-Un-Nabi (Holy Prophet’s Birthday) *†‡",
     "categories": [
-      "Public Holiday"
+      "Public Holiday",
+      "Bank Holiday",
+      "Mercantile Holiday"
     ],
     "start": "2026-08-26",
     "end": "2026-08-27"
   },
   {
-    "uid": "sl_2026_24",
-    "summary": "Nikini Full Moon Poya *†",
+    "uid": "sl_146@srilanka-holidays.api",
+    "summary": "Nikini Full Moon Poya Day *†",
     "categories": [
       "Public Holiday",
       "Bank Holiday",
@@ -283,8 +235,8 @@
     "end": "2026-08-28"
   },
   {
-    "uid": "sl_2026_25",
-    "summary": "Binara Full Moon Poya *†",
+    "uid": "sl_147@srilanka-holidays.api",
+    "summary": "Binara Full Moon Poya Day *†",
     "categories": [
       "Public Holiday",
       "Bank Holiday",
@@ -294,7 +246,7 @@
     "end": "2026-09-27"
   },
   {
-    "uid": "sl_2026_35",
+    "uid": "sl_obs_20261001@srilanka-holidays.api",
     "summary": "Children's Day",
     "categories": [
       "Observance"
@@ -303,7 +255,7 @@
     "end": "2026-10-02"
   },
   {
-    "uid": "sl_2026_36",
+    "uid": "sl_obs_20261006@srilanka-holidays.api",
     "summary": "Teachers' Day",
     "categories": [
       "Observance"
@@ -312,8 +264,8 @@
     "end": "2026-10-07"
   },
   {
-    "uid": "sl_2026_26",
-    "summary": "Vap Full Moon Poya *†",
+    "uid": "sl_148@srilanka-holidays.api",
+    "summary": "Vap Full Moon Poya Day *†",
     "categories": [
       "Public Holiday",
       "Bank Holiday",
@@ -323,17 +275,18 @@
     "end": "2026-10-26"
   },
   {
-    "uid": "sl_2026_27",
-    "summary": "Deepavali Festival Day *",
+    "uid": "sl_149@srilanka-holidays.api",
+    "summary": "Deepavali Festival Day *†",
     "categories": [
-      "Public Holiday"
+      "Public Holiday",
+      "Bank Holiday"
     ],
     "start": "2026-11-08",
     "end": "2026-11-09"
   },
   {
-    "uid": "sl_2026_28",
-    "summary": "Ill Full Moon Poya *†",
+    "uid": "sl_150@srilanka-holidays.api",
+    "summary": "Il Full Moon Poya Day *†",
     "categories": [
       "Public Holiday",
       "Bank Holiday",
@@ -343,8 +296,8 @@
     "end": "2026-11-25"
   },
   {
-    "uid": "sl_2026_29",
-    "summary": "Unduvap Full Moon Poya *†",
+    "uid": "sl_151@srilanka-holidays.api",
+    "summary": "Unduvap Full Moon Poya Day *†",
     "categories": [
       "Public Holiday",
       "Bank Holiday",
@@ -354,10 +307,11 @@
     "end": "2026-12-24"
   },
   {
-    "uid": "sl_2026_30",
-    "summary": "Christmas Day *‡",
+    "uid": "sl_152@srilanka-holidays.api",
+    "summary": "Christmas Day *†‡",
     "categories": [
       "Public Holiday",
+      "Bank Holiday",
       "Mercantile Holiday"
     ],
     "start": "2026-12-25",

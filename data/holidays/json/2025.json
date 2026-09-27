@@ -44,15 +44,6 @@
     "end": "2025-02-13"
   },
   {
-    "uid": "sl_obs_20250214@srilanka-holidays.api",
-    "summary": "Valentine's Day",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2025-02-14",
-    "end": "2025-02-15"
-  },
-  {
     "uid": "sl_106@srilanka-holidays.api",
     "summary": "Maha Sivarathri Day *†",
     "categories": [
@@ -61,15 +52,6 @@
     ],
     "start": "2025-02-26",
     "end": "2025-02-27"
-  },
-  {
-    "uid": "sl_obs_20250308@srilanka-holidays.api",
-    "summary": "International Women's Day",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2025-03-08",
-    "end": "2025-03-09"
   },
   {
     "uid": "sl_107@srilanka-holidays.api",
@@ -126,6 +108,15 @@
     "end": "2025-04-15"
   },
   {
+    "uid": "sl_special_20250415@srilanka-holidays.api",
+    "summary": "Special Bank Holiday †",
+    "categories": [
+      "Bank Holiday"
+    ],
+    "start": "2025-04-15",
+    "end": "2025-04-16"
+  },
+  {
     "uid": "sl_112@srilanka-holidays.api",
     "summary": "Good Friday *†",
     "categories": [
@@ -177,15 +168,6 @@
     ],
     "start": "2025-05-13",
     "end": "2025-05-14"
-  },
-  {
-    "uid": "sl_obs_20250605@srilanka-holidays.api",
-    "summary": "World Environment Day",
-    "categories": [
-      "Observance"
-    ],
-    "start": "2025-06-05",
-    "end": "2025-06-06"
   },
   {
     "uid": "sl_116@srilanka-holidays.api",
